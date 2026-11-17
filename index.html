@@ -17,24 +17,24 @@ content="Professional overhead and underground water tank cleaning by VSH Tank C
 <style>
 
 /* =========================================================
-   VSH LIVELY HOMEPAGE
+   VSH HOMEPAGE
 ========================================================= */
 
 :root {
   --blue: #0877f9;
-  --blue2: #0057d9;
-  --navy: #061b38;
-  --cyan: #23c8ff;
-  --light: #f3f9ff;
+  --blue-dark: #0057d9;
+  --navy: #071c38;
+  --cyan: #21c8ff;
+  --green: #18a86a;
+  --green-light: #e6f8f0;
   --text: #10233d;
   --muted: #647891;
-  --green: #19c86b;
-  --white: #ffffff;
+  --border: #dce6f0;
 }
 
 
 /* =========================================================
-   BASE
+   GLOBAL
 ========================================================= */
 
 html {
@@ -54,18 +54,14 @@ body {
   background:
     linear-gradient(
       90deg,
-      #031b3b 0%,
-      #0877f9 50%,
-      #031b3b 100%
+      #031a37,
+      #0877f9,
+      #03b9c9,
+      #0877f9,
+      #031a37
     );
 
   color: white;
-
-  font-size: 13px;
-  font-weight: 800;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.12);
 }
 
 .topbar .container {
@@ -74,6 +70,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  font-size: 13px;
+  font-weight: 800;
 }
 
 
@@ -82,18 +81,17 @@ body {
 ========================================================= */
 
 .nav {
-  background: rgba(255,255,255,.93);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background:
+    rgba(255,255,255,.94);
 
   backdrop-filter: blur(18px);
 
   border-bottom:
     1px solid #e4edf6;
-
-  position: sticky;
-
-  top: 0;
-
-  z-index: 1000;
 }
 
 .nav-inner {
@@ -104,13 +102,11 @@ body {
   color: var(--navy);
 
   font-weight: 950;
-
   font-size: 20px;
 
   text-decoration: none;
 
   display: flex;
-
   align-items: center;
 
   gap: 10px;
@@ -126,8 +122,6 @@ body {
   place-items: center;
 
   color: white;
-
-  font-weight: 950;
 
   background:
     linear-gradient(
@@ -157,9 +151,7 @@ body {
 
 .nav-actions {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 }
 
@@ -192,18 +184,6 @@ body {
 
   box-shadow:
     0 10px 28px rgba(8,119,249,.28);
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
-}
-
-.book-btn:hover {
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 15px 35px rgba(8,119,249,.4);
 }
 
 
@@ -212,29 +192,26 @@ body {
 ========================================================= */
 
 .hero {
-  min-height:
-    calc(100vh - 114px);
-
   position: relative;
 
   overflow: hidden;
+
+  min-height:
+    calc(100vh - 114px);
+
+  padding:
+    70px 0 85px;
+
+  color: white;
 
   background:
     linear-gradient(
       135deg,
       #031a37 0%,
-      #063c83 46%,
+      #063d83 45%,
       #0877f9 100%
     );
-
-  color: white;
-
-  padding:
-    72px 0 85px;
 }
-
-
-/* Large glow */
 
 .hero::before {
   content: "";
@@ -244,20 +221,17 @@ body {
   width: 650px;
   height: 650px;
 
+  right: -250px;
+  top: -300px;
+
   border-radius: 50%;
 
   background:
     rgba(35,200,255,.18);
 
   filter:
-    blur(10px);
-
-  right: -260px;
-  top: -280px;
+    blur(15px);
 }
-
-
-/* Bottom water glow */
 
 .hero::after {
   content: "";
@@ -267,42 +241,44 @@ body {
   width: 850px;
   height: 300px;
 
+  left: -300px;
+  bottom: -190px;
+
   border-radius: 50%;
 
   background:
     rgba(255,255,255,.08);
 
-  left: -250px;
-  bottom: -180px;
-
   transform:
     rotate(-8deg);
-
-  filter:
-    blur(3px);
 }
 
 .hero-grid {
   position: relative;
 
   z-index: 3;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(500px, 590px);
+
+  gap: 55px;
+
+  align-items: center;
 }
 
+
+/* =========================================================
+   HERO LEFT
+========================================================= */
+
 .hero-copy {
-  max-width: 700px;
+  max-width: 680px;
 }
 
 .hero .eyebrow {
-  color: #8fe8ff;
-
-  font-weight: 950;
-
-  letter-spacing: .08em;
-
-  text-transform: uppercase;
-
-  font-size: 12px;
-
   display: inline-flex;
 
   align-items: center;
@@ -314,45 +290,52 @@ body {
 
   border-radius: 999px;
 
+  color: #8fe8ff;
+
   background:
     rgba(255,255,255,.1);
 
   border:
     1px solid rgba(255,255,255,.18);
 
-  backdrop-filter: blur(10px);
+  font-size: 12px;
+
+  font-weight: 950;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
 }
 
 .hero h1 {
+  margin:
+    20px 0;
+
   color: white;
 
   font-size:
-    clamp(45px, 6.5vw, 78px);
+    clamp(45px, 5.8vw, 75px);
 
   line-height:
     .94;
 
   letter-spacing:
     -.055em;
-
-  margin:
-    20px 0;
-
-  max-width: 750px;
 }
 
 .hero h1 span {
-  color: #65e5ff;
+  color:
+    #65e5ff;
 
   text-shadow:
     0 0 35px rgba(35,200,255,.35);
 }
 
 .hero-copy > p {
+  max-width: 650px;
+
   color:
     rgba(255,255,255,.82);
-
-  max-width: 650px;
 
   font-size: 18px;
 
@@ -369,9 +352,9 @@ body {
 .hero-buttons {
   display: flex;
 
-  gap: 12px;
-
   flex-wrap: wrap;
+
+  gap: 12px;
 }
 
 .hero .btn {
@@ -382,15 +365,14 @@ body {
 
   border-radius: 14px;
 
-  font-weight: 950;
-
-  text-decoration: none;
-
   display: inline-flex;
 
   align-items: center;
-
   justify-content: center;
+
+  font-weight: 950;
+
+  text-decoration: none;
 
   transition:
     transform .2s ease,
@@ -411,11 +393,6 @@ body {
     0 15px 35px rgba(0,0,0,.18);
 }
 
-.hero .btn-primary:hover {
-  box-shadow:
-    0 20px 45px rgba(0,0,0,.25);
-}
-
 .hero .btn-outline {
   color: white;
 
@@ -424,22 +401,19 @@ body {
 
   background:
     rgba(255,255,255,.09);
-
-  backdrop-filter:
-    blur(10px);
 }
 
 
 /* =========================================================
-   CONTACT CTAS
+   CONTACT BUTTONS
 ========================================================= */
 
 .contact-cta {
   display: flex;
 
-  gap: 10px;
-
   flex-wrap: wrap;
+
+  gap: 10px;
 
   margin-top: 13px;
 }
@@ -461,14 +435,6 @@ body {
   font-weight: 900;
 
   text-decoration: none;
-
-  transition:
-    transform .2s ease;
-}
-
-.contact-cta a:hover {
-  transform:
-    translateY(-2px);
 }
 
 .whatsapp-btn {
@@ -476,9 +442,6 @@ body {
 
   background:
     #19c86b;
-
-  box-shadow:
-    0 10px 25px rgba(25,200,107,.25);
 }
 
 .call-btn {
@@ -493,7 +456,7 @@ body {
 
 
 /* =========================================================
-   HERO TRUST
+   TRUST
 ========================================================= */
 
 .trust {
@@ -502,15 +465,15 @@ body {
   grid-template-columns:
     repeat(4,1fr);
 
-  gap: 10px;
+  gap: 9px;
 
-  margin-top: 37px;
+  margin-top: 34px;
 }
 
 .trust-card {
-  padding: 15px;
+  padding: 14px;
 
-  border-radius: 16px;
+  border-radius: 15px;
 
   background:
     rgba(255,255,255,.09);
@@ -519,7 +482,7 @@ body {
     1px solid rgba(255,255,255,.14);
 
   backdrop-filter:
-    blur(14px);
+    blur(12px);
 }
 
 .trust-card b {
@@ -527,305 +490,970 @@ body {
 
   color: white;
 
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .trust-card span {
   display: block;
 
+  margin-top: 3px;
+
   color:
     rgba(255,255,255,.62);
 
-  font-size: 11px;
-
-  margin-top: 4px;
+  font-size: 10px;
 }
 
 
 /* =========================================================
-   HERO VISUAL
+   RIGHT PRICE CARD
 ========================================================= */
 
-.hero-card {
+.price-card-wrap {
   position: relative;
 
-  min-height: 510px;
-
-  border-radius: 38px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.18),
-      rgba(255,255,255,.05)
-    );
-
-  border:
-    1px solid rgba(255,255,255,.2);
-
-  backdrop-filter:
-    blur(20px);
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.18),
-    0 35px 80px rgba(0,0,0,.22);
-
-  overflow: hidden;
-}
-
-
-/* Water rings */
-
-.water-ring {
-  position: absolute;
-
-  border:
-    2px solid rgba(255,255,255,.18);
-
-  border-radius: 50%;
-
-  transform:
-    translate(-50%,-50%);
-
-  left: 50%;
-  top: 58%;
-}
-
-.ring1 {
-  width: 470px;
-  height: 470px;
-}
-
-.ring2 {
-  width: 360px;
-  height: 360px;
-}
-
-.ring3 {
-  width: 250px;
-  height: 250px;
-}
-
-
-/* Tank */
-
-.tank {
-  position: absolute;
-
-  left: 50%;
-  top: 54%;
-
-  transform:
-    translate(-50%,-50%);
-
-  width: 270px;
-  height: 205px;
-
-  border-radius:
-    35px 35px 48px 48px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #ffffff 0%,
-      #c9e6f8 45%,
-      #8db9d7 100%
-    );
-
-  border:
-    7px solid rgba(255,255,255,.8);
-
-  box-shadow:
-    inset 0 -35px 60px rgba(16,79,126,.18),
-    0 35px 55px rgba(0,0,0,.28);
-
-  z-index: 4;
-}
-
-.tank::before {
-  content: "";
-
-  position: absolute;
-
-  width: 145px;
-  height: 32px;
-
-  left: 50%;
-  top: -22px;
-
-  transform:
-    translateX(-50%);
-
-  border-radius: 50%;
-
-  background:
-    #eaf8ff;
-
-  border:
-    6px solid rgba(255,255,255,.9);
-
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.1);
-}
-
-.tank::after {
-  content: "";
-
-  position: absolute;
-
-  left: 18px;
-  right: 18px;
-
-  bottom: 25px;
-
-  height: 68px;
-
-  border-radius: 50%;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(35,200,255,.25),
-      rgba(8,119,249,.55)
-    );
-
-  box-shadow:
-    inset 0 10px 15px rgba(255,255,255,.2);
-}
-
-
-/* Bubbles */
-
-.bubble {
-  position: absolute;
-
-  border-radius: 50%;
-
-  border:
-    2px solid rgba(255,255,255,.5);
-
-  background:
-    rgba(255,255,255,.12);
-
-  box-shadow:
-    inset 3px 3px 7px rgba(255,255,255,.18),
-    0 0 25px rgba(255,255,255,.1);
-
   z-index: 5;
+
+  width: 100%;
 }
 
-.b1 {
-  width: 34px;
-  height: 34px;
-
-  left: 18%;
-  top: 28%;
-}
-
-.b2 {
-  width: 17px;
-  height: 17px;
-
-  right: 21%;
-  top: 24%;
-}
-
-.b3 {
-  width: 26px;
-  height: 26px;
-
-  right: 17%;
-  bottom: 28%;
-}
-
-.b4 {
-  width: 12px;
-  height: 12px;
-
-  left: 25%;
-  bottom: 26%;
-}
-
-
-/* Floating badge */
-
-.hero-badge {
-  position: absolute;
-
-  z-index: 10;
-
-  left: 22px;
-  bottom: 25px;
-
-  padding:
-    15px 17px;
-
-  border-radius: 17px;
+.price-card {
+  width: 100%;
 
   background:
-    white;
+    #ffffff;
 
   color:
-    #10233d;
+    var(--text);
+
+  border-radius:
+    24px;
+
+  border:
+    1px solid rgba(255,255,255,.7);
 
   box-shadow:
-    0 18px 40px rgba(0,0,0,.2);
+    0 35px 90px rgba(0,25,70,.30);
+
+  overflow: hidden;
+
+  position: relative;
+}
+
+
+/* Top colored line */
+
+.price-card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 0;
+
+  height: 6px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0877f9,
+      #21c8ff,
+      #18b978
+    );
+}
+
+
+/* =========================================================
+   PRICE CARD HEADER
+========================================================= */
+
+.price-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding:
+    28px 26px 17px;
+}
+
+.price-header h2 {
+  margin: 0;
+
+  color:
+    #11243d;
+
+  font-size:
+    25px;
+
+  line-height: 1.15;
+
+  letter-spacing:
+    -.025em;
+}
+
+.live-pill {
+  white-space: nowrap;
+
+  padding:
+    10px 14px;
+
+  border-radius: 999px;
+
+  color:
+    #005aa8;
+
+  background:
+    #e7f5ff;
+
+  font-weight: 850;
+
+  font-size: 13px;
 
   display: flex;
 
   align-items: center;
 
-  gap: 11px;
+  gap: 8px;
 }
 
-.hero-badge-icon {
-  width: 39px;
-  height: 39px;
+.live-pill::before {
+  content: "✦";
 
-  border-radius: 12px;
+  color:
+    #0877f9;
 
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   TANK TYPE TABS
+========================================================= */
+
+.tank-type-tabs {
   display: grid;
-  place-items: center;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 10px;
+
+  padding:
+    0 26px 18px;
+}
+
+.tank-type {
+  min-height: 76px;
+
+  border:
+    2px solid #dce5ee;
+
+  border-radius: 20px;
+
+  background:
+    #ffffff;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding:
+    10px;
+
+  cursor: pointer;
+
+  transition:
+    border-color .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+.tank-type.active {
+  border-color:
+    #0877f9;
+
+  background:
+    #e9f6ff;
+
+  box-shadow:
+    0 10px 25px rgba(8,119,249,.08);
+}
+
+.tank-type-image {
+  width: 62px;
+  height: 56px;
+
+  flex:
+    0 0 62px;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      #d9e9f4,
+      #a8c7db
+    );
+}
+
+
+/* Overhead mini illustration */
+
+.overhead-mini {
+  position: absolute;
+
+  left: 14px;
+  top: 7px;
+
+  width: 31px;
+  height: 42px;
+
+  border-radius:
+    4px 4px 7px 7px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #263d57,
+      #70879b,
+      #243c54
+    );
+
+  box-shadow:
+    4px 5px 0 #a8b9c8;
+}
+
+.overhead-mini::before {
+  content: "";
+
+  position: absolute;
+
+  width: 36px;
+  height: 5px;
+
+  left: -3px;
+  top: -4px;
+
+  border-radius: 5px;
+
+  background:
+    #1b3049;
+}
+
+.overhead-mini::after {
+  content: "";
+
+  position: absolute;
+
+  width: 4px;
+  height: 4px;
+
+  background: #d9e5ee;
+
+  left: 7px;
+  top: 9px;
+
+  box-shadow:
+    0 8px #d9e5ee,
+    0 16px #d9e5ee,
+    9px 0 #d9e5ee,
+    9px 8px #d9e5ee,
+    9px 16px #d9e5ee;
+}
+
+
+/* Underground mini illustration */
+
+.underground-mini {
+  position: absolute;
+
+  left: 10px;
+  top: 10px;
+
+  width: 42px;
+  height: 38px;
+
+  border-radius:
+    5px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #8e7b62,
+      #c6b69b,
+      #64584a
+    );
+
+  transform:
+    perspective(70px)
+    rotateX(10deg);
+}
+
+.underground-mini::before {
+  content: "";
+
+  position: absolute;
+
+  left: 7px;
+  top: 5px;
+
+  width: 28px;
+  height: 23px;
+
+  border:
+    3px solid #4b4b43;
+
+  border-radius:
+    3px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #7f948f,
+      #263a3a
+    );
+}
+
+.underground-mini::after {
+  content: "";
+
+  position: absolute;
+
+  width: 3px;
+  height: 3px;
+
+  background:
+    #fff;
+
+  top: 11px;
+  left: 13px;
+
+  box-shadow:
+    8px 2px rgba(255,255,255,.6),
+    14px -3px rgba(255,255,255,.5),
+    5px 9px rgba(255,255,255,.5);
+}
+
+
+.tank-type-text strong {
+  display: block;
+
+  font-size: 17px;
+
+  line-height: 1.1;
+
+  color:
+    #12253e;
+}
+
+.tank-type-text span {
+  display: block;
+
+  margin-top: 4px;
+
+  color:
+    #647891;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   CAPACITY
+========================================================= */
+
+.capacity-title {
+  padding:
+    0 26px 10px;
+
+  font-size:
+    17px;
+
+  font-weight:
+    900;
+
+  color:
+    #213651;
+}
+
+.capacity-grid {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 10px;
+
+  padding:
+    0 26px;
+}
+
+.capacity-option {
+  min-height: 70px;
+
+  border:
+    2px solid #dce5ee;
+
+  border-radius: 16px;
+
+  background:
+    white;
+
+  padding:
+    11px 14px;
+
+  cursor: pointer;
+
+  position: relative;
+
+  transition:
+    border-color .18s ease,
+    background .18s ease,
+    transform .18s ease;
+}
+
+.capacity-option:hover {
+  transform:
+    translateY(-1px);
+
+  border-color:
+    #9bbbd8;
+}
+
+.capacity-option.active {
+  border-color:
+    #0877f9;
+
+  background:
+    #e8f6ff;
+}
+
+.capacity-option.active::after {
+  content: "";
+
+  position: absolute;
+
+  right: -1px;
+  top: -1px;
+
+  width: 24px;
+  height: 24px;
+
+  background:
+    #0877f9;
+
+  border-radius:
+    0 14px 0 14px;
+}
+
+.capacity-option.active::before {
+  content: "1";
+
+  position: absolute;
+
+  z-index: 2;
+
+  right: 6px;
+  top: 1px;
 
   color: white;
+
+  font-size: 12px;
+
+  font-weight: 950;
+}
+
+.capacity-name {
+  color:
+    #12253e;
+
+  font-size:
+    16px;
+
+  font-weight:
+    700;
+}
+
+.capacity-price-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 5px;
+}
+
+.current-price {
+  color:
+    #071b34;
+
+  font-size:
+    17px;
+
+  font-weight:
+    950;
+}
+
+.old-price {
+  color:
+    #718197;
+
+  font-size:
+    13px;
+
+  text-decoration:
+    line-through;
+}
+
+.save-badge {
+  margin-left: auto;
+
+  padding:
+    4px 8px;
+
+  border-radius:
+    999px;
+
+  color:
+    #078052;
+
+  background:
+    #e2f7ef;
+
+  font-size:
+    11px;
+
+  font-weight:
+    950;
+
+  white-space:
+    nowrap;
+}
+
+
+/* =========================================================
+   OTHER SIZE
+========================================================= */
+
+.other-size {
+  min-height:
+    70px;
+
+  border:
+    2px dashed #78d9a9;
+
+  border-radius:
+    16px;
+
+  background:
+    #f8fffb;
+
+  padding:
+    11px 14px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+  cursor:
+    pointer;
+
+  text-decoration:
+    none;
+
+  color:
+    #10233d;
+}
+
+.other-size-icon {
+  width:
+    25px;
+
+  height:
+    25px;
+
+  border-radius:
+    50%;
+
+  color:
+    #11a860;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  font-size:
+    20px;
+}
+
+.other-size strong {
+  display:
+    block;
+
+  font-size:
+    16px;
+}
+
+.other-size span {
+  display:
+    block;
+
+  color:
+    #647891;
+
+  font-size:
+    13px;
+
+  margin-top:
+    2px;
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+.quantity-row {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  padding:
+    16px 26px 15px;
+}
+
+.quantity-label {
+  color:
+    #223955;
+
+  font-size:
+    17px;
+}
+
+.quantity-label span {
+  color:
+    #647891;
+}
+
+.quantity-control {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    20px;
+
+  border:
+    1px solid #dce5ee;
+
+  border-radius:
+    999px;
+
+  padding:
+    5px 12px;
+
+  background:
+    white;
+}
+
+.quantity-control button {
+  width:
+    24px;
+
+  height:
+    24px;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    #12253e;
+
+  font-size:
+    23px;
+
+  cursor:
+    pointer;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  line-height:
+    1;
+}
+
+.quantity-value {
+  min-width:
+    12px;
+
+  text-align:
+    center;
+
+  font-size:
+    18px;
+
+  font-weight:
+    900;
+}
+
+
+/* =========================================================
+   MINI TANK PREVIEW
+========================================================= */
+
+.preview-area {
+  margin:
+    0 26px 26px;
+
+  min-height:
+    105px;
+
+  border-radius:
+    17px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #e8f7ff 0%,
+      #f7fbff 70%
+    );
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
+}
+
+.preview-area::after {
+  content: "";
+
+  position:
+    absolute;
+
+  left:
+    -20%;
+
+  right:
+    -20%;
+
+  bottom:
+    -34px;
+
+  height:
+    55px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(8,119,249,.07);
+}
+
+.preview-tank {
+  width:
+    32px;
+
+  height:
+    48px;
+
+  border-radius:
+    7px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #1c314a,
+      #748ca1,
+      #1c314a
+    );
+
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  box-shadow:
+    4px 8px 0 rgba(41,76,108,.3);
+}
+
+.preview-tank::before {
+  content: "";
+
+  position:
+    absolute;
+
+  width:
+    38px;
+
+  height:
+    6px;
+
+  left:
+    -3px;
+
+  top:
+    -5px;
+
+  border-radius:
+    5px;
+
+  background:
+    #1c3049;
+}
+
+.preview-tank::after {
+  content: "";
+
+  position:
+    absolute;
+
+  width:
+    5px;
+
+  height:
+    4px;
+
+  left:
+    8px;
+
+  top:
+    10px;
+
+  background:
+    #cfe2ef;
+
+  box-shadow:
+    0 8px #cfe2ef,
+    0 16px #cfe2ef,
+    10px 0 #cfe2ef,
+    10px 8px #cfe2ef,
+    10px 16px #cfe2ef;
+}
+
+
+/* =========================================================
+   PRICE FOOTER
+========================================================= */
+
+.price-footer {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+
+  padding:
+    0 26px 25px;
+}
+
+.total-box {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+}
+
+.total-label {
+  color:
+    #647891;
+
+  font-size:
+    11px;
+
+  font-weight:
+    800;
+}
+
+.total-price {
+  color:
+    #071b34;
+
+  font-size:
+    24px;
+
+  font-weight:
+    950;
+}
+
+.price-book-btn {
+  border:
+    0;
+
+  min-height:
+    46px;
+
+  padding:
+    0 18px;
+
+  border-radius:
+    12px;
+
+  color:
+    white;
 
   background:
     linear-gradient(
       135deg,
       #0877f9,
-      #00a8ff
+      #0057d9
     );
-}
 
-.hero-badge strong {
-  display: block;
+  font-weight:
+    950;
 
-  font-size: 14px;
-}
+  cursor:
+    pointer;
 
-.hero-badge small {
-  color: #6b7d92;
-
-  display: block;
-
-  margin-top: 2px;
-}
-
-
-/* =========================================================
-   WAVE BREAK
-========================================================= */
-
-.wave {
-  height: 75px;
-
-  margin-top: -1px;
-
-  background:
-    white;
-
-  clip-path:
-    ellipse(65% 55% at 50% 100%);
+  box-shadow:
+    0 10px 24px rgba(8,119,249,.22);
 }
 
 
@@ -834,66 +1462,83 @@ body {
 ========================================================= */
 
 .stats-section {
-  margin-top: -25px;
+  margin-top:
+    -25px;
 
-  position: relative;
+  position:
+    relative;
 
-  z-index: 10;
+  z-index:
+    10;
 }
 
 .stats {
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     repeat(4,1fr);
 
-  background: white;
+  background:
+    white;
 
   border:
     1px solid #e1ebf5;
 
-  border-radius: 24px;
+  border-radius:
+    24px;
 
   box-shadow:
     0 25px 70px rgba(15,53,90,.1);
 
-  overflow: hidden;
+  overflow:
+    hidden;
 }
 
 .stat {
-  padding: 27px;
+  padding:
+    27px;
 
-  text-align: center;
+  text-align:
+    center;
 
   border-right:
     1px solid #e9f0f7;
 }
 
 .stat:last-child {
-  border-right: 0;
+  border-right:
+    0;
 }
 
 .stat strong {
-  display: block;
+  display:
+    block;
 
-  font-size: 32px;
+  font-size:
+    32px;
 
-  font-weight: 950;
+  font-weight:
+    950;
 
-  color: var(--blue);
+  color:
+    var(--blue);
 }
 
 .stat span {
-  color: var(--muted);
+  color:
+    var(--muted);
 
-  font-size: 13px;
+  font-size:
+    13px;
 
-  font-weight: 700;
+  font-weight:
+    700;
 }
 
 
 /* =========================================================
-   SECTION
+   GENERAL SECTIONS
 ========================================================= */
 
 .section {
@@ -911,19 +1556,25 @@ body {
 }
 
 .section-head {
-  margin-bottom: 40px;
+  margin-bottom:
+    40px;
 }
 
 .section-head .eyebrow {
-  color: var(--blue);
+  color:
+    var(--blue);
 
-  font-weight: 950;
+  font-weight:
+    950;
 
-  text-transform: uppercase;
+  text-transform:
+    uppercase;
 
-  font-size: 12px;
+  font-size:
+    12px;
 
-  letter-spacing: .08em;
+  letter-spacing:
+    .08em;
 }
 
 .section-head h2 {
@@ -936,7 +1587,8 @@ body {
   color:
     var(--text);
 
-  line-height: 1;
+  line-height:
+    1;
 
   margin:
     12px 0;
@@ -955,22 +1607,26 @@ body {
 
 
 /* =========================================================
-   SERVICE CARDS
+   CARDS
 ========================================================= */
 
 .cards {
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     repeat(3,1fr);
 
-  gap: 20px;
+  gap:
+    20px;
 }
 
 .card {
-  position: relative;
+  position:
+    relative;
 
-  overflow: hidden;
+  overflow:
+    hidden;
 
   background:
     white;
@@ -978,9 +1634,11 @@ body {
   border:
     1px solid #e0ebf6;
 
-  border-radius: 25px;
+  border-radius:
+    25px;
 
-  padding: 30px;
+  padding:
+    30px;
 
   box-shadow:
     0 15px 45px rgba(22,60,100,.07);
@@ -988,23 +1646,6 @@ body {
   transition:
     transform .25s ease,
     box-shadow .25s ease;
-}
-
-.card::after {
-  content: "";
-
-  position: absolute;
-
-  width: 120px;
-  height: 120px;
-
-  border-radius: 50%;
-
-  background:
-    #eaf5ff;
-
-  right: -55px;
-  top: -55px;
 }
 
 .card:hover {
@@ -1016,21 +1657,26 @@ body {
 }
 
 .card .icon {
-  position: relative;
+  width:
+    56px;
 
-  z-index: 2;
+  height:
+    56px;
 
-  width: 56px;
-  height: 56px;
+  border-radius:
+    17px;
 
-  border-radius: 17px;
+  display:
+    grid;
 
-  display: grid;
-  place-items: center;
+  place-items:
+    center;
 
-  color: white;
+  color:
+    white;
 
-  font-weight: 950;
+  font-weight:
+    950;
 
   background:
     linear-gradient(
@@ -1039,28 +1685,19 @@ body {
       #00a8ff
     );
 
-  box-shadow:
-    0 12px 25px rgba(8,119,249,.25);
-
-  margin-bottom: 21px;
+  margin-bottom:
+    21px;
 }
 
 .card h3 {
-  position: relative;
-
-  z-index: 2;
-
   color:
     var(--text);
 
-  font-size: 20px;
+  font-size:
+    20px;
 }
 
 .card p {
-  position: relative;
-
-  z-index: 2;
-
   color:
     var(--muted);
 
@@ -1074,45 +1711,51 @@ body {
 ========================================================= */
 
 .steps {
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     repeat(5,1fr);
 
-  gap: 14px;
+  gap:
+    14px;
 }
 
 .step {
-  background: white;
+  background:
+    white;
 
   border:
     1px solid #e0ebf6;
 
-  border-radius: 22px;
+  border-radius:
+    22px;
 
-  padding: 23px;
-
-  transition:
-    transform .2s ease;
-}
-
-.step:hover {
-  transform:
-    translateY(-5px);
+  padding:
+    23px;
 }
 
 .step-num {
-  width: 44px;
-  height: 44px;
+  width:
+    44px;
 
-  border-radius: 50%;
+  height:
+    44px;
 
-  display: grid;
-  place-items: center;
+  border-radius:
+    50%;
 
-  color: white;
+  display:
+    grid;
 
-  font-weight: 950;
+  place-items:
+    center;
+
+  color:
+    white;
+
+  font-weight:
+    950;
 
   background:
     linear-gradient(
@@ -1121,24 +1764,27 @@ body {
       #00b4ff
     );
 
-  box-shadow:
-    0 10px 25px rgba(8,119,249,.25);
-
-  margin-bottom: 17px;
+  margin-bottom:
+    17px;
 }
 
 .step h3 {
-  color: var(--text);
+  color:
+    var(--text);
 
-  font-size: 17px;
+  font-size:
+    17px;
 }
 
 .step p {
-  color: var(--muted);
+  color:
+    var(--muted);
 
-  font-size: 14px;
+  font-size:
+    14px;
 
-  line-height: 1.6;
+  line-height:
+    1.6;
 }
 
 
@@ -1147,9 +1793,11 @@ body {
 ========================================================= */
 
 .cta {
-  position: relative;
+  position:
+    relative;
 
-  overflow: hidden;
+  overflow:
+    hidden;
 
   padding:
     65px;
@@ -1157,7 +1805,8 @@ body {
   border-radius:
     32px;
 
-  color: white;
+  color:
+    white;
 
   background:
     linear-gradient(
@@ -1171,90 +1820,97 @@ body {
     0 30px 80px rgba(8,90,180,.22);
 }
 
-.cta::before {
-  content: "";
-
-  position: absolute;
-
-  width: 350px;
-  height: 350px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(35,200,255,.18);
-
-  right: -100px;
-  top: -170px;
-}
-
 .cta h2 {
-  position: relative;
+  position:
+    relative;
 
-  z-index: 2;
+  z-index:
+    2;
 
   font-size:
     clamp(32px,4vw,48px);
 
-  margin-bottom: 12px;
+  margin-bottom:
+    12px;
 }
 
 .cta p {
-  position: relative;
+  position:
+    relative;
 
-  z-index: 2;
+  z-index:
+    2;
 
-  max-width: 720px;
+  max-width:
+    720px;
 
   color:
     rgba(255,255,255,.78);
 
-  line-height: 1.7;
+  line-height:
+    1.7;
 }
 
 .cta-buttons {
-  position: relative;
+  position:
+    relative;
 
-  z-index: 3;
+  z-index:
+    3;
 
-  display: flex;
+  display:
+    flex;
 
-  gap: 10px;
+  gap:
+    10px;
 
-  flex-wrap: wrap;
+  flex-wrap:
+    wrap;
 
-  margin-top: 25px;
+  margin-top:
+    25px;
 }
 
 .cta-buttons a {
-  min-height: 50px;
+  min-height:
+    50px;
 
   padding:
     0 22px;
 
-  border-radius: 13px;
+  border-radius:
+    13px;
 
-  display: inline-flex;
+  display:
+    inline-flex;
 
-  align-items: center;
+  align-items:
+    center;
 
-  justify-content: center;
+  justify-content:
+    center;
 
-  text-decoration: none;
+  text-decoration:
+    none;
 
-  font-weight: 950;
+  font-weight:
+    950;
 }
 
 .cta-book {
-  background: white;
+  background:
+    white;
 
-  color: #0754ad;
+  color:
+    #0754ad;
 }
 
 .cta-whatsapp {
-  background: #19c86b;
+  background:
+    #19c86b;
 
-  color: white;
+  color:
+    white;
 }
 
 .cta-call {
@@ -1264,7 +1920,8 @@ body {
   border:
     1px solid rgba(255,255,255,.2);
 
-  color: white;
+  color:
+    white;
 }
 
 
@@ -1273,48 +1930,47 @@ body {
 ========================================================= */
 
 .review {
-  background: white;
+  background:
+    white;
 
   border:
     1px solid #e0ebf6;
 
-  border-radius: 24px;
+  border-radius:
+    24px;
 
-  padding: 29px;
+  padding:
+    29px;
 
   box-shadow:
     0 15px 45px rgba(22,60,100,.06);
-
-  transition:
-    transform .2s ease;
-}
-
-.review:hover {
-  transform:
-    translateY(-5px);
 }
 
 .stars {
-  color: #ffb400;
+  color:
+    #ffb400;
 
-  letter-spacing: 3px;
-
-  font-size: 17px;
+  letter-spacing:
+    3px;
 }
 
 .review p {
-  color: var(--muted);
+  color:
+    var(--muted);
 
-  line-height: 1.7;
+  line-height:
+    1.7;
 
   margin:
     14px 0 18px;
 }
 
 .review b {
-  color: var(--text);
+  color:
+    var(--text);
 
-  font-size: 13px;
+  font-size:
+    13px;
 }
 
 
@@ -1335,18 +1991,21 @@ body {
 
 .footer h3,
 .footer h4 {
-  color: white;
+  color:
+    white;
 }
 
 .footer a {
-  color: #9fb1c7;
+  color:
+    #9fb1c7;
 
   transition:
     color .2s ease;
 }
 
 .footer a:hover {
-  color: white;
+  color:
+    white;
 }
 
 .copyright {
@@ -1365,52 +2024,62 @@ body {
 
 
 /* =========================================================
-   FLOATING CONTACT
+   FLOATING BUTTONS
 ========================================================= */
 
 .floating-contact {
-  position: fixed;
+  position:
+    fixed;
 
-  right: 20px;
+  right:
+    20px;
 
-  bottom: 20px;
+  bottom:
+    20px;
 
-  z-index: 2000;
+  z-index:
+    2000;
 
-  display: flex;
+  display:
+    flex;
 
-  flex-direction: column;
+  flex-direction:
+    column;
 
-  gap: 10px;
+  gap:
+    10px;
 }
 
 .floating-contact a {
-  width: 59px;
-  height: 59px;
+  width:
+    59px;
 
-  border-radius: 50%;
+  height:
+    59px;
 
-  display: flex;
+  border-radius:
+    50%;
 
-  align-items: center;
-  justify-content: center;
+  display:
+    flex;
 
-  color: white;
+  align-items:
+    center;
 
-  text-decoration: none;
+  justify-content:
+    center;
 
-  font-size: 22px;
+  color:
+    white;
+
+  text-decoration:
+    none;
+
+  font-size:
+    22px;
 
   box-shadow:
     0 12px 30px rgba(0,0,0,.22);
-
-  transition:
-    transform .2s ease;
-}
-
-.floating-contact a:hover {
-  transform:
-    scale(1.1);
 }
 
 .floating-whatsapp {
@@ -1428,6 +2097,33 @@ body {
    MOBILE
 ========================================================= */
 
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+
+  .hero-grid {
+    grid-template-columns:
+      1fr 500px;
+
+    gap:
+      30px;
+  }
+
+  .hero h1 {
+    font-size:
+      58px;
+  }
+
+  .trust {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+}
+
+
 @media (max-width: 950px) {
 
   .hero-grid {
@@ -1435,14 +2131,17 @@ body {
       1fr;
   }
 
-  .hero-card {
-    min-height:
-      430px;
+  .price-card-wrap {
+    max-width:
+      650px;
+
+    margin:
+      20px auto 0;
   }
 
-  .trust {
-    grid-template-columns:
-      repeat(2,1fr);
+  .hero {
+    padding-bottom:
+      75px;
   }
 
   .stats {
@@ -1451,7 +2150,8 @@ body {
   }
 
   .stat:nth-child(2) {
-    border-right: 0;
+    border-right:
+      0;
   }
 
   .stat:nth-child(-n+2) {
@@ -1474,34 +2174,78 @@ body {
 
 @media (max-width: 650px) {
 
-  .topbar .container {
-    justify-content: center;
-  }
-
   .topbar .container span:last-child {
-    display: none;
+    display:
+      none;
   }
 
   .nav-links {
-    display: none;
+    display:
+      none;
   }
 
   .nav-actions {
-    display: none;
+    display:
+      none;
   }
 
   .mobile-menu {
-    display: block !important;
+    display:
+      block !important;
+
+    border:
+      0;
+
+    background:
+      transparent;
+
+    font-size:
+      25px;
+
+    cursor:
+      pointer;
+  }
+
+  .nav-links.mobile-open {
+    display:
+      flex;
+
+    position:
+      absolute;
+
+    left:
+      0;
+
+    right:
+      0;
+
+    top:
+      76px;
+
+    padding:
+      18px;
+
+    background:
+      white;
+
+    flex-direction:
+      column;
+
+    border-bottom:
+      1px solid #e4edf6;
+
+    box-shadow:
+      0 15px 30px rgba(0,0,0,.08);
   }
 
   .hero {
     padding:
-      52px 0 65px;
+      48px 0 60px;
   }
 
   .hero h1 {
     font-size:
-      45px;
+      44px;
   }
 
   .hero-copy > p {
@@ -1517,60 +2261,137 @@ body {
 
   .hero .btn,
   .contact-cta a {
-    width: 100%;
+    width:
+      100%;
   }
 
-  .hero-card {
+  .price-header {
+    padding:
+      25px 18px 15px;
+  }
+
+  .price-header h2 {
+    font-size:
+      21px;
+  }
+
+  .live-pill {
+    font-size:
+      11px;
+
+    padding:
+      8px 10px;
+  }
+
+  .tank-type-tabs {
+    padding:
+      0 18px 15px;
+  }
+
+  .tank-type {
     min-height:
-      350px;
+      70px;
 
-    border-radius:
-      27px;
+    padding:
+      7px;
   }
 
-  .tank {
+  .tank-type-image {
     width:
-      220px;
+      48px;
 
     height:
-      165px;
+      48px;
+
+    flex-basis:
+      48px;
   }
 
-  .ring1 {
-    width:
-      330px;
-
-    height:
-      330px;
+  .tank-type-text strong {
+    font-size:
+      14px;
   }
 
-  .ring2 {
-    width:
-      260px;
-
-    height:
-      260px;
+  .tank-type-text span {
+    font-size:
+      11px;
   }
 
-  .ring3 {
-    width:
-      190px;
+  .capacity-title {
+    padding-left:
+      18px;
 
-    height:
-      190px;
+    padding-right:
+      18px;
   }
 
-  .hero-badge {
-    left:
+  .capacity-grid {
+    padding:
+      0 18px;
+  }
+
+  .capacity-option {
+    min-height:
+      78px;
+
+    padding:
+      9px;
+  }
+
+  .capacity-name {
+    font-size:
+      14px;
+  }
+
+  .current-price {
+    font-size:
       15px;
-
-    bottom:
-      15px;
   }
 
-  .trust {
-    grid-template-columns:
-      1fr;
+  .old-price {
+    font-size:
+      11px;
+  }
+
+  .save-badge {
+    font-size:
+      9px;
+
+    padding:
+      3px 5px;
+  }
+
+  .quantity-row {
+    padding:
+      15px 18px;
+  }
+
+  .quantity-label {
+    font-size:
+      14px;
+  }
+
+  .quantity-control {
+    gap:
+      12px;
+  }
+
+  .preview-area {
+    margin:
+      0 18px 20px;
+  }
+
+  .price-footer {
+    padding:
+      0 18px 20px;
+  }
+
+  .price-book-btn {
+    padding:
+      0 14px;
+
+    font-size:
+      12px;
   }
 
   .stats {
@@ -1655,9 +2476,8 @@ body {
 </div>
 
 
-
 <!-- =====================================================
-     NAVIGATION
+     NAV
 ====================================================== -->
 
 <nav class="nav">
@@ -1709,10 +2529,7 @@ body {
 
     <div class="nav-actions">
 
-      <a
-        class="lang"
-        href="#"
-      >
+      <a class="lang" href="#">
         EN
       </a>
 
@@ -1729,7 +2546,7 @@ body {
     <button
       class="mobile-menu"
       onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')"
-      aria-label="Open menu"
+      aria-label="Menu"
     >
       ☰
     </button>
@@ -1747,6 +2564,9 @@ body {
 <header class="hero">
 
   <div class="container hero-grid">
+
+
+    <!-- LEFT -->
 
     <div class="hero-copy">
 
@@ -1785,8 +2605,6 @@ body {
       </div>
 
 
-      <!-- CONTACT -->
-
       <div class="contact-cta">
 
         <a
@@ -1809,59 +2627,26 @@ body {
       </div>
 
 
-      <!-- TRUST -->
-
       <div class="trust">
 
         <div class="trust-card">
-
-          <b>
-            From ₹499
-          </b>
-
-          <span>
-            Overhead cleaning
-          </span>
-
+          <b>From ₹499</b>
+          <span>Overhead cleaning</span>
         </div>
 
-
         <div class="trust-card">
-
-          <b>
-            From ₹799
-          </b>
-
-          <span>
-            Underground cleaning
-          </span>
-
+          <b>From ₹799</b>
+          <span>Underground cleaning</span>
         </div>
 
-
         <div class="trust-card">
-
-          <b>
-            Multi-tank
-          </b>
-
-          <span>
-            Quantity discounts
-          </span>
-
+          <b>Multi-tank</b>
+          <span>Quantity discounts</span>
         </div>
 
-
         <div class="trust-card">
-
-          <b>
-            Photo proof
-          </b>
-
-          <span>
-            Service handover
-          </span>
-
+          <b>Photo proof</b>
+          <span>Service handover</span>
         </div>
 
       </div>
@@ -1871,45 +2656,185 @@ body {
 
 
     <!-- =================================================
-         HERO VISUAL
+         RIGHT PRICE CALCULATOR
     ================================================== -->
 
-    <div class="hero-card">
+    <div class="price-card-wrap">
 
-      <div class="water-ring ring1"></div>
-
-      <div class="water-ring ring2"></div>
-
-      <div class="water-ring ring3"></div>
+      <div class="price-card">
 
 
-      <div class="bubble b1"></div>
+        <!-- HEADER -->
 
-      <div class="bubble b2"></div>
+        <div class="price-header">
 
-      <div class="bubble b3"></div>
+          <h2>
+            Price your tanks in seconds
+          </h2>
 
-      <div class="bubble b4"></div>
+          <div class="live-pill">
+            Live pricing
+          </div>
 
-
-      <div class="tank"></div>
-
-
-      <div class="hero-badge">
-
-        <div class="hero-badge-icon">
-          ✓
         </div>
 
-        <div>
 
-          <strong>
-            Deep Clean Process
-          </strong>
 
-          <small>
-            Wash • Scrub • Disinfect
-          </small>
+        <!-- TANK TYPE -->
+
+        <div class="tank-type-tabs">
+
+          <button
+            type="button"
+            class="tank-type active"
+            data-type="overhead"
+          >
+
+            <div class="tank-type-image">
+
+              <div class="overhead-mini"></div>
+
+            </div>
+
+            <div class="tank-type-text">
+
+              <strong>
+                Overhead tank
+              </strong>
+
+              <span>
+                Rooftop & loft tanks
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="tank-type"
+            data-type="underground"
+          >
+
+            <div class="tank-type-image">
+
+              <div class="underground-mini"></div>
+
+            </div>
+
+            <div class="tank-type-text">
+
+              <strong>
+                Underground tank
+              </strong>
+
+              <span>
+                Sumps below ground
+              </span>
+
+            </div>
+
+          </button>
+
+        </div>
+
+
+
+        <!-- CAPACITY -->
+
+        <div class="capacity-title">
+          Tank capacity
+        </div>
+
+
+        <div
+          class="capacity-grid"
+          id="capacityGrid"
+        >
+
+        </div>
+
+
+
+        <!-- QUANTITY -->
+
+        <div class="quantity-row">
+
+          <div class="quantity-label">
+
+            Tanks of this size
+            <span>in your booking</span>
+
+          </div>
+
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              id="minusBtn"
+            >
+              −
+            </button>
+
+            <div
+              class="quantity-value"
+              id="quantityValue"
+            >
+              1
+            </div>
+
+            <button
+              type="button"
+              id="plusBtn"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- PREVIEW -->
+
+        <div class="preview-area">
+
+          <div class="preview-tank"></div>
+
+        </div>
+
+
+
+        <!-- TOTAL -->
+
+        <div class="price-footer">
+
+          <div class="total-box">
+
+            <span class="total-label">
+              Estimated total
+            </span>
+
+            <span
+              class="total-price"
+              id="totalPrice"
+            >
+              ₹499
+            </span>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="price-book-btn"
+            id="priceBookBtn"
+          >
+            Book this cleaning →
+          </button>
 
         </div>
 
@@ -1934,54 +2859,23 @@ body {
     <div class="stats">
 
       <div class="stat">
-
-        <strong>
-          ₹499+
-        </strong>
-
-        <span>
-          Starting price
-        </span>
-
+        <strong>₹499+</strong>
+        <span>Starting price</span>
       </div>
 
-
       <div class="stat">
-
-        <strong>
-          5-Step
-        </strong>
-
-        <span>
-          Cleaning process
-        </span>
-
+        <strong>5-Step</strong>
+        <span>Cleaning process</span>
       </div>
 
-
       <div class="stat">
-
-        <strong>
-          2 Types
-        </strong>
-
-        <span>
-          Overhead & underground
-        </span>
-
+        <strong>2 Types</strong>
+        <span>Overhead & underground</span>
       </div>
 
-
       <div class="stat">
-
-        <strong>
-          100%
-        </strong>
-
-        <span>
-          Transparent pricing
-        </span>
-
+        <strong>100%</strong>
+        <span>Transparent pricing</span>
       </div>
 
     </div>
@@ -2011,7 +2905,7 @@ body {
       </h2>
 
       <p>
-        We don't just rinse the tank. Our process focuses on sludge, dirt, walls, floor and final disinfection.
+        We focus on sludge, dirt, walls, floor and final disinfection instead of simply rinsing the tank.
       </p>
 
     </div>
@@ -2030,7 +2924,7 @@ body {
         </h3>
 
         <p>
-          Settled dirt and sludge are removed before the washing stage so the tank can actually be cleaned properly.
+          Settled dirt and sludge are removed before the washing stage.
         </p>
 
       </div>
@@ -2047,7 +2941,7 @@ body {
         </h3>
 
         <p>
-          Tank walls and floor are thoroughly washed and scrubbed to remove accumulated grime and deposits.
+          Tank walls and floor are thoroughly washed and scrubbed.
         </p>
 
       </div>
@@ -2064,7 +2958,7 @@ body {
         </h3>
 
         <p>
-          The cleaning process includes a final disinfection step before the tank is handed back.
+          The cleaning process includes a final disinfection step before handover.
         </p>
 
       </div>
@@ -2242,11 +3136,7 @@ body {
 
         <a
           href="pricing.html"
-          style="
-            color:#0877f9;
-            font-weight:900;
-            text-decoration:none;
-          "
+          style="color:#0877f9;font-weight:900;text-decoration:none"
         >
           View overhead pricing →
         </a>
@@ -2270,11 +3160,7 @@ body {
 
         <a
           href="pricing.html"
-          style="
-            color:#0877f9;
-            font-weight:900;
-            text-decoration:none;
-          "
+          style="color:#0877f9;font-weight:900;text-decoration:none"
         >
           View underground pricing →
         </a>
@@ -2298,11 +3184,7 @@ body {
 
         <a
           href="pricing.html#book"
-          style="
-            color:#0877f9;
-            font-weight:900;
-            text-decoration:none;
-          "
+          style="color:#0877f9;font-weight:900;text-decoration:none"
         >
           Calculate your price →
         </a>
@@ -2333,7 +3215,6 @@ body {
       <h2>
         Your tank deserves a proper clean.
       </h2>
-
 
       <p>
         Get your price, select your preferred date and time, and book your tank cleaning online.
@@ -2566,7 +3447,7 @@ body {
 
 
 <!-- =====================================================
-     FLOATING CONTACT BUTTONS
+     FLOATING CONTACT
 ====================================================== -->
 
 <div class="floating-contact">
@@ -2576,8 +3457,7 @@ body {
     href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20book%20a%20tank%20cleaning."
     target="_blank"
     rel="noopener"
-    aria-label="WhatsApp VSH Tank Cleaning"
-    title="WhatsApp VSH Tank Cleaning"
+    title="WhatsApp"
   >
     💬
   </a>
@@ -2586,14 +3466,424 @@ body {
   <a
     class="floating-call"
     href="tel:+919599057079"
-    aria-label="Call VSH Tank Cleaning"
-    title="Call VSH Tank Cleaning"
+    title="Call"
   >
     ☎
   </a>
 
 </div>
 
+
+
+<!-- =====================================================
+     PRICE CALCULATOR
+====================================================== -->
+
+<script>
+
+const PRICES = {
+
+  overhead: {
+
+    "500":
+      {
+        name: "Up to 500 L",
+        price: 499,
+        old: 599,
+        save: 100
+      },
+
+    "1000":
+      {
+        name: "501–1,000 L",
+        price: 599,
+        old: 719,
+        save: 120
+      },
+
+    "1500":
+      {
+        name: "1,001–1,500 L",
+        price: 799,
+        old: 934,
+        save: 135
+      },
+
+    "2000":
+      {
+        name: "1,501–2,000 L",
+        price: 999,
+        old: 1199,
+        save: 200
+      },
+
+    "5000":
+      {
+        name: "2,500–5,000 L",
+        price: 1999,
+        old: 2499,
+        save: 500
+      }
+
+  },
+
+
+  underground: {
+
+    "500":
+      {
+        name: "Up to 500 L",
+        price: 799,
+        old: 899,
+        save: 100
+      },
+
+    "1000":
+      {
+        name: "501–1,000 L",
+        price: 899,
+        old: 1019,
+        save: 120
+      },
+
+    "1500":
+      {
+        name: "1,001–1,500 L",
+        price: 999,
+        old: 1134,
+        save: 135
+      },
+
+    "2000":
+      {
+        name: "1,501–2,000 L",
+        price: 1099,
+        old: 1299,
+        save: 200
+      },
+
+    "3000":
+      {
+        name: "2,500–5,000 L",
+        price: 1299,
+        old: 1499,
+        save: 200
+      },
+
+    "5000":
+      {
+        name: "5,000 L+",
+        price: 1999,
+        old: 2499,
+        save: 500
+      }
+
+  }
+
+};
+
+
+let selectedType = "overhead";
+
+let selectedCapacity = "500";
+
+let quantity = 1;
+
+
+
+const capacityGrid =
+  document.getElementById("capacityGrid");
+
+const quantityValue =
+  document.getElementById("quantityValue");
+
+const totalPrice =
+  document.getElementById("totalPrice");
+
+
+
+function renderCapacityOptions() {
+
+  capacityGrid.innerHTML = "";
+
+  const prices =
+    PRICES[selectedType];
+
+
+  Object.keys(prices).forEach(capacity => {
+
+    const item =
+      prices[capacity];
+
+
+    const button =
+      document.createElement("button");
+
+    button.type = "button";
+
+    button.className =
+      "capacity-option";
+
+
+    if (
+      capacity === selectedCapacity
+    ) {
+
+      button.classList.add("active");
+
+    }
+
+
+    button.innerHTML = `
+
+      <div class="capacity-name">
+        ${item.name}
+      </div>
+
+      <div class="capacity-price-row">
+
+        <span class="current-price">
+          ₹${item.price.toLocaleString("en-IN")}
+        </span>
+
+        <span class="old-price">
+          ₹${item.old.toLocaleString("en-IN")}
+        </span>
+
+        <span class="save-badge">
+          Save ₹${item.save}
+        </span>
+
+      </div>
+
+    `;
+
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        selectedCapacity =
+          capacity;
+
+        renderCapacityOptions();
+
+        updateTotal();
+
+      }
+    );
+
+
+    capacityGrid.appendChild(button);
+
+  });
+
+
+  /* OTHER SIZE */
+
+  const other =
+    document.createElement("a");
+
+  other.href =
+    "https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20have%20a%20different%20tank%20size.%20Please%20give%20me%20a%20quote.";
+
+  other.target =
+    "_blank";
+
+  other.rel =
+    "noopener";
+
+  other.className =
+    "other-size";
+
+
+  other.innerHTML = `
+
+    <div class="other-size-icon">
+      ♡
+    </div>
+
+    <div>
+
+      <strong>
+        Other size?
+      </strong>
+
+      <span>
+        Chat on WhatsApp
+      </span>
+
+    </div>
+
+  `;
+
+
+  capacityGrid.appendChild(other);
+
+}
+
+
+
+function getDiscount(qty) {
+
+  if (qty >= 5)
+    return 15;
+
+  if (qty === 4)
+    return 14;
+
+  if (qty === 3)
+    return 12;
+
+  if (qty === 2)
+    return 10;
+
+  return 0;
+
+}
+
+
+
+function updateTotal() {
+
+  const item =
+    PRICES[selectedType][selectedCapacity];
+
+
+  const subtotal =
+    item.price * quantity;
+
+
+  const discountPercent =
+    getDiscount(quantity);
+
+
+  const discount =
+    Math.round(
+      subtotal *
+      discountPercent /
+      100
+    );
+
+
+  const total =
+    subtotal - discount;
+
+
+  totalPrice.textContent =
+    "₹" +
+    total.toLocaleString("en-IN");
+
+
+  quantityValue.textContent =
+    quantity;
+
+}
+
+
+
+document
+  .querySelectorAll(".tank-type")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(".tank-type")
+          .forEach(btn => {
+
+            btn.classList.remove(
+              "active"
+            );
+
+          });
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        selectedType =
+          button.dataset.type;
+
+
+        selectedCapacity =
+          Object.keys(
+            PRICES[selectedType]
+          )[0];
+
+
+        renderCapacityOptions();
+
+        updateTotal();
+
+      }
+    );
+
+  });
+
+
+
+document
+  .getElementById("minusBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      if (quantity > 1) {
+
+        quantity--;
+
+        updateTotal();
+
+      }
+
+    }
+  );
+
+
+
+document
+  .getElementById("plusBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      if (quantity < 20) {
+
+        quantity++;
+
+        updateTotal();
+
+      }
+
+    }
+  );
+
+
+
+document
+  .getElementById("priceBookBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "pricing.html#book";
+
+    }
+  );
+
+
+
+renderCapacityOptions();
+
+updateTotal();
+
+</script>
 
 </body>
 </html>
