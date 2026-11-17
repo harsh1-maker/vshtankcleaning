@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prices & Booking | VSH Tank Cleaning</title><link rel="stylesheet" href="styles.css"><script src="https://checkout.razorpay.com/v1/checkout.js"></script></head>
+<body>
+<nav class="nav"><div class="container nav-inner"><a class="logo" href="index.html"><span class="logo-mark">V</span> VSH Tank Cleaning</a><div class="nav-links"><a href="services.html">Services</a><a href="pricing.html">Prices</a><a href="index.html#areas">Areas</a><a href="index.html#process">Process</a><a href="index.html#reviews">Reviews</a></div><a class="btn btn-primary" href="#book">Book Now</a></div></nav>
+<header class="page-hero"><div class="container"><span class="eyebrow">Transparent pricing</span><h1>Check cleaning prices</h1><p>Select your tank type to see the current price list. Multi-tank discounts are applied during booking.</p></div></header>
+<section class="section"><div class="container">
+<div class="price-box"><div class="tabs"><button class="tab active" data-price-tab="overhead">Overhead</button><button class="tab" data-price-tab="underground">Underground</button></div><div id="pricing-table"></div></div>
+<p class="small" style="margin-top:12px">Prices are controlled from <strong>pricing-config.js</strong> in the project root. Change the numbers there and redeploy.</p>
+</div></section>
+<section class="section section-soft" id="book"><div class="container booking"><div class="section-head"><div><span class="eyebrow">Online booking</span><h2>Book your tank cleaning</h2></div></div>
+<div class="calc">
+<form id="bookingForm">
+<div class="calc-grid">
+<div class="field"><label>Full name</label><input name="name" required placeholder="Your name"></div>
+<div class="field"><label>Phone</label><input name="phone" required placeholder="10-digit mobile number"></div>
+<div class="field"><label>Email</label><input name="email" type="email" required placeholder="you@example.com"></div>
+<div class="field"><label>Tank type</label><select id="tankType" name="tankType"><option value="overhead">Overhead</option><option value="underground">Underground</option></select></div>
+<div class="field"><label>Tank capacity</label><select id="capacity" name="capacity"><option value="500">Up to 500 L</option><option value="1000">501–1,000 L</option><option value="1500">1,001–1,500 L</option><option value="2000">1,501–2,000 L</option><option value="3000">2,001–3,000 L</option><option value="5000">2,500–5,000 L</option></select></div>
+<div class="field"><label>Quantity</label><input id="quantity" name="quantity" type="number" min="1" max="20" value="1" required></div>
+<div class="field"><label>Preferred date</label><input name="date" type="date" required></div>
+<div class="field"><label>Preferred time</label><input name="time" type="time" required></div>
+<div class="field full"><label>Service address</label><textarea name="address" rows="3" required placeholder="Full address"></textarea></div>
+<div class="field"><label>PIN code</label><input name="pincode" required placeholder="6-digit PIN code"></div>
+</div>
+<div class="quote"><div><span class="small">Estimated booking total</span><div id="bookingAmount" class="price">₹499</div><div id="calcDiscount" class="small">No quantity discount</div></div><button class="btn btn-primary" type="submit">Pay & Book Cleaning</button></div>
+</form>
+<div id="bookingSuccess" class="success"></div>
+</div>
+</div></section>
+<section class="section" id="faq"><div class="container"><div class="section-head"><div><span class="eyebrow">FAQs</span><h2>Common questions</h2></div></div><div class="cards">
+<div class="card"><h3>How is the price calculated?</h3><p>Price depends on tank type and capacity. Quantity discounts are applied for multiple tanks.</p></div>
+<div class="card"><h3>Can I book online?</h3><p>Yes. Choose your details, date and time, then complete payment through Razorpay.</p></div>
+<div class="card"><h3>Where do I change prices?</h3><p>Open <strong>pricing-config.js</strong> in your GitHub repository. The prices are at the top of the file.</p></div>
+</div></div></section>
+<footer class="footer"><div class="container copyright">© 2026 VSH Tank Cleaning · <a href="index.html">Home</a> · <a href="services.html">Services</a></div></footer>
+<script type="module">
+import { setupPriceTabs, setupBooking } from "./site.js";
+setupPriceTabs();
+setupBooking();
+</script>
+</body></html>

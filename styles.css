@@ -1,0 +1,92 @@
+/* VSH Tank Cleaning — blue/white theme */
+:root{
+  --blue:#0b67d8;
+  --blue2:#0751b5;
+  --dark:#09243f;
+  --text:#24384d;
+  --muted:#64758a;
+  --line:#dfe8f2;
+  --soft:#f3f8ff;
+  --white:#fff;
+  --green:#148a58;
+  --shadow:0 18px 55px rgba(16,66,120,.12);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:#fff;line-height:1.55}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.container{width:min(1180px,92%);margin:auto}
+.topbar{background:#082e62;color:#fff;font-size:13px}
+.topbar .container{display:flex;justify-content:space-between;gap:20px;padding:9px 0}
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #edf2f7}
+.nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--dark);font-size:20px}
+.logo-mark{width:39px;height:39px;border-radius:12px;background:linear-gradient(145deg,#0b78f2,#06489e);display:grid;place-items:center;color:#fff;box-shadow:0 7px 18px rgba(11,103,216,.25)}
+.logo-mark span{font-size:20px}
+.nav-links{display:flex;align-items:center;gap:27px;font-size:14px;font-weight:700;color:#445a70}
+.nav-links a:hover{color:var(--blue)}
+.nav-actions{display:flex;gap:8px}
+.lang{border:1px solid var(--line);padding:8px 11px;border-radius:9px;font-size:12px;font-weight:800;background:#fff}
+.btn{border:0;border-radius:11px;padding:13px 18px;font-weight:850;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.18s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 10px 24px rgba(11,103,216,.22)}
+.btn-dark{background:var(--dark);color:#fff}
+.btn-outline{border:1px solid #cbd9e8;background:#fff;color:var(--dark)}
+.hero{padding:64px 0 50px;background:radial-gradient(circle at 85% 20%,#eaf4ff 0,transparent 35%),linear-gradient(#fff,#f7fbff)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-size:13px;font-weight:900;background:#eaf4ff;padding:8px 12px;border-radius:999px}
+.hero h1{font-size:clamp(39px,5.5vw,64px);line-height:1.03;letter-spacing:-2.2px;color:var(--dark);margin:18px 0}
+.hero p{font-size:17px;color:#607286;max-width:650px}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
+.hero-card{background:#fff;border:1px solid #e3edf8;border-radius:26px;padding:22px;box-shadow:var(--shadow)}
+.tank-visual{min-height:360px;border-radius:20px;background:linear-gradient(160deg,#e9f4ff,#f8fbff);position:relative;overflow:hidden;display:grid;place-items:center}
+.tank{width:220px;height:175px;border-radius:24px 24px 34px 34px;background:linear-gradient(90deg,#aab9c7,#e7eef4,#9aabb9);position:relative;box-shadow:inset 0 -16px 20px rgba(20,45,70,.12),0 24px 40px rgba(31,65,95,.16)}
+.tank:before{content:"";position:absolute;left:26px;right:26px;top:-18px;height:35px;border-radius:50%;background:#b9c7d2;border:7px solid #8295a6}
+.tank:after{content:"VSH";position:absolute;left:0;right:0;top:67px;text-align:center;font-size:34px;font-weight:950;color:#0b67d8;letter-spacing:2px}
+.spark{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 18px rgba(255,255,255,.9)}
+.s1{width:9px;height:9px;top:24%;left:23%}.s2{width:6px;height:6px;top:33%;right:24%}.s3{width:8px;height:8px;bottom:25%;left:30%}
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
+.trust-card{border:1px solid var(--line);border-radius:15px;padding:17px;background:#fff}
+.trust-card b{display:block;color:var(--dark);font-size:16px}.trust-card span{font-size:12px;color:var(--muted)}
+.section{padding:78px 0}
+.section-soft{background:var(--soft)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:30px}
+.section-head h2{margin:0;color:var(--dark);font-size:clamp(29px,4vw,44px);line-height:1.08;letter-spacing:-1px}
+.section-head p{max-width:600px;color:var(--muted);margin:0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:#fff;box-shadow:0 8px 30px rgba(20,60,100,.05)}
+.icon{width:45px;height:45px;border-radius:13px;background:#eaf4ff;color:var(--blue);display:grid;place-items:center;font-size:21px;font-weight:900;margin-bottom:15px}
+.card h3{color:var(--dark);margin:5px 0 8px}.card p{color:var(--muted);margin:0}
+.price-box{border:1px solid var(--line);border-radius:22px;background:#fff;overflow:hidden;box-shadow:var(--shadow)}
+.tabs{display:flex;gap:8px;padding:10px;background:#f5f9fd}
+.tab{flex:1;border:0;padding:13px;border-radius:12px;background:transparent;font-weight:900;color:#587087}
+.tab.active{background:#fff;color:var(--blue);box-shadow:0 4px 15px rgba(20,60,100,.08)}
+.price-row{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:10px;padding:19px 22px;border-top:1px solid var(--line);align-items:center}
+.price-row.head{background:#fbfdff;border-top:0;font-size:12px;text-transform:uppercase;color:#72849a;font-weight:900}
+.price{font-size:24px;color:var(--dark);font-weight:950}.save{color:var(--green);font-weight:800;font-size:12px}
+.calc{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label{display:block;font-size:12px;font-weight:900;color:#4f6478;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;border:1px solid #cddae8;border-radius:11px;padding:12px 13px;outline:0;background:#fff}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #eaf4ff}
+.full{grid-column:1/-1}
+.quote{margin-top:18px;padding:17px;border-radius:14px;background:#eef7ff;display:flex;justify-content:space-between;align-items:center;gap:15px}.quote strong{font-size:28px;color:var(--dark)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.step{position:relative}.step-num{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:950;margin-bottom:13px}.step h3{margin:0 0 6px;color:var(--dark);font-size:17px}.step p{margin:0;color:var(--muted);font-size:14px}
+.review{padding:24px;border:1px solid var(--line);border-radius:18px;background:#fff}.stars{color:#0b67d8;letter-spacing:2px}.review p{color:#52677c}.review b{color:var(--dark)}
+.cta{background:linear-gradient(120deg,#063f98,#0b72e8);color:#fff;border-radius:25px;padding:45px}.cta h2{font-size:38px;margin:0 0 10px}.cta p{opacity:.9;max-width:650px}.cta .btn{background:#fff;color:#063f98}
+.footer{background:#061f3b;color:#b8c9dc;padding:48px 0 22px}.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:35px}.footer h3,.footer h4{color:#fff}.footer a{display:block;margin:8px 0;font-size:14px}.copyright{border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:18px;font-size:12px}
+.page-hero{padding:55px 0;background:linear-gradient(135deg,#f2f8ff,#fff);border-bottom:1px solid var(--line)}.page-hero h1{font-size:48px;line-height:1.05;color:var(--dark);margin:12px 0}.page-hero p{max-width:680px;color:var(--muted)}
+.booking{max-width:850px;margin:auto}
+.success{display:none;padding:18px;background:#eafaf3;border:1px solid #b8e4cf;color:#0b6b43;border-radius:14px;margin-top:18px}
+.small{font-size:12px;color:var(--muted)}
+.mobile-menu{display:none}
+@media(max-width:900px){
+ .nav-links{display:none}.mobile-menu{display:block;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px}
+ .hero-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.trust{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+ .topbar .container{justify-content:center}.topbar .container span:last-child{display:none}
+ .nav-inner{height:65px}.nav-actions{display:none}.hero{padding-top:40px}.hero h1{font-size:43px}.cards,.steps,.trust,.calc-grid,.footer-grid{grid-template-columns:1fr}
+ .price-row{grid-template-columns:1.2fr .8fr .8fr;padding:15px}.price{font-size:19px}.section{padding:58px 0}.page-hero h1{font-size:38px}
+}
