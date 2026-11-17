@@ -1,9 +1,0 @@
-{
-  "name": "vsh-tank-cleaning",
-  "version": "1.0.0",
-  "private": true,
-  "description": "VSH Tank Cleaning booking website",
-  "scripts": {
-    "start": "node -e \"console.log('VSH Tank Cleaning is ready for Vercel')\""
-  }
-}
