@@ -1,14 +1,9 @@
 {
   "name": "vsh-tank-cleaning",
   "version": "1.0.0",
-  "description": "VSH Tank Cleaning website with online booking and Razorpay payments",
-  "type": "module",
+  "private": true,
+  "description": "VSH Tank Cleaning booking website",
   "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "express": "^5.1.0",
-    "razorpay": "^2.9.6"
+    "start": "node -e \"console.log('VSH Tank Cleaning is ready for Vercel')\""
   }
 }
