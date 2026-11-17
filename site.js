@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     overhead: {
 
-      500: 499,
+      500: 1,
 
       1000: 599,
 
