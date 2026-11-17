@@ -1,13 +1,3 @@
-// ============================================================
-// VSH TANK CLEANING — PRICING
-// CHANGE YOUR PRICES HERE
-// ============================================================
-// Capacity is in litres.
-// Example: change 499 to 549 and redeploy on Vercel.
-//
-// The website and Razorpay order API both use this file.
-// ============================================================
-
 export const PRICES = {
   overhead: {
     500: 499,
@@ -35,26 +25,33 @@ export const QUANTITY_DISCOUNTS = {
   5: 15
 };
 
-export function getQuantityDiscount(quantity) {
-  const q = Number(quantity);
-  if (q >= 5) return QUANTITY_DISCOUNTS[5];
-  return QUANTITY_DISCOUNTS[q] ?? 0;
+export function getDiscount(quantity) {
+  const qty = Number(quantity);
+
+  if (qty >= 5) {
+    return 15;
+  }
+
+  return QUANTITY_DISCOUNTS[qty] || 0;
 }
 
-export function getUnitPrice(tankType, capacity) {
-  return Number(PRICES[String(tankType).toLowerCase()]?.[String(capacity)]) || 0;
+export function getPrice(tankType, capacity) {
+  return Number(PRICES[tankType]?.[capacity] || 0);
 }
 
-export function calculateTotal(tanks) {
-  const subtotal = tanks.reduce(
-    (sum, tank) => sum + getUnitPrice(tank.tankType, tank.capacity),
-    0
+export function calculateTotal(tankType, capacity, quantity) {
+  const unitPrice = getPrice(tankType, capacity);
+  const qty = Number(quantity);
+
+  const subtotal = unitPrice * qty;
+  const discountPercent = getDiscount(qty);
+  const discount = Math.round(
+    subtotal * discountPercent / 100
   );
 
-  const discountPercent = getQuantityDiscount(tanks.length);
-  const discount = Math.round(subtotal * discountPercent / 100);
-
   return {
+    unitPrice,
+    quantity: qty,
     subtotal,
     discountPercent,
     discount,
