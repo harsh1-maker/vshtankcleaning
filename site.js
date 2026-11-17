@@ -1,268 +1,462 @@
-import {
-  PRICES,
-  calculateTotal
-} from "./pricing-config.js";
-
 document.addEventListener("DOMContentLoaded", function () {
 
-  // =========================
-  // PRICE CALCULATOR
-  // =========================
+  console.log("VSH Tank Cleaning booking system loaded.");
 
-  const money = (value) =>
-    "₹" + Number(value).toLocaleString("en-IN");
 
-  let selectedType = "overhead";
-  let selectedCapacity = "5000";
-  let quantity = 1;
 
-  const capacityNames = {
-    500: "Up to 500 L",
-    1000: "501–1,000 L",
-    1500: "1,001–1,500 L",
-    2000: "1,501–2,000 L",
-    3000: "2,001–3,000 L",
-    5000: "2,500–5,000 L"
+  // ==================================================
+  // PRICES
+  // ==================================================
+
+  const PRICES = {
+
+    overhead: {
+
+      500: 499,
+
+      1000: 599,
+
+      1500: 799,
+
+      2000: 999,
+
+      5000: 1999
+
+    },
+
+    underground: {
+
+      500: 799,
+
+      1000: 899,
+
+      1500: 999,
+
+      2000: 1099,
+
+      3000: 1299,
+
+      5000: 1999
+
+    }
+
   };
 
-  const capacityGrid =
-    document.getElementById("capacityGrid");
 
-  function renderPrices(type) {
 
-    if (!capacityGrid) return;
+  // ==================================================
+  // QUANTITY DISCOUNTS
+  // ==================================================
 
-    const prices = PRICES[type];
+  const DISCOUNTS = {
 
-    capacityGrid.innerHTML = "";
+    1: 0,
 
-    Object.entries(prices).forEach(
-      ([capacity, price]) => {
+    2: 10,
 
-        const button =
-          document.createElement("button");
+    3: 12,
 
-        button.type = "button";
+    4: 14,
 
-        button.className =
-          "capacity" +
-          (String(capacity) === String(selectedCapacity)
-            ? " active"
-            : "");
+    5: 15
 
-        button.dataset.cap = capacity;
+  };
 
-        button.innerHTML = `
-          <b>${capacityNames[capacity] || capacity + " L"}</b><br>
 
-          <span class="cost">
-            ${money(price)}
-          </span>
 
-          <span class="old">
-            ${money(Math.round(price * 1.2))}
-          </span>
+  // ==================================================
+  // HELPER FUNCTIONS
+  // ==================================================
 
-          <span class="save">
-            Save ${money(Math.round(price * 0.2))}
-          </span>
-        `;
+  function money(value) {
 
-        button.addEventListener(
-          "click",
-          function () {
-
-            selectedCapacity =
-              String(capacity);
-
-            renderPrices(selectedType);
-            updateCalculator();
-          }
-        );
-
-        capacityGrid.appendChild(button);
-      }
+    return (
+      "₹" +
+      Number(value).toLocaleString("en-IN")
     );
+
   }
 
-  function updateCalculator() {
+
+
+  function getDiscount(quantity) {
+
+    quantity = Number(quantity);
+
+    if (quantity >= 5) {
+
+      return 15;
+
+    }
+
+    return DISCOUNTS[quantity] || 0;
+
+  }
+
+
+
+  function calculateTotal(
+    tankType,
+    capacity,
+    quantity
+  ) {
+
+    const unitPrice =
+      Number(
+        PRICES[tankType]?.[capacity] || 0
+      );
+
+    const qty =
+      Number(quantity);
+
+    const subtotal =
+      unitPrice * qty;
+
+    const discountPercent =
+      getDiscount(qty);
+
+    const discount =
+      Math.round(
+        subtotal *
+        discountPercent /
+        100
+      );
+
+    const total =
+      subtotal - discount;
+
+    return {
+
+      unitPrice,
+      quantity: qty,
+      subtotal,
+      discountPercent,
+      discount,
+      total
+
+    };
+
+  }
+
+
+
+  // ==================================================
+  // BOOKING FORM
+  // ==================================================
+
+  const form =
+    document.getElementById(
+      "bookingForm"
+    );
+
+
+
+  if (!form) {
+
+    console.log(
+      "Booking form not found."
+    );
+
+    return;
+
+  }
+
+
+
+  // ==================================================
+  // BOOKING TOTAL
+  // ==================================================
+
+  const tankType =
+    document.getElementById(
+      "tankType"
+    );
+
+
+
+  const capacity =
+    document.getElementById(
+      "capacity"
+    );
+
+
+
+  const quantity =
+    document.getElementById(
+      "quantity"
+    );
+
+
+
+  const bookingAmount =
+    document.getElementById(
+      "bookingAmount"
+    );
+
+
+
+  function updateBookingAmount() {
+
+    if (
+      !tankType ||
+      !capacity ||
+      !quantity ||
+      !bookingAmount
+    ) {
+
+      return;
+
+    }
+
+
 
     const result =
       calculateTotal(
-        selectedType,
-        selectedCapacity,
-        quantity
+        tankType.value,
+        capacity.value,
+        quantity.value
       );
 
-    const qtyElement =
-      document.getElementById("qty");
 
-    const totalElement =
-      document.getElementById("total");
 
-    if (qtyElement) {
-      qtyElement.textContent = quantity;
-    }
+    bookingAmount.textContent =
+      money(result.total);
 
-    if (totalElement) {
-      totalElement.textContent =
-        money(result.total);
-    }
   }
 
-  // Tank type buttons
 
-  document
-    .querySelectorAll(".tab")
-    .forEach(function (tab) {
 
-      tab.addEventListener(
-        "click",
-        function () {
+  if (tankType) {
 
-          document
-            .querySelectorAll(".tab")
-            .forEach(function (item) {
-              item.classList.remove("active");
-            });
-
-          tab.classList.add("active");
-
-          selectedType =
-            tab.dataset.type;
-
-          selectedCapacity =
-            Object.keys(
-              PRICES[selectedType]
-            )[0];
-
-          renderPrices(selectedType);
-          updateCalculator();
-        }
-      );
-    });
-
-  // Quantity buttons
-
-  const minus =
-    document.getElementById("minus");
-
-  const plus =
-    document.getElementById("plus");
-
-  if (minus) {
-
-    minus.addEventListener(
-      "click",
-      function () {
-
-        quantity =
-          Math.max(1, quantity - 1);
-
-        updateCalculator();
-      }
+    tankType.addEventListener(
+      "change",
+      updateBookingAmount
     );
+
   }
 
-  if (plus) {
 
-    plus.addEventListener(
-      "click",
-      function () {
 
-        quantity =
-          Math.min(20, quantity + 1);
+  if (capacity) {
 
-        updateCalculator();
-      }
+    capacity.addEventListener(
+      "change",
+      updateBookingAmount
     );
+
   }
 
-  renderPrices(selectedType);
-  updateCalculator();
 
 
-  // =========================
-  // BOOK NOW BUTTON
-  // =========================
+  if (quantity) {
 
-  const bookPrice =
-    document.getElementById("bookPrice");
-
-  if (bookPrice) {
-
-    bookPrice.addEventListener(
-      "click",
-      function () {
-
-        window.location.href =
-          "pricing.html#book";
-
-      }
+    quantity.addEventListener(
+      "input",
+      updateBookingAmount
     );
+
   }
 
 
-  // =========================
-  // BOOKING FORM
-  // =========================
 
-  const form =
-    document.getElementById("bookingForm");
-
-  if (!form) return;
+  updateBookingAmount();
 
 
-  // IMPORTANT:
-  // Prevent the browser from refreshing
-  // the page when the form is submitted.
+
+  // ==================================================
+  // FORM SUBMISSION
+  // ==================================================
 
   form.addEventListener(
     "submit",
     async function (event) {
 
+      // THIS PREVENTS THE PAGE REFRESH
       event.preventDefault();
       event.stopPropagation();
 
-      const button =
-        form.querySelector(
-          'button[type="submit"]'
+      console.log(
+        "VSH booking form submitted."
+      );
+
+
+
+      const payButton =
+        document.getElementById(
+          "payButton"
         );
 
-      if (button) {
-        button.disabled = true;
-        button.textContent =
-          "Creating payment...";
+
+
+      const successBox =
+        document.getElementById(
+          "success"
+        );
+
+
+
+      const errorBox =
+        document.getElementById(
+          "bookingError"
+        );
+
+
+
+      // Hide previous messages
+
+      if (successBox) {
+
+        successBox.style.display =
+          "none";
+
       }
 
+
+
+      if (errorBox) {
+
+        errorBox.style.display =
+          "none";
+
+      }
+
+
+
+      // Disable button
+
+      if (payButton) {
+
+        payButton.disabled =
+          true;
+
+        payButton.textContent =
+          "Creating secure payment...";
+
+      }
+
+
+
       try {
+
+        // ============================================
+        // GET FORM DATA
+        // ============================================
 
         const formData =
           new FormData(form);
 
+
+
         const bookingData = {
-          name: formData.get("name"),
-          phone: formData.get("phone"),
-          email: formData.get("email"),
-          address: formData.get("address"),
-          pincode: formData.get("pincode"),
-          tankType: formData.get("tankType"),
-          capacity: formData.get("capacity"),
+
+          name:
+            String(
+              formData.get("name") || ""
+            ).trim(),
+
+          phone:
+            String(
+              formData.get("phone") || ""
+            ).trim(),
+
+          email:
+            String(
+              formData.get("email") || ""
+            ).trim(),
+
+          address:
+            String(
+              formData.get("address") || ""
+            ).trim(),
+
+          pincode:
+            String(
+              formData.get("pincode") || ""
+            ).trim(),
+
+          tankType:
+            String(
+              formData.get("tankType") || ""
+            ),
+
+          capacity:
+            String(
+              formData.get("capacity") || ""
+            ),
+
           quantity:
-            Number(formData.get("quantity")),
-          date: formData.get("date"),
-          time: formData.get("time")
+            Number(
+              formData.get("quantity") || 1
+            ),
+
+          date:
+            String(
+              formData.get("date") || ""
+            ),
+
+          time:
+            String(
+              formData.get("time") || ""
+            )
+
         };
 
 
-        // =========================
+
+        // ============================================
+        // BASIC VALIDATION
+        // ============================================
+
+        if (
+          !bookingData.name ||
+          !bookingData.phone ||
+          !bookingData.email ||
+          !bookingData.address ||
+          !bookingData.tankType ||
+          !bookingData.capacity ||
+          !bookingData.date ||
+          !bookingData.time
+        ) {
+
+          throw new Error(
+            "Please fill in all booking details."
+          );
+
+        }
+
+
+
+        if (
+          !Number.isInteger(
+            bookingData.quantity
+          ) ||
+          bookingData.quantity < 1 ||
+          bookingData.quantity > 20
+        ) {
+
+          throw new Error(
+            "Quantity must be between 1 and 20."
+          );
+
+        }
+
+
+
+        // ============================================
         // CREATE RAZORPAY ORDER
-        // =========================
+        // ============================================
+
+        console.log(
+          "Creating Razorpay order..."
+        );
+
+
 
         const response =
           await fetch(
-            "/api/create-order.js",
+            "/api/create-order",
             {
+
               method: "POST",
 
               headers: {
@@ -274,18 +468,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 JSON.stringify(
                   bookingData
                 )
+
             }
           );
 
 
-        // Read response as text first.
-        // This prevents the
-        // "Unexpected token A" error.
+
+        // Read as TEXT first.
+        // This prevents JSON parsing errors
+        // from hiding the actual server response.
 
         const responseText =
           await response.text();
 
+
+
+        console.log(
+          "Create-order response:",
+          responseText
+        );
+
+
+
         let order;
+
+
 
         try {
 
@@ -294,17 +501,14 @@ document.addEventListener("DOMContentLoaded", function () {
               responseText
             );
 
-        } catch (parseError) {
-
-          console.error(
-            "Server returned:",
-            responseText
-          );
+        } catch (jsonError) {
 
           throw new Error(
-            "Server error. Razorpay order could not be created."
+            "The booking server returned an invalid response. Please check the Vercel API deployment."
           );
+
         }
+
 
 
         if (
@@ -314,34 +518,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
           throw new Error(
             order.message ||
-            "Unable to create payment."
+            "Unable to create Razorpay order."
           );
+
         }
 
 
-        // =========================
-        // OPEN RAZORPAY
-        // =========================
+
+        console.log(
+          "Razorpay order created:",
+          order
+        );
+
+
+
+        // ============================================
+        // CHECK RAZORPAY
+        // ============================================
 
         if (
-          typeof Razorpay ===
+          typeof window.Razorpay ===
           "undefined"
         ) {
 
           throw new Error(
-            "Razorpay checkout could not be loaded."
+            "Razorpay checkout has not loaded. Please refresh and try again."
           );
+
         }
 
 
+
+        // ============================================
+        // OPEN RAZORPAY
+        // ============================================
+
         const options = {
 
-          key: order.keyId,
+          key:
+            order.keyId,
 
-          amount: order.amount,
+          amount:
+            order.amount,
 
           currency:
-            order.currency || "INR",
+            order.currency ||
+            "INR",
 
           order_id:
             order.orderId,
@@ -362,24 +584,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
             contact:
               bookingData.phone
+
           },
 
           theme: {
-            color: "#0877f9"
+
+            color:
+              "#0877f9"
+
           },
+
 
 
           handler:
             async function (
-              payment
+              paymentResponse
             ) {
 
               try {
 
+                console.log(
+                  "Razorpay payment successful:",
+                  paymentResponse
+                );
+
+
+
+                if (payButton) {
+
+                  payButton.textContent =
+                    "Verifying payment...";
+
+                }
+
+
+
+                // ==================================
+                // VERIFY PAYMENT
+                // ==================================
+
                 const verifyResponse =
                   await fetch(
-                    "/api/verify-payment.js",
+                    "/api/verify-payment",
                     {
+
                       method: "POST",
 
                       headers: {
@@ -389,16 +637,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       body:
                         JSON.stringify(
-                          payment
+                          paymentResponse
                         )
+
                     }
                   );
+
 
 
                 const verifyText =
                   await verifyResponse.text();
 
+
+
+                console.log(
+                  "Verification response:",
+                  verifyText
+                );
+
+
+
                 let verification;
+
+
 
                 try {
 
@@ -407,12 +668,14 @@ document.addEventListener("DOMContentLoaded", function () {
                       verifyText
                     );
 
-                } catch (e) {
+                } catch (error) {
 
                   throw new Error(
-                    "Payment verification server returned an invalid response."
+                    "Payment verification returned an invalid server response."
                   );
+
                 }
+
 
 
                 if (
@@ -424,105 +687,179 @@ document.addEventListener("DOMContentLoaded", function () {
                     verification.message ||
                     "Payment verification failed."
                   );
+
                 }
 
 
-                const success =
-                  document.getElementById(
-                    "success"
-                  );
 
-                if (success) {
+                // ==================================
+                // SUCCESS
+                // ==================================
 
-                  success.style.display =
+                if (successBox) {
+
+                  successBox.style.display =
                     "block";
 
-                  success.innerHTML = `
-                    <b>Booking confirmed!</b><br>
+                  successBox.innerHTML = `
+                    <strong>
+                      Booking confirmed!
+                    </strong>
+                    <br>
+                    Your payment was successful.
+                    <br>
                     Booking ID:
-                    ${verification.bookingId || order.bookingId}
+                    <strong>
+                      ${
+                        verification.bookingId ||
+                        order.bookingId
+                      }
+                    </strong>
                   `;
+
                 }
+
+
 
                 form.reset();
 
-                if (button) {
+                updateBookingAmount();
 
-                  button.disabled =
+
+
+                if (payButton) {
+
+                  payButton.disabled =
                     false;
 
-                  button.textContent =
+                  payButton.textContent =
                     "Pay & Book Cleaning";
+
                 }
 
               } catch (error) {
 
-                alert(
-                  error.message
+                console.error(
+                  "Payment verification error:",
+                  error
                 );
 
-                if (button) {
 
-                  button.disabled =
+
+                if (errorBox) {
+
+                  errorBox.style.display =
+                    "block";
+
+                  errorBox.textContent =
+                    error.message;
+
+                }
+
+
+
+                if (payButton) {
+
+                  payButton.disabled =
                     false;
 
-                  button.textContent =
+                  payButton.textContent =
                     "Pay & Book Cleaning";
+
                 }
+
               }
+
             }
+
         };
 
 
+
         const razorpay =
-          new Razorpay(options);
+          new window.Razorpay(
+            options
+          );
+
 
 
         razorpay.on(
           "payment.failed",
-          function () {
+          function (paymentError) {
 
-            alert(
-              "Payment failed. Please try again."
+            console.error(
+              "Razorpay payment failed:",
+              paymentError
             );
 
-            if (button) {
 
-              button.disabled =
+
+            if (errorBox) {
+
+              errorBox.style.display =
+                "block";
+
+              errorBox.textContent =
+                "Payment failed. Please try again.";
+
+            }
+
+
+
+            if (payButton) {
+
+              payButton.disabled =
                 false;
 
-              button.textContent =
+              payButton.textContent =
                 "Pay & Book Cleaning";
+
             }
+
           }
         );
 
 
+
         razorpay.open();
+
+
 
       } catch (error) {
 
         console.error(
-          "Booking error:",
+          "VSH booking error:",
           error
         );
 
-        alert(
-          error.message ||
-          "Something went wrong while starting payment."
-        );
 
-        if (button) {
 
-          button.disabled =
+        if (errorBox) {
+
+          errorBox.style.display =
+            "block";
+
+          errorBox.textContent =
+            error.message;
+
+        }
+
+
+
+        if (payButton) {
+
+          payButton.disabled =
             false;
 
-          button.textContent =
+          payButton.textContent =
             "Pay & Book Cleaning";
+
         }
+
       }
 
     }
+
   );
 
 });
