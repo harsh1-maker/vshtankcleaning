@@ -3,149 +3,195 @@
 
 <head>
 <meta charset="utf-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1"
->
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>VSH Tank Cleaning | Professional Water Tank Cleaning</title>
 
 <meta
-  name="description"
-  content="Professional overhead and underground water tank cleaning. Book VSH Tank Cleaning online."
+name="description"
+content="Professional overhead and underground water tank cleaning by VSH Tank Cleaning. Get transparent pricing and book online."
 >
 
 <link rel="stylesheet" href="styles.css">
 
 <style>
 
-/* ==========================================
-   HOMEPAGE ENHANCEMENTS
-========================================== */
+/* =========================================================
+   VSH LIVELY HOMEPAGE
+========================================================= */
 
 :root {
-  --vsh-blue: #0877f9;
-  --vsh-blue-dark: #0456c9;
-  --vsh-blue-light: #eaf5ff;
-  --vsh-dark: #102033;
-  --vsh-muted: #61748b;
+  --blue: #0877f9;
+  --blue2: #0057d9;
+  --navy: #061b38;
+  --cyan: #23c8ff;
+  --light: #f3f9ff;
+  --text: #10233d;
+  --muted: #647891;
+  --green: #19c86b;
+  --white: #ffffff;
 }
 
 
-/* ==========================================
+/* =========================================================
+   BASE
+========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
    TOP BAR
-========================================== */
+========================================================= */
 
 .topbar {
   background:
     linear-gradient(
       90deg,
-      #061a36,
-      #0877f9,
-      #061a36
+      #031b3b 0%,
+      #0877f9 50%,
+      #031b3b 100%
     );
 
   color: white;
+
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 800;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.12);
 }
 
 .topbar .container {
   min-height: 38px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 
-/* ==========================================
-   NAVIGATION
-========================================== */
+/* =========================================================
+   NAV
+========================================================= */
 
 .nav {
-  background: rgba(255,255,255,.94);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid #e8eef5;
+  background: rgba(255,255,255,.93);
+
+  backdrop-filter: blur(18px);
+
+  border-bottom:
+    1px solid #e4edf6;
+
   position: sticky;
+
   top: 0;
-  z-index: 100;
+
+  z-index: 1000;
 }
 
 .nav-inner {
-  min-height: 74px;
+  min-height: 76px;
 }
 
 .logo {
+  color: var(--navy);
+
   font-weight: 950;
+
   font-size: 20px;
-  color: var(--vsh-dark);
+
   text-decoration: none;
+
   display: flex;
+
   align-items: center;
+
   gap: 10px;
 }
 
 .logo-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
+  width: 40px;
+  height: 40px;
+
+  border-radius: 13px;
 
   display: grid;
   place-items: center;
 
+  color: white;
+
+  font-weight: 950;
+
   background:
     linear-gradient(
-      135deg,
+      145deg,
       #0877f9,
-      #0456c9
+      #003f9e
     );
 
-  color: white;
-  font-weight: 950;
   box-shadow:
-    0 8px 24px rgba(8,119,249,.28);
+    0 8px 25px rgba(8,119,249,.35);
 }
 
 .nav-links a {
+  font-weight: 750;
+
   transition:
     color .2s ease,
     transform .2s ease;
 }
 
 .nav-links a:hover {
-  color: var(--vsh-blue);
-  transform: translateY(-1px);
+  color: var(--blue);
+
+  transform:
+    translateY(-1px);
 }
 
 .nav-actions {
   display: flex;
+
   align-items: center;
-  gap: 10px;
+
+  gap: 12px;
 }
 
 .lang {
-  color: #61748b;
+  color: var(--muted);
+
   font-weight: 800;
+
   text-decoration: none;
 }
 
 .book-btn {
+  color: white !important;
+
   background:
     linear-gradient(
       135deg,
       #0877f9,
-      #0456c9
+      #0055cf
     );
 
-  color: white !important;
-  padding: 12px 20px;
   border-radius: 999px;
+
+  padding:
+    12px 21px;
+
+  font-weight: 950;
+
   text-decoration: none;
-  font-weight: 900;
 
   box-shadow:
-    0 8px 25px rgba(8,119,249,.25);
+    0 10px 28px rgba(8,119,249,.28);
 
   transition:
     transform .2s ease,
@@ -153,366 +199,447 @@
 }
 
 .book-btn:hover {
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   box-shadow:
-    0 12px 30px rgba(8,119,249,.35);
+    0 15px 35px rgba(8,119,249,.4);
 }
 
 
-/* ==========================================
+/* =========================================================
    HERO
-========================================== */
+========================================================= */
 
 .hero {
+  min-height:
+    calc(100vh - 114px);
+
   position: relative;
+
   overflow: hidden;
 
   background:
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(8,119,249,.15),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 15% 70%,
-      rgba(8,119,249,.08),
-      transparent 30%
-    ),
     linear-gradient(
-      180deg,
-      #f7fbff 0%,
-      #ffffff 100%
+      135deg,
+      #031a37 0%,
+      #063c83 46%,
+      #0877f9 100%
     );
 
+  color: white;
+
   padding:
-    85px 0 80px;
+    72px 0 85px;
 }
+
+
+/* Large glow */
 
 .hero::before {
   content: "";
+
   position: absolute;
 
-  width: 500px;
-  height: 500px;
+  width: 650px;
+  height: 650px;
 
   border-radius: 50%;
 
   background:
-    rgba(8,119,249,.05);
+    rgba(35,200,255,.18);
 
-  right: -220px;
-  top: -220px;
+  filter:
+    blur(10px);
+
+  right: -260px;
+  top: -280px;
+}
+
+
+/* Bottom water glow */
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+
+  width: 850px;
+  height: 300px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.08);
+
+  left: -250px;
+  bottom: -180px;
+
+  transform:
+    rotate(-8deg);
+
+  filter:
+    blur(3px);
 }
 
 .hero-grid {
   position: relative;
-  z-index: 2;
+
+  z-index: 3;
 }
 
-.eyebrow {
-  color: var(--vsh-blue);
-  font-weight: 900;
-  letter-spacing: .04em;
+.hero-copy {
+  max-width: 700px;
+}
+
+.hero .eyebrow {
+  color: #8fe8ff;
+
+  font-weight: 950;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+  font-size: 12px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding:
+    9px 14px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.1);
+
+  border:
+    1px solid rgba(255,255,255,.18);
+
+  backdrop-filter: blur(10px);
 }
 
 .hero h1 {
-  max-width: 760px;
+  color: white;
 
   font-size:
-    clamp(42px, 6vw, 72px);
+    clamp(45px, 6.5vw, 78px);
 
-  line-height: .98;
+  line-height:
+    .94;
 
-  letter-spacing: -.045em;
+  letter-spacing:
+    -.055em;
 
   margin:
-    18px 0 22px;
+    20px 0;
 
-  color: #0d1d31;
+  max-width: 750px;
 }
 
-.hero p {
-  max-width: 680px;
+.hero h1 span {
+  color: #65e5ff;
+
+  text-shadow:
+    0 0 35px rgba(35,200,255,.35);
+}
+
+.hero-copy > p {
+  color:
+    rgba(255,255,255,.82);
+
+  max-width: 650px;
 
   font-size: 18px;
 
   line-height: 1.7;
 
-  color: #61748b;
+  margin-bottom: 27px;
 }
+
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
 
 .hero-buttons {
   display: flex;
-  flex-wrap: wrap;
+
   gap: 12px;
-  margin-top: 28px;
+
+  flex-wrap: wrap;
 }
 
-
-/* ==========================================
-   BUTTONS
-========================================== */
-
-.btn {
-  min-height: 48px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.hero .btn {
+  min-height: 52px;
 
   padding:
-    0 22px;
+    0 24px;
 
-  border-radius: 999px;
+  border-radius: 14px;
 
-  font-weight: 900;
+  font-weight: 950;
 
   text-decoration: none;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
 
   transition:
     transform .2s ease,
     box-shadow .2s ease;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
+.hero .btn:hover {
+  transform:
+    translateY(-3px);
 }
 
-.btn-primary {
-  background:
-    linear-gradient(
-      135deg,
-      #0877f9,
-      #0456c9
-    );
+.hero .btn-primary {
+  color: #073064;
 
-  color: white;
-
-  box-shadow:
-    0 12px 30px rgba(8,119,249,.28);
-}
-
-.btn-primary:hover {
-  box-shadow:
-    0 16px 35px rgba(8,119,249,.38);
-}
-
-.btn-outline {
   background: white;
 
-  color: #0877f9;
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.18);
+}
+
+.hero .btn-primary:hover {
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.25);
+}
+
+.hero .btn-outline {
+  color: white;
 
   border:
-    1px solid #b9d9fb;
+    1px solid rgba(255,255,255,.35);
+
+  background:
+    rgba(255,255,255,.09);
+
+  backdrop-filter:
+    blur(10px);
 }
 
-.btn-outline:hover {
-  border-color: #0877f9;
-}
 
-
-/* ==========================================
-   HERO CONTACT BUTTONS
-========================================== */
+/* =========================================================
+   CONTACT CTAS
+========================================================= */
 
 .contact-cta {
   display: flex;
+
   gap: 10px;
+
   flex-wrap: wrap;
-  margin-top: 14px;
+
+  margin-top: 13px;
 }
 
-.whatsapp-btn,
-.call-btn {
+.contact-cta a {
+  min-height: 46px;
+
+  padding:
+    0 18px;
+
+  border-radius: 12px;
+
   display: inline-flex;
+
   align-items: center;
+
   gap: 9px;
-
-  min-height: 48px;
-
-  padding: 0 19px;
-
-  border-radius: 999px;
-
-  text-decoration: none;
 
   font-weight: 900;
 
+  text-decoration: none;
+
   transition:
-    transform .2s ease,
-    box-shadow .2s ease;
+    transform .2s ease;
+}
+
+.contact-cta a:hover {
+  transform:
+    translateY(-2px);
 }
 
 .whatsapp-btn {
-  background: #20c76a;
   color: white;
 
+  background:
+    #19c86b;
+
   box-shadow:
-    0 10px 25px rgba(32,199,106,.22);
+    0 10px 25px rgba(25,200,107,.25);
 }
 
 .call-btn {
-  background: white;
-  color: #0877f9;
+  color: white;
 
-  border: 1px solid #c8def5;
+  background:
+    rgba(255,255,255,.11);
 
-  box-shadow:
-    0 8px 20px rgba(20,60,100,.07);
-}
-
-.whatsapp-btn:hover,
-.call-btn:hover {
-  transform: translateY(-2px);
+  border:
+    1px solid rgba(255,255,255,.24);
 }
 
 
-/* ==========================================
-   TRUST CARDS
-========================================== */
+/* =========================================================
+   HERO TRUST
+========================================================= */
 
 .trust {
   display: grid;
 
   grid-template-columns:
-    repeat(4, minmax(0,1fr));
+    repeat(4,1fr);
 
-  gap: 12px;
+  gap: 10px;
 
-  margin-top: 38px;
+  margin-top: 37px;
 }
 
 .trust-card {
-  background: rgba(255,255,255,.9);
-
-  border:
-    1px solid #e4edf6;
+  padding: 15px;
 
   border-radius: 16px;
 
-  padding: 17px;
+  background:
+    rgba(255,255,255,.09);
 
-  box-shadow:
-    0 10px 30px rgba(22,55,90,.06);
+  border:
+    1px solid rgba(255,255,255,.14);
+
+  backdrop-filter:
+    blur(14px);
 }
 
 .trust-card b {
   display: block;
 
-  color: #0e233b;
+  color: white;
 
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .trust-card span {
   display: block;
 
+  color:
+    rgba(255,255,255,.62);
+
+  font-size: 11px;
+
   margin-top: 4px;
-
-  color: #71849a;
-
-  font-size: 12px;
-
-  line-height: 1.4;
 }
 
 
-/* ==========================================
+/* =========================================================
    HERO VISUAL
-========================================== */
+========================================================= */
 
 .hero-card {
-  min-height: 430px;
+  position: relative;
 
-  border-radius: 34px;
+  min-height: 510px;
+
+  border-radius: 38px;
 
   background:
     linear-gradient(
       145deg,
-      #0877f9 0%,
-      #0456c9 55%,
-      #062b62 100%
-    );
-
-  position: relative;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 35px 80px rgba(8,80,160,.24);
-}
-
-.hero-card::before {
-  content: "";
-
-  position: absolute;
-
-  width: 320px;
-  height: 320px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255,255,255,.09);
-
-  top: -130px;
-  right: -100px;
-}
-
-.hero-card::after {
-  content: "";
-
-  position: absolute;
-
-  width: 220px;
-  height: 220px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255,255,255,.07);
-
-  bottom: -100px;
-  left: -80px;
-}
-
-.tank-visual {
-  height: 100%;
-
-  min-height: 430px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  position: relative;
-}
-
-.tank {
-  width: 245px;
-  height: 180px;
-
-  border-radius:
-    30px 30px 45px 45px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #f5fbff,
-      #bcd9ef
+      rgba(255,255,255,.18),
+      rgba(255,255,255,.05)
     );
 
   border:
-    7px solid rgba(255,255,255,.85);
+    1px solid rgba(255,255,255,.2);
+
+  backdrop-filter:
+    blur(20px);
 
   box-shadow:
-    inset 0 -25px 50px rgba(32,91,145,.18),
-    0 30px 55px rgba(0,0,0,.25);
+    inset 0 1px rgba(255,255,255,.18),
+    0 35px 80px rgba(0,0,0,.22);
 
-  position: relative;
-  z-index: 3;
+  overflow: hidden;
+}
+
+
+/* Water rings */
+
+.water-ring {
+  position: absolute;
+
+  border:
+    2px solid rgba(255,255,255,.18);
+
+  border-radius: 50%;
+
+  transform:
+    translate(-50%,-50%);
+
+  left: 50%;
+  top: 58%;
+}
+
+.ring1 {
+  width: 470px;
+  height: 470px;
+}
+
+.ring2 {
+  width: 360px;
+  height: 360px;
+}
+
+.ring3 {
+  width: 250px;
+  height: 250px;
+}
+
+
+/* Tank */
+
+.tank {
+  position: absolute;
+
+  left: 50%;
+  top: 54%;
+
+  transform:
+    translate(-50%,-50%);
+
+  width: 270px;
+  height: 205px;
+
+  border-radius:
+    35px 35px 48px 48px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #c9e6f8 45%,
+      #8db9d7 100%
+    );
+
+  border:
+    7px solid rgba(255,255,255,.8);
+
+  box-shadow:
+    inset 0 -35px 60px rgba(16,79,126,.18),
+    0 35px 55px rgba(0,0,0,.28);
+
+  z-index: 4;
 }
 
 .tank::before {
@@ -520,20 +647,25 @@
 
   position: absolute;
 
-  width: 130px;
-  height: 28px;
+  width: 145px;
+  height: 32px;
 
   left: 50%;
-  top: -18px;
+  top: -22px;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
   border-radius: 50%;
 
-  background: #e9f6ff;
+  background:
+    #eaf8ff;
 
   border:
     6px solid rgba(255,255,255,.9);
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.1);
 }
 
 .tank::after {
@@ -543,168 +675,409 @@
 
   left: 18px;
   right: 18px;
-  bottom: 24px;
 
-  height: 55px;
+  bottom: 25px;
+
+  height: 68px;
 
   border-radius: 50%;
 
   background:
     linear-gradient(
       180deg,
-      rgba(8,119,249,.15),
-      rgba(8,119,249,.38)
+      rgba(35,200,255,.25),
+      rgba(8,119,249,.55)
     );
+
+  box-shadow:
+    inset 0 10px 15px rgba(255,255,255,.2);
 }
 
-.spark {
-  position: absolute;
 
-  width: 8px;
-  height: 8px;
+/* Bubbles */
+
+.bubble {
+  position: absolute;
 
   border-radius: 50%;
 
-  background: white;
+  border:
+    2px solid rgba(255,255,255,.5);
 
-  opacity: .8;
+  background:
+    rgba(255,255,255,.12);
 
   box-shadow:
-    0 0 20px white;
+    inset 3px 3px 7px rgba(255,255,255,.18),
+    0 0 25px rgba(255,255,255,.1);
+
+  z-index: 5;
 }
 
-.s1 {
-  top: 25%;
-  left: 22%;
+.b1 {
+  width: 34px;
+  height: 34px;
+
+  left: 18%;
+  top: 28%;
 }
 
-.s2 {
-  top: 35%;
-  right: 20%;
+.b2 {
+  width: 17px;
+  height: 17px;
+
+  right: 21%;
+  top: 24%;
 }
 
-.s3 {
-  bottom: 25%;
-  left: 28%;
+.b3 {
+  width: 26px;
+  height: 26px;
+
+  right: 17%;
+  bottom: 28%;
+}
+
+.b4 {
+  width: 12px;
+  height: 12px;
+
+  left: 25%;
+  bottom: 26%;
 }
 
 
-/* ==========================================
-   SECTIONS
-========================================== */
+/* Floating badge */
+
+.hero-badge {
+  position: absolute;
+
+  z-index: 10;
+
+  left: 22px;
+  bottom: 25px;
+
+  padding:
+    15px 17px;
+
+  border-radius: 17px;
+
+  background:
+    white;
+
+  color:
+    #10233d;
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.2);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+}
+
+.hero-badge-icon {
+  width: 39px;
+  height: 39px;
+
+  border-radius: 12px;
+
+  display: grid;
+  place-items: center;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0877f9,
+      #00a8ff
+    );
+}
+
+.hero-badge strong {
+  display: block;
+
+  font-size: 14px;
+}
+
+.hero-badge small {
+  color: #6b7d92;
+
+  display: block;
+
+  margin-top: 2px;
+}
+
+
+/* =========================================================
+   WAVE BREAK
+========================================================= */
+
+.wave {
+  height: 75px;
+
+  margin-top: -1px;
+
+  background:
+    white;
+
+  clip-path:
+    ellipse(65% 55% at 50% 100%);
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-section {
+  margin-top: -25px;
+
+  position: relative;
+
+  z-index: 10;
+}
+
+.stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  background: white;
+
+  border:
+    1px solid #e1ebf5;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 25px 70px rgba(15,53,90,.1);
+
+  overflow: hidden;
+}
+
+.stat {
+  padding: 27px;
+
+  text-align: center;
+
+  border-right:
+    1px solid #e9f0f7;
+}
+
+.stat:last-child {
+  border-right: 0;
+}
+
+.stat strong {
+  display: block;
+
+  font-size: 32px;
+
+  font-weight: 950;
+
+  color: var(--blue);
+}
+
+.stat span {
+  color: var(--muted);
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
 
 .section {
   padding:
-    90px 0;
+    95px 0;
 }
 
 .section-soft {
   background:
-    #f6faff;
+    linear-gradient(
+      180deg,
+      #f5faff,
+      #eef7ff
+    );
 }
 
 .section-head {
-  margin-bottom: 38px;
+  margin-bottom: 40px;
+}
+
+.section-head .eyebrow {
+  color: var(--blue);
+
+  font-weight: 950;
+
+  text-transform: uppercase;
+
+  font-size: 12px;
+
+  letter-spacing: .08em;
 }
 
 .section-head h2 {
   font-size:
-    clamp(32px, 4vw, 48px);
+    clamp(34px,4.5vw,54px);
 
   letter-spacing:
-    -.035em;
+    -.045em;
 
-  color: #102033;
+  color:
+    var(--text);
 
-  margin-top: 10px;
+  line-height: 1;
+
+  margin:
+    12px 0;
 }
 
 .section-head p {
-  color: #61748b;
+  color:
+    var(--muted);
 
-  line-height: 1.7;
+  line-height:
+    1.7;
+
+  max-width:
+    700px;
 }
 
 
-/* ==========================================
-   CARDS
-========================================== */
+/* =========================================================
+   SERVICE CARDS
+========================================================= */
 
 .cards {
   display: grid;
 
   grid-template-columns:
-    repeat(3, minmax(0,1fr));
+    repeat(3,1fr);
 
-  gap: 18px;
+  gap: 20px;
 }
 
-.card,
-.review {
-  background: white;
+.card {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    white;
 
   border:
-    1px solid #e4edf6;
+    1px solid #e0ebf6;
 
-  border-radius: 22px;
+  border-radius: 25px;
 
-  padding: 28px;
+  padding: 30px;
 
   box-shadow:
-    0 12px 40px rgba(19,55,91,.06);
+    0 15px 45px rgba(22,60,100,.07);
 
   transition:
     transform .25s ease,
     box-shadow .25s ease;
 }
 
-.card:hover,
-.review:hover {
-  transform: translateY(-5px);
+.card::after {
+  content: "";
 
-  box-shadow:
-    0 20px 50px rgba(19,55,91,.1);
-}
+  position: absolute;
 
-.card .icon {
-  width: 48px;
-  height: 48px;
+  width: 120px;
+  height: 120px;
 
-  border-radius: 14px;
-
-  display: grid;
-  place-items: center;
+  border-radius: 50%;
 
   background:
     #eaf5ff;
 
-  color: #0877f9;
+  right: -55px;
+  top: -55px;
+}
+
+.card:hover {
+  transform:
+    translateY(-8px);
+
+  box-shadow:
+    0 25px 60px rgba(22,60,100,.13);
+}
+
+.card .icon {
+  position: relative;
+
+  z-index: 2;
+
+  width: 56px;
+  height: 56px;
+
+  border-radius: 17px;
+
+  display: grid;
+  place-items: center;
+
+  color: white;
 
   font-weight: 950;
 
-  margin-bottom: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #0877f9,
+      #00a8ff
+    );
+
+  box-shadow:
+    0 12px 25px rgba(8,119,249,.25);
+
+  margin-bottom: 21px;
 }
 
 .card h3 {
-  color: #102033;
+  position: relative;
+
+  z-index: 2;
+
+  color:
+    var(--text);
+
+  font-size: 20px;
 }
 
-.card p,
-.review p {
-  color: #61748b;
-  line-height: 1.65;
+.card p {
+  position: relative;
+
+  z-index: 2;
+
+  color:
+    var(--muted);
+
+  line-height:
+    1.7;
 }
 
 
-/* ==========================================
+/* =========================================================
    PROCESS
-========================================== */
+========================================================= */
 
 .steps {
   display: grid;
 
   grid-template-columns:
-    repeat(5, minmax(0,1fr));
+    repeat(5,1fr);
 
   gap: 14px;
 }
@@ -713,42 +1086,55 @@
   background: white;
 
   border:
-    1px solid #e4edf6;
+    1px solid #e0ebf6;
 
-  border-radius: 20px;
+  border-radius: 22px;
 
   padding: 23px;
+
+  transition:
+    transform .2s ease;
+}
+
+.step:hover {
+  transform:
+    translateY(-5px);
 }
 
 .step-num {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
 
   border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  color: white;
+
+  font-weight: 950;
 
   background:
     linear-gradient(
       135deg,
       #0877f9,
-      #0456c9
+      #00b4ff
     );
 
-  color: white;
+  box-shadow:
+    0 10px 25px rgba(8,119,249,.25);
 
-  display: grid;
-  place-items: center;
-
-  font-weight: 950;
-
-  margin-bottom: 16px;
+  margin-bottom: 17px;
 }
 
 .step h3 {
+  color: var(--text);
+
   font-size: 17px;
 }
 
 .step p {
-  color: #61748b;
+  color: var(--muted);
 
   font-size: 14px;
 
@@ -756,9 +1142,9 @@
 }
 
 
-/* ==========================================
+/* =========================================================
    CTA
-========================================== */
+========================================================= */
 
 .cta {
   position: relative;
@@ -766,94 +1152,185 @@
   overflow: hidden;
 
   padding:
-    55px 60px;
+    65px;
 
-  border-radius: 30px;
+  border-radius:
+    32px;
 
   color: white;
 
   background:
     linear-gradient(
-      135deg,
-      #0877f9,
-      #0456c9 55%,
-      #062b62
+      120deg,
+      #031a37,
+      #0752ad 50%,
+      #0877f9
     );
 
   box-shadow:
-    0 30px 70px rgba(8,100,210,.22);
+    0 30px 80px rgba(8,90,180,.22);
 }
 
-.cta::after {
+.cta::before {
   content: "";
 
   position: absolute;
 
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
 
   border-radius: 50%;
 
   background:
-    rgba(255,255,255,.08);
+    rgba(35,200,255,.18);
 
-  right: -120px;
-  top: -150px;
+  right: -100px;
+  top: -170px;
 }
 
 .cta h2 {
-  font-size: 38px;
-
   position: relative;
-  z-index: 2;
-}
 
-.cta p {
-  max-width: 700px;
-
-  color: rgba(255,255,255,.82);
-
-  line-height: 1.7;
-
-  position: relative;
-  z-index: 2;
-}
-
-.cta .btn {
-  background: white;
-  color: #0877f9;
-
-  position: relative;
   z-index: 2;
 
-  margin-top: 10px;
-}
-
-
-/* ==========================================
-   REVIEWS
-========================================== */
-
-.stars {
-  color: #f5b400;
-
-  letter-spacing: 2px;
+  font-size:
+    clamp(32px,4vw,48px);
 
   margin-bottom: 12px;
 }
 
+.cta p {
+  position: relative;
 
-/* ==========================================
+  z-index: 2;
+
+  max-width: 720px;
+
+  color:
+    rgba(255,255,255,.78);
+
+  line-height: 1.7;
+}
+
+.cta-buttons {
+  position: relative;
+
+  z-index: 3;
+
+  display: flex;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+
+  margin-top: 25px;
+}
+
+.cta-buttons a {
+  min-height: 50px;
+
+  padding:
+    0 22px;
+
+  border-radius: 13px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-decoration: none;
+
+  font-weight: 950;
+}
+
+.cta-book {
+  background: white;
+
+  color: #0754ad;
+}
+
+.cta-whatsapp {
+  background: #19c86b;
+
+  color: white;
+}
+
+.cta-call {
+  background:
+    rgba(255,255,255,.12);
+
+  border:
+    1px solid rgba(255,255,255,.2);
+
+  color: white;
+}
+
+
+/* =========================================================
+   REVIEWS
+========================================================= */
+
+.review {
+  background: white;
+
+  border:
+    1px solid #e0ebf6;
+
+  border-radius: 24px;
+
+  padding: 29px;
+
+  box-shadow:
+    0 15px 45px rgba(22,60,100,.06);
+
+  transition:
+    transform .2s ease;
+}
+
+.review:hover {
+  transform:
+    translateY(-5px);
+}
+
+.stars {
+  color: #ffb400;
+
+  letter-spacing: 3px;
+
+  font-size: 17px;
+}
+
+.review p {
+  color: var(--muted);
+
+  line-height: 1.7;
+
+  margin:
+    14px 0 18px;
+}
+
+.review b {
+  color: var(--text);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
    FOOTER
-========================================== */
+========================================================= */
 
 .footer {
   background:
-    #07182d;
+    #04152c;
 
-  color: #a9bbcf;
+  color:
+    #9fb1c7;
 
-  padding-top: 65px;
+  padding-top:
+    70px;
 }
 
 .footer h3,
@@ -862,7 +1339,7 @@
 }
 
 .footer a {
-  color: #a9bbcf;
+  color: #9fb1c7;
 
   transition:
     color .2s ease;
@@ -876,26 +1353,29 @@
   border-top:
     1px solid rgba(255,255,255,.1);
 
-  margin-top: 45px;
+  margin-top:
+    50px;
 
   padding:
     20px 0;
 
-  font-size: 13px;
+  font-size:
+    13px;
 }
 
 
-/* ==========================================
-   FLOATING CONTACT BUTTONS
-========================================== */
+/* =========================================================
+   FLOATING CONTACT
+========================================================= */
 
 .floating-contact {
   position: fixed;
 
-  right: 22px;
-  bottom: 22px;
+  right: 20px;
 
-  z-index: 999;
+  bottom: 20px;
+
+  z-index: 2000;
 
   display: flex;
 
@@ -905,8 +1385,8 @@
 }
 
 .floating-contact a {
-  width: 56px;
-  height: 56px;
+  width: 59px;
+  height: 59px;
 
   border-radius: 50%;
 
@@ -922,7 +1402,7 @@
   font-size: 22px;
 
   box-shadow:
-    0 10px 28px rgba(0,0,0,.2);
+    0 12px 30px rgba(0,0,0,.22);
 
   transition:
     transform .2s ease;
@@ -930,39 +1410,34 @@
 
 .floating-contact a:hover {
   transform:
-    scale(1.08);
+    scale(1.1);
 }
 
 .floating-whatsapp {
-  background: #20c76a;
+  background:
+    #19c86b;
 }
 
 .floating-call {
-  background: #0877f9;
+  background:
+    #0877f9;
 }
 
 
-/* ==========================================
+/* =========================================================
    MOBILE
-========================================== */
+========================================================= */
 
-@media (max-width: 900px) {
-
-  .hero {
-    padding:
-      55px 0 60px;
-  }
+@media (max-width: 950px) {
 
   .hero-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
   }
 
   .hero-card {
-    min-height: 350px;
-  }
-
-  .tank-visual {
-    min-height: 350px;
+    min-height:
+      430px;
   }
 
   .trust {
@@ -970,8 +1445,23 @@
       repeat(2,1fr);
   }
 
+  .stats {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .stat:nth-child(2) {
+    border-right: 0;
+  }
+
+  .stat:nth-child(-n+2) {
+    border-bottom:
+      1px solid #e9f0f7;
+  }
+
   .cards {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
   }
 
   .steps {
@@ -1001,75 +1491,137 @@
   }
 
   .mobile-menu {
-    display: block;
+    display: block !important;
+  }
+
+  .hero {
+    padding:
+      52px 0 65px;
   }
 
   .hero h1 {
-    font-size: 43px;
+    font-size:
+      45px;
+  }
+
+  .hero-copy > p {
+    font-size:
+      16px;
   }
 
   .hero-buttons,
   .contact-cta {
-    flex-direction: column;
+    flex-direction:
+      column;
   }
 
-  .hero-buttons .btn,
+  .hero .btn,
   .contact-cta a {
     width: 100%;
   }
 
+  .hero-card {
+    min-height:
+      350px;
+
+    border-radius:
+      27px;
+  }
+
+  .tank {
+    width:
+      220px;
+
+    height:
+      165px;
+  }
+
+  .ring1 {
+    width:
+      330px;
+
+    height:
+      330px;
+  }
+
+  .ring2 {
+    width:
+      260px;
+
+    height:
+      260px;
+  }
+
+  .ring3 {
+    width:
+      190px;
+
+    height:
+      190px;
+  }
+
+  .hero-badge {
+    left:
+      15px;
+
+    bottom:
+      15px;
+  }
+
   .trust {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
+  }
+
+  .stats {
+    grid-template-columns:
+      1fr;
+  }
+
+  .stat {
+    border-right:
+      0;
+
+    border-bottom:
+      1px solid #e9f0f7;
+  }
+
+  .stat:last-child {
+    border-bottom:
+      0;
   }
 
   .steps {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
+  }
+
+  .section {
+    padding:
+      70px 0;
   }
 
   .cta {
     padding:
-      38px 25px;
+      40px 25px;
   }
 
-  .cta h2 {
-    font-size: 30px;
+  .cta-buttons {
+    flex-direction:
+      column;
+  }
+
+  .cta-buttons a {
+    width:
+      100%;
   }
 
   .floating-contact {
-    right: 16px;
-    bottom: 16px;
-  }
+    right:
+      15px;
 
-}
-
-
-/* Mobile menu button */
-
-.mobile-menu {
-  display: none;
-
-  border: 0;
-
-  background:
-    #eaf5ff;
-
-  color:
-    #0877f9;
-
-  border-radius: 10px;
-
-  padding:
-    9px 12px;
-
-  font-size: 20px;
-
-  cursor: pointer;
-}
-
-@media (max-width: 650px) {
-
-  .mobile-menu {
-    display: block;
+    bottom:
+      15px;
   }
 
 }
@@ -1082,16 +1634,16 @@
 <body>
 
 
-<!-- ==========================================
+<!-- =====================================================
      TOP BAR
-========================================== -->
+====================================================== -->
 
 <div class="topbar">
 
   <div class="container">
 
     <span>
-      Professional Water Tank Cleaning
+      💧 Professional Water Tank Cleaning
     </span>
 
     <span>
@@ -1104,9 +1656,9 @@
 
 
 
-<!-- ==========================================
+<!-- =====================================================
      NAVIGATION
-========================================== -->
+====================================================== -->
 
 <nav class="nav">
 
@@ -1165,10 +1717,10 @@
       </a>
 
       <a
-        class="btn btn-primary"
+        class="book-btn"
         href="pricing.html#book"
       >
-        Book Now
+        Book Now →
       </a>
 
     </div>
@@ -1188,33 +1740,31 @@
 
 
 
-<!-- ==========================================
+<!-- =====================================================
      HERO
-========================================== -->
+====================================================== -->
 
 <header class="hero">
 
   <div class="container hero-grid">
 
-    <div>
+    <div class="hero-copy">
 
       <span class="eyebrow">
-        ✓ Trusted tank cleaning service
+        ✓ Trusted professional cleaning
       </span>
 
 
       <h1>
-        Professional Water Tank Cleaning Services
+        Cleaner Tanks.
+        <span>Cleaner Water.</span>
       </h1>
 
 
       <p>
-        Deep cleaning for overhead and underground water tanks with a thorough drain, sludge removal, pressure wash, scrubbing and disinfection process.
+        Professional overhead and underground water tank cleaning with sludge removal, pressure washing, scrubbing and disinfection — done properly from start to finish.
       </p>
 
-
-
-      <!-- PRIMARY CTA -->
 
       <div class="hero-buttons">
 
@@ -1229,14 +1779,13 @@
           class="btn btn-outline"
           href="pricing.html"
         >
-          Check Cleaning Prices
+          View Prices
         </a>
 
       </div>
 
 
-
-      <!-- CONTACT CTA -->
+      <!-- CONTACT -->
 
       <div class="contact-cta">
 
@@ -1246,8 +1795,7 @@
           target="_blank"
           rel="noopener"
         >
-          <span>◉</span>
-          WhatsApp Us
+          💬 WhatsApp Us
         </a>
 
 
@@ -1255,15 +1803,13 @@
           class="call-btn"
           href="tel:+919599057079"
         >
-          <span>☎</span>
-          Call Now
+          ☎ Call 9599057079
         </a>
 
       </div>
 
 
-
-      <!-- TRUST CARDS -->
+      <!-- TRUST -->
 
       <div class="trust">
 
@@ -1274,7 +1820,7 @@
           </b>
 
           <span>
-            Overhead tank cleaning
+            Overhead cleaning
           </span>
 
         </div>
@@ -1313,7 +1859,7 @@
           </b>
 
           <span>
-            After-service handover
+            Service handover
           </span>
 
         </div>
@@ -1324,19 +1870,48 @@
 
 
 
-    <!-- HERO VISUAL -->
+    <!-- =================================================
+         HERO VISUAL
+    ================================================== -->
 
     <div class="hero-card">
 
-      <div class="tank-visual">
+      <div class="water-ring ring1"></div>
 
-        <div class="spark s1"></div>
+      <div class="water-ring ring2"></div>
 
-        <div class="spark s2"></div>
+      <div class="water-ring ring3"></div>
 
-        <div class="spark s3"></div>
 
-        <div class="tank"></div>
+      <div class="bubble b1"></div>
+
+      <div class="bubble b2"></div>
+
+      <div class="bubble b3"></div>
+
+      <div class="bubble b4"></div>
+
+
+      <div class="tank"></div>
+
+
+      <div class="hero-badge">
+
+        <div class="hero-badge-icon">
+          ✓
+        </div>
+
+        <div>
+
+          <strong>
+            Deep Clean Process
+          </strong>
+
+          <small>
+            Wash • Scrub • Disinfect
+          </small>
+
+        </div>
 
       </div>
 
@@ -1348,9 +1923,78 @@
 
 
 
-<!-- ==========================================
+<!-- =====================================================
+     STATS
+====================================================== -->
+
+<div class="stats-section">
+
+  <div class="container">
+
+    <div class="stats">
+
+      <div class="stat">
+
+        <strong>
+          ₹499+
+        </strong>
+
+        <span>
+          Starting price
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          5-Step
+        </strong>
+
+        <span>
+          Cleaning process
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          2 Types
+        </strong>
+
+        <span>
+          Overhead & underground
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          100%
+        </strong>
+
+        <span>
+          Transparent pricing
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
      WHY VSH
-========================================== -->
+====================================================== -->
 
 <section class="section">
 
@@ -1358,25 +2002,19 @@
 
     <div class="section-head">
 
-      <div>
+      <span class="eyebrow">
+        Why VSH
+      </span>
 
-        <span class="eyebrow">
-          Why VSH
-        </span>
-
-        <h2>
-          A cleaner tank starts with a proper process.
-        </h2>
-
-      </div>
-
+      <h2>
+        A proper clean makes the difference.
+      </h2>
 
       <p>
-        We focus on the parts that matter: removing settled sludge, cleaning hard-to-reach surfaces and leaving the tank ready for use.
+        We don't just rinse the tank. Our process focuses on sludge, dirt, walls, floor and final disinfection.
       </p>
 
     </div>
-
 
 
     <div class="cards">
@@ -1392,7 +2030,7 @@
         </h3>
 
         <p>
-          Loose dirt and settled sludge are removed before washing.
+          Settled dirt and sludge are removed before the washing stage so the tank can actually be cleaned properly.
         </p>
 
       </div>
@@ -1405,11 +2043,11 @@
         </div>
 
         <h3>
-          Pressure washing
+          Pressure wash + scrub
         </h3>
 
         <p>
-          Tank walls and floor are pressure-washed and scrubbed thoroughly.
+          Tank walls and floor are thoroughly washed and scrubbed to remove accumulated grime and deposits.
         </p>
 
       </div>
@@ -1422,11 +2060,11 @@
         </div>
 
         <h3>
-          Disinfection
+          Final disinfection
         </h3>
 
         <p>
-          A cleaning and disinfection step is included in the service process.
+          The cleaning process includes a final disinfection step before the tank is handed back.
         </p>
 
       </div>
@@ -1439,9 +2077,9 @@
 
 
 
-<!-- ==========================================
+<!-- =====================================================
      PROCESS
-========================================== -->
+====================================================== -->
 
 <section
   class="section section-soft"
@@ -1452,25 +2090,19 @@
 
     <div class="section-head">
 
-      <div>
+      <span class="eyebrow">
+        Our process
+      </span>
 
-        <span class="eyebrow">
-          Our process
-        </span>
-
-        <h2>
-          5 steps. No shortcuts.
-        </h2>
-
-      </div>
-
+      <h2>
+        5 steps. No shortcuts.
+      </h2>
 
       <p>
-        A simple, visible cleaning workflow designed to make the service easy to understand.
+        A straightforward cleaning workflow from empty tank to final handover.
       </p>
 
     </div>
-
 
 
     <div class="steps">
@@ -1482,7 +2114,7 @@
         </div>
 
         <h3>
-          Drain the tank
+          Drain
         </h3>
 
         <p>
@@ -1520,7 +2152,7 @@
         </h3>
 
         <p>
-          Surfaces are pressure-washed and scrubbed.
+          Surfaces are pressure-washed and scrubbed thoroughly.
         </p>
 
       </div>
@@ -1537,7 +2169,7 @@
         </h3>
 
         <p>
-          The tank receives the final cleaning/disinfection treatment.
+          The final cleaning and disinfection treatment is completed.
         </p>
 
       </div>
@@ -1554,7 +2186,7 @@
         </h3>
 
         <p>
-          We finish with a clean tank and service confirmation.
+          The cleaned tank is handed back with service confirmation.
         </p>
 
       </div>
@@ -1567,9 +2199,127 @@
 
 
 
-<!-- ==========================================
-     BOOKING CTA
-========================================== -->
+<!-- =====================================================
+     SERVICES
+====================================================== -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <span class="eyebrow">
+        Tank cleaning
+      </span>
+
+      <h2>
+        Cleaning for the tanks you actually have.
+      </h2>
+
+      <p>
+        Choose the tank type and capacity that fits your property.
+      </p>
+
+    </div>
+
+
+    <div class="cards">
+
+      <div class="card">
+
+        <div class="icon">
+          ↑
+        </div>
+
+        <h3>
+          Overhead Tank Cleaning
+        </h3>
+
+        <p>
+          Professional cleaning for rooftop and overhead water storage tanks.
+        </p>
+
+        <a
+          href="pricing.html"
+          style="
+            color:#0877f9;
+            font-weight:900;
+            text-decoration:none;
+          "
+        >
+          View overhead pricing →
+        </a>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">
+          ↓
+        </div>
+
+        <h3>
+          Underground Tank Cleaning
+        </h3>
+
+        <p>
+          Deep cleaning for underground water tanks, including sludge removal and washing.
+        </p>
+
+        <a
+          href="pricing.html"
+          style="
+            color:#0877f9;
+            font-weight:900;
+            text-decoration:none;
+          "
+        >
+          View underground pricing →
+        </a>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">
+          +
+        </div>
+
+        <h3>
+          Multiple Tank Cleaning
+        </h3>
+
+        <p>
+          Cleaning more than one tank? Quantity discounts are automatically applied during booking.
+        </p>
+
+        <a
+          href="pricing.html#book"
+          style="
+            color:#0877f9;
+            font-weight:900;
+            text-decoration:none;
+          "
+        >
+          Calculate your price →
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+====================================================== -->
 
 <section
   class="section"
@@ -1581,21 +2331,43 @@
     <div class="cta">
 
       <h2>
-        Ready for a cleaner water tank?
+        Your tank deserves a proper clean.
       </h2>
 
 
       <p>
-        Check your price, choose a convenient date and time, and book online through secure Razorpay checkout.
+        Get your price, select your preferred date and time, and book your tank cleaning online.
       </p>
 
 
-      <a
-        class="btn"
-        href="pricing.html#book"
-      >
-        Book Tank Cleaning
-      </a>
+      <div class="cta-buttons">
+
+        <a
+          class="cta-book"
+          href="pricing.html#book"
+        >
+          Book Tank Cleaning →
+        </a>
+
+
+        <a
+          class="cta-whatsapp"
+          href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20a%20quote%20for%20tank%20cleaning."
+          target="_blank"
+          rel="noopener"
+        >
+          💬 WhatsApp Us
+        </a>
+
+
+        <a
+          class="cta-call"
+          href="tel:+919599057079"
+        >
+          ☎ Call Now
+        </a>
+
+      </div>
 
     </div>
 
@@ -1605,9 +2377,9 @@
 
 
 
-<!-- ==========================================
+<!-- =====================================================
      REVIEWS
-========================================== -->
+====================================================== -->
 
 <section
   class="section section-soft"
@@ -1618,20 +2390,19 @@
 
     <div class="section-head">
 
-      <div>
+      <span class="eyebrow">
+        Customer experience
+      </span>
 
-        <span class="eyebrow">
-          Customer experience
-        </span>
+      <h2>
+        Simple service. Clear experience.
+      </h2>
 
-        <h2>
-          What customers care about.
-        </h2>
-
-      </div>
+      <p>
+        A booking experience designed around clear pricing and a straightforward cleaning process.
+      </p>
 
     </div>
-
 
 
     <div class="cards">
@@ -1694,9 +2465,9 @@
 
 
 
-<!-- ==========================================
+<!-- =====================================================
      FOOTER
-========================================== -->
+====================================================== -->
 
 <footer class="footer">
 
@@ -1709,7 +2480,7 @@
       </h3>
 
       <p>
-        Professional water tank cleaning with a simple online booking experience.
+        Professional water tank cleaning with transparent pricing and easy online booking.
       </p>
 
     </div>
@@ -1764,7 +2535,7 @@
       </h4>
 
       <a href="tel:+919599057079">
-        Call VSH
+        ☎ 9599057079
       </a>
 
       <a
@@ -1772,7 +2543,7 @@
         target="_blank"
         rel="noopener"
       >
-        WhatsApp
+        💬 WhatsApp
       </a>
 
       <a href="mailto:hello@vshtankcleaning.com">
@@ -1782,7 +2553,6 @@
     </div>
 
   </div>
-
 
 
   <div class="container copyright">
@@ -1795,21 +2565,21 @@
 
 
 
-<!-- ==========================================
-     FLOATING WHATSAPP + CALL BUTTONS
-========================================== -->
+<!-- =====================================================
+     FLOATING CONTACT BUTTONS
+====================================================== -->
 
 <div class="floating-contact">
 
   <a
     class="floating-whatsapp"
-    href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20know%20more%20about%20tank%20cleaning."
+    href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20book%20a%20tank%20cleaning."
     target="_blank"
     rel="noopener"
     aria-label="WhatsApp VSH Tank Cleaning"
-    title="WhatsApp us"
+    title="WhatsApp VSH Tank Cleaning"
   >
-    ☘
+    💬
   </a>
 
 
@@ -1817,7 +2587,7 @@
     class="floating-call"
     href="tel:+919599057079"
     aria-label="Call VSH Tank Cleaning"
-    title="Call us"
+    title="Call VSH Tank Cleaning"
   >
     ☎
   </a>
