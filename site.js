@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tankTypeButtons =
     document.querySelectorAll("[data-tank-type]");
 
-  const capacityButtons =
-    document.querySelectorAll("[data-capacity]");
+  const capacityGrid =
+    document.querySelector(".capacity-grid");
 
   const quantityMinus =
     document.querySelector("[data-quantity-minus]");
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =====================================================
-  // CURRENT SELECTIONS
+  // STATE
   // =====================================================
 
   let currentTankType =
@@ -85,19 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return `₹${Number(amount).toLocaleString("en-IN")}`;
   }
 
-
-  function getCurrentPrice() {
-
-    return Number(
-      PRICES[currentTankType]?.[currentCapacity] || 0
-    );
-
-  }
-
-
-  // =====================================================
-  // UPDATE HIDDEN FORM VALUES
-  // =====================================================
 
   function syncHiddenFields() {
 
@@ -120,297 +107,202 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =====================================================
-  // UPDATE TANK TYPE
+  // BUILD CAPACITY BUTTONS
   // =====================================================
 
-  function updateTankType() {
+  function buildCapacityButtons() {
 
-    tankTypeButtons.forEach(button => {
+    if (!capacityGrid) return;
 
-      const type =
-        button.dataset.tankType;
-
-      button.classList.toggle(
-        "active",
-        type === currentTankType
+    const otherSizeCard =
+      capacityGrid.querySelector(
+        ".other-size-card"
       );
 
-    });
+    capacityGrid
+      .querySelectorAll(
+        ".capacity-card"
+      )
+      .forEach(card => card.remove());
 
-    // Reset to first available capacity
-    // whenever tank type changes.
 
-    const availableCapacities =
+    const capacities =
       Object.keys(
         PRICES[currentTankType] || {}
       );
 
-    if (
-      !availableCapacities.includes(
+
+    capacities.forEach(capacity => {
+
+      const price =
+        Number(
+          PRICES[currentTankType][capacity]
+        );
+
+
+      const card =
+        document.createElement("button");
+
+      card.type = "button";
+
+      card.className =
+        "capacity-card";
+
+      card.dataset.capacity =
+        capacity;
+
+
+      let label = "";
+
+      const litres =
+        Number(capacity);
+
+
+      if (litres === 500) {
+
+        label = "Up to 500 L";
+
+      } else if (litres === 1000) {
+
+        label = "501–1,000 L";
+
+      } else if (litres === 1500) {
+
+        label = "1,001–1,500 L";
+
+      } else if (litres === 2000) {
+
+        label = "1,501–2,000 L";
+
+      } else if (litres === 3000) {
+
+        label = "2,001–3,000 L";
+
+      } else if (litres === 5000) {
+
+        label = "3,001–5,000 L";
+
+      } else {
+
+        label =
+          `Up to ${litres.toLocaleString("en-IN")} L`;
+
+      }
+
+
+      // Keep the old displayed MRP style
+      // where possible.
+
+      let mrp = 0;
+
+      if (price === 499) mrp = 599;
+      else if (price === 599) mrp = 719;
+      else if (price === 799) mrp = 934;
+      else if (price === 999) mrp = 1199;
+      else if (price === 1099) mrp = 1299;
+      else if (price === 1299) mrp = 1499;
+      else if (price === 1999) mrp = 2499;
+
+
+      let savingHTML = "";
+
+      if (mrp > price) {
+
+        savingHTML = `
+          <del>${money(mrp)}</del>
+          <small>Save ${money(mrp - price)}</small>
+        `;
+
+      }
+
+
+      card.innerHTML = `
+        <span>
+          ${label}
+        </span>
+
+        <strong>
+          ${money(price)}
+        </strong>
+
+        ${savingHTML}
+      `;
+
+
+      card.addEventListener(
+        "click",
+        () => {
+
+          currentCapacity =
+            Number(capacity);
+
+          updateCapacityButtons();
+
+          syncHiddenFields();
+
+          updatePrice();
+
+        }
+      );
+
+
+      capacityGrid.insertBefore(
+        card,
+        otherSizeCard
+      );
+
+    });
+
+
+    // Make sure selected capacity exists
+    // for the selected tank type.
+
+    const validCapacity =
+      capacities.includes(
         String(currentCapacity)
-      )
-    ) {
+      );
+
+
+    if (!validCapacity) {
 
       currentCapacity =
-        Number(
-          availableCapacities[0] || 500
-        );
+        Number(capacities[0]);
 
     }
 
+
     updateCapacityButtons();
-
-    syncHiddenFields();
-
-    updatePrice();
 
   }
 
 
   // =====================================================
-  // UPDATE CAPACITY BUTTONS
+  // CAPACITY ACTIVE STATE
   // =====================================================
 
   function updateCapacityButtons() {
 
-    capacityButtons.forEach(button => {
+    if (!capacityGrid) return;
 
-      const capacity =
-        Number(button.dataset.capacity);
+    capacityGrid
+      .querySelectorAll(
+        ".capacity-card"
+      )
+      .forEach(card => {
 
-      const price =
-        Number(
-          PRICES[currentTankType]?.[capacity] || 0
+        card.classList.toggle(
+          "active",
+          Number(card.dataset.capacity) ===
+          currentCapacity
         );
 
-      // Active state
-
-      button.classList.toggle(
-        "active",
-        capacity === currentCapacity
-      );
-
-
-      // Update visible price
-
-      const priceElement =
-        button.querySelector("strong");
-
-      if (priceElement && price) {
-
-        priceElement.textContent =
-          money(price);
-
-      }
-
-
-      // Update saving text if a <small> exists
-
-      const smallElement =
-        button.querySelector("small");
-
-      const delElement =
-        button.querySelector("del");
-
-      if (
-        smallElement &&
-        delElement
-      ) {
-
-        const oldPrice =
-          Number(
-            delElement.textContent
-              .replace(/[₹,]/g, "")
-              .trim()
-          );
-
-        if (oldPrice > price) {
-
-          const saving =
-            oldPrice - price;
-
-          smallElement.textContent =
-            `Save ${money(saving)}`;
-
-        }
-
-      }
-
-    });
+      });
 
   }
 
 
   // =====================================================
-  // UPDATE QUANTITY
-  // =====================================================
-
-  function updateQuantity() {
-
-    if (currentQuantity < 1) {
-      currentQuantity = 1;
-    }
-
-    if (currentQuantity > 20) {
-      currentQuantity = 20;
-    }
-
-    if (quantityDisplay) {
-
-      quantityDisplay.textContent =
-        currentQuantity;
-
-    }
-
-    syncHiddenFields();
-
-    updatePrice();
-
-  }
-
-
-  // =====================================================
-  // UPDATE PRICE
-  // =====================================================
-
-  function updatePrice() {
-
-    const result =
-      calculateTotal(
-        currentTankType,
-        currentCapacity,
-        currentQuantity,
-        "online"
-      );
-
-
-    // Service subtotal
-
-    if (subtotalDisplay) {
-
-      subtotalDisplay.textContent =
-        money(result.subtotal);
-
-    }
-
-
-    // Quantity discount
-
-    if (discountAmountDisplay) {
-
-      if (result.quantityDiscount > 0) {
-
-        discountAmountDisplay.textContent =
-          `− ${money(
-            result.quantityDiscount
-          )}`;
-
-      } else {
-
-        discountAmountDisplay.textContent =
-          "₹0";
-
-      }
-
-    }
-
-
-    // Total
-
-    if (totalDisplay) {
-
-      totalDisplay.textContent =
-        money(result.total);
-
-    }
-
-
-    // Discount percentage
-
-    const discountPercent =
-      getDiscount(currentQuantity);
-
-
-    // Main discount message
-
-    if (discountText) {
-
-      const tankText =
-        currentQuantity === 1
-          ? "1 tank"
-          : `${currentQuantity} tanks`;
-
-      if (discountPercent === 0) {
-
-        discountText.innerHTML = `
-          <strong>
-            ${tankText} • No discount
-          </strong>
-        `;
-
-      } else {
-
-        discountText.innerHTML = `
-          <strong>
-            ${tankText} • ${discountPercent}% OFF
-          </strong>
-        `;
-
-      }
-
-    }
-
-
-    // Next discount message
-
-    if (addMoreText) {
-
-      if (currentQuantity === 1) {
-
-        addMoreText.textContent =
-          "Add 1 more tank → unlock 10% OFF";
-
-      } else if (currentQuantity === 2) {
-
-        addMoreText.textContent =
-          "Add 1 more tank → unlock 12% OFF";
-
-      } else if (currentQuantity === 3) {
-
-        addMoreText.textContent =
-          "Add 1 more tank → unlock 14% OFF";
-
-      } else if (currentQuantity === 4) {
-
-        addMoreText.textContent =
-          "Add 1 more tank → unlock 15% OFF";
-
-      } else {
-
-        addMoreText.textContent =
-          "Maximum quantity discount unlocked ✓";
-
-      }
-
-    }
-
-
-    // Update booking button
-
-    if (submitButton) {
-
-      submitButton.textContent =
-        `Pay Online & Save 5% — ${money(
-          result.total
-        )}`;
-
-    }
-
-  }
-
-
-  // =====================================================
-  // TANK TYPE CLICK
+  // TANK TYPE
   // =====================================================
 
   tankTypeButtons.forEach(button => {
@@ -422,30 +314,8 @@ document.addEventListener("DOMContentLoaded", () => {
         currentTankType =
           button.dataset.tankType;
 
-        updateTankType();
 
-      }
-    );
-
-  });
-
-
-  // =====================================================
-  // CAPACITY CLICK
-  // =====================================================
-
-  capacityButtons.forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        currentCapacity =
-          Number(
-            button.dataset.capacity
-          );
-
-        capacityButtons.forEach(
+        tankTypeButtons.forEach(
           item => {
 
             item.classList.toggle(
@@ -455,6 +325,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           }
         );
+
+
+        buildCapacityButtons();
 
         syncHiddenFields();
 
@@ -515,6 +388,173 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =====================================================
+  // QUANTITY UPDATE
+  // =====================================================
+
+  function updateQuantity() {
+
+    if (currentQuantity < 1) {
+      currentQuantity = 1;
+    }
+
+    if (currentQuantity > 20) {
+      currentQuantity = 20;
+    }
+
+
+    if (quantityDisplay) {
+
+      quantityDisplay.textContent =
+        currentQuantity;
+
+    }
+
+
+    syncHiddenFields();
+
+    updatePrice();
+
+  }
+
+
+  // =====================================================
+  // PRICE UPDATE
+  // =====================================================
+
+  function updatePrice() {
+
+    const result =
+      calculateTotal(
+        currentTankType,
+        currentCapacity,
+        currentQuantity,
+        "online"
+      );
+
+
+    // Subtotal
+
+    if (subtotalDisplay) {
+
+      subtotalDisplay.textContent =
+        money(result.subtotal);
+
+    }
+
+
+    // Quantity discount
+
+    if (discountAmountDisplay) {
+
+      if (
+        result.quantityDiscount > 0
+      ) {
+
+        discountAmountDisplay.textContent =
+          `− ${money(
+            result.quantityDiscount
+          )}`;
+
+      } else {
+
+        discountAmountDisplay.textContent =
+          "₹0";
+
+      }
+
+    }
+
+
+    // Total
+
+    if (totalDisplay) {
+
+      totalDisplay.textContent =
+        money(result.total);
+
+    }
+
+
+    // Discount text
+
+    const discountPercent =
+      getDiscount(
+        currentQuantity
+      );
+
+
+    if (discountText) {
+
+      if (discountPercent === 0) {
+
+        discountText.innerHTML = `
+          <strong>
+            ${currentQuantity} tank • No discount
+          </strong>
+        `;
+
+      } else {
+
+        discountText.innerHTML = `
+          <strong>
+            ${currentQuantity} tanks • ${discountPercent}% OFF
+          </strong>
+        `;
+
+      }
+
+    }
+
+
+    // Next discount
+
+    if (addMoreText) {
+
+      if (currentQuantity === 1) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 10% OFF";
+
+      } else if (currentQuantity === 2) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 12% OFF";
+
+      } else if (currentQuantity === 3) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 14% OFF";
+
+      } else if (currentQuantity === 4) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 15% OFF";
+
+      } else {
+
+        addMoreText.textContent =
+          "Maximum quantity discount unlocked ✓";
+
+      }
+
+    }
+
+
+    // Button
+
+    if (submitButton) {
+
+      submitButton.textContent =
+        `Pay Online & Save 5% — ${money(
+          result.total
+        )}`;
+
+    }
+
+  }
+
+
+  // =====================================================
   // FORM SUBMIT
   // =====================================================
 
@@ -527,6 +567,7 @@ document.addEventListener("DOMContentLoaded", () => {
       syncHiddenFields();
 
       updatePrice();
+
 
       if (bookingError) {
 
@@ -609,10 +650,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        // =================================================
-        // RAZORPAY
-        // =================================================
-
         if (!window.Razorpay) {
 
           throw new Error(
@@ -657,23 +694,6 @@ document.addEventListener("DOMContentLoaded", () => {
           },
 
 
-          notes: {
-
-            booking_id:
-              data.bookingId,
-
-            tank_type:
-              currentTankType,
-
-            capacity:
-              currentCapacity,
-
-            quantity:
-              currentQuantity
-
-          },
-
-
           theme: {
 
             color:
@@ -683,7 +703,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
           handler:
-            async function(paymentResponse) {
+            async function(
+              paymentResponse
+            ) {
 
               try {
 
@@ -700,12 +722,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                       body:
                         JSON.stringify({
-
                           ...paymentResponse,
-
                           bookingId:
                             data.bookingId
-
                         })
 
                     }
@@ -733,6 +752,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   data.bookingId,
                   data.amount / 100
                 );
+
 
               } catch (error) {
 
@@ -781,6 +801,7 @@ document.addEventListener("DOMContentLoaded", () => {
               "Payment failed. Please try again."
             );
 
+
             if (submitButton) {
 
               submitButton.disabled =
@@ -801,7 +822,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         showError(
           error.message ||
-          "Something went wrong. Please try again."
+          "Something went wrong."
         );
 
 
@@ -833,11 +854,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bookingError.textContent =
       `✕ ${message}`;
-
-    bookingError.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
 
   }
 
@@ -876,29 +892,41 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="booking-confirmation">
 
         <div>
-          <span>Booking ID</span>
+
+          <span>
+            Booking ID
+          </span>
 
           <strong>
             ${bookingId}
           </strong>
+
         </div>
 
 
         <div>
-          <span>Total Paid</span>
+
+          <span>
+            Total Paid
+          </span>
 
           <strong>
             ${money(amount)}
           </strong>
+
         </div>
 
 
         <div>
-          <span>Payment</span>
+
+          <span>
+            Payment
+          </span>
 
           <strong>
             Paid Online
           </strong>
+
         </div>
 
       </div>
@@ -926,20 +954,16 @@ document.addEventListener("DOMContentLoaded", () => {
     bookingSuccess.style.display =
       "block";
 
-
-    bookingSuccess.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-
   }
 
 
   // =====================================================
-  // INITIALIZE
+  // INITIAL LOAD
   // =====================================================
 
-  updateTankType();
+  buildCapacityButtons();
+
+  updateQuantity();
 
   syncHiddenFields();
 
