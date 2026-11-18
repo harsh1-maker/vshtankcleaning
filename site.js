@@ -1,6 +1,7 @@
 import {
   PRICES,
-  calculateTotal
+  calculateTotal,
+  getDiscount
 } from "./pricing-config.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,164 +10,513 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!form) return;
 
-  const tankType =
-    document.getElementById("tankType");
+  // =====================================================
+  // ELEMENTS
+  // =====================================================
 
-  const capacity =
-    document.getElementById("capacity");
+  const tankTypeButtons =
+    document.querySelectorAll("[data-tank-type]");
 
-  const quantity =
-    document.getElementById("quantity");
+  const capacityButtons =
+    document.querySelectorAll("[data-capacity]");
 
-  const unitPrice =
-    document.getElementById("unitPrice");
+  const quantityMinus =
+    document.querySelector("[data-quantity-minus]");
 
-  const subtotal =
-    document.getElementById("subtotal");
+  const quantityPlus =
+    document.querySelector("[data-quantity-plus]");
 
-  const quantityDiscount =
-    document.getElementById("quantityDiscount");
+  const quantityDisplay =
+    document.querySelector("[data-quantity]");
 
-  const onlineDiscount =
-    document.getElementById("onlineDiscount");
+  const discountText =
+    document.querySelector("[data-discount-text]");
 
-  const total =
-    document.getElementById("total");
+  const addMoreText =
+    document.querySelector("[data-add-more]");
 
-  const payButton =
-    document.getElementById("payButton");
+  const subtotalDisplay =
+    document.querySelector("[data-price-subtotal]");
 
-  const cashButton =
-    document.getElementById("cashButton");
+  const discountAmountDisplay =
+    document.querySelector("[data-discount-amount]");
+
+  const totalDisplay =
+    document.querySelector("[data-price-total]");
+
+  const selectedTankType =
+    document.getElementById("selectedTankType");
+
+  const selectedCapacity =
+    document.getElementById("selectedCapacity");
+
+  const selectedQuantity =
+    document.getElementById("selectedQuantity");
 
   const bookingError =
     document.getElementById("bookingError");
 
-  const success =
-    document.getElementById("success");
+  const bookingSuccess =
+    document.getElementById("bookingSuccess");
+
+  const submitButton =
+    form.querySelector('button[type="submit"]');
+
+
+  // =====================================================
+  // CURRENT SELECTIONS
+  // =====================================================
+
+  let currentTankType =
+    selectedTankType?.value || "overhead";
+
+  let currentCapacity =
+    Number(selectedCapacity?.value || 500);
+
+  let currentQuantity =
+    Number(selectedQuantity?.value || 1);
+
+
+  // =====================================================
+  // HELPERS
+  // =====================================================
 
   function money(amount) {
     return `₹${Number(amount).toLocaleString("en-IN")}`;
   }
 
-  function populateCapacity() {
 
-    const type = tankType.value;
+  function getCurrentPrice() {
 
-    const prices =
-      PRICES[type] || {};
+    return Number(
+      PRICES[currentTankType]?.[currentCapacity] || 0
+    );
 
-    capacity.innerHTML = "";
-
-    Object.keys(prices).forEach(value => {
-
-      const option =
-        document.createElement("option");
-
-      option.value = value;
-
-      option.textContent =
-        `${Number(value).toLocaleString("en-IN")} litres`;
-
-      capacity.appendChild(option);
-    });
-
-    calculatePrice();
   }
 
-  function getPaymentMethod() {
 
-    const selected =
-      document.querySelector(
-        'input[name="paymentMethod"]:checked'
+  // =====================================================
+  // UPDATE HIDDEN FORM VALUES
+  // =====================================================
+
+  function syncHiddenFields() {
+
+    if (selectedTankType) {
+      selectedTankType.value =
+        currentTankType;
+    }
+
+    if (selectedCapacity) {
+      selectedCapacity.value =
+        currentCapacity;
+    }
+
+    if (selectedQuantity) {
+      selectedQuantity.value =
+        currentQuantity;
+    }
+
+  }
+
+
+  // =====================================================
+  // UPDATE TANK TYPE
+  // =====================================================
+
+  function updateTankType() {
+
+    tankTypeButtons.forEach(button => {
+
+      const type =
+        button.dataset.tankType;
+
+      button.classList.toggle(
+        "active",
+        type === currentTankType
       );
 
-    return selected
-      ? selected.value
-      : "online";
+    });
+
+    // Reset to first available capacity
+    // whenever tank type changes.
+
+    const availableCapacities =
+      Object.keys(
+        PRICES[currentTankType] || {}
+      );
+
+    if (
+      !availableCapacities.includes(
+        String(currentCapacity)
+      )
+    ) {
+
+      currentCapacity =
+        Number(
+          availableCapacities[0] || 500
+        );
+
+    }
+
+    updateCapacityButtons();
+
+    syncHiddenFields();
+
+    updatePrice();
+
   }
 
-  function calculatePrice() {
+
+  // =====================================================
+  // UPDATE CAPACITY BUTTONS
+  // =====================================================
+
+  function updateCapacityButtons() {
+
+    capacityButtons.forEach(button => {
+
+      const capacity =
+        Number(button.dataset.capacity);
+
+      const price =
+        Number(
+          PRICES[currentTankType]?.[capacity] || 0
+        );
+
+      // Active state
+
+      button.classList.toggle(
+        "active",
+        capacity === currentCapacity
+      );
+
+
+      // Update visible price
+
+      const priceElement =
+        button.querySelector("strong");
+
+      if (priceElement && price) {
+
+        priceElement.textContent =
+          money(price);
+
+      }
+
+
+      // Update saving text if a <small> exists
+
+      const smallElement =
+        button.querySelector("small");
+
+      const delElement =
+        button.querySelector("del");
+
+      if (
+        smallElement &&
+        delElement
+      ) {
+
+        const oldPrice =
+          Number(
+            delElement.textContent
+              .replace(/[₹,]/g, "")
+              .trim()
+          );
+
+        if (oldPrice > price) {
+
+          const saving =
+            oldPrice - price;
+
+          smallElement.textContent =
+            `Save ${money(saving)}`;
+
+        }
+
+      }
+
+    });
+
+  }
+
+
+  // =====================================================
+  // UPDATE QUANTITY
+  // =====================================================
+
+  function updateQuantity() {
+
+    if (currentQuantity < 1) {
+      currentQuantity = 1;
+    }
+
+    if (currentQuantity > 20) {
+      currentQuantity = 20;
+    }
+
+    if (quantityDisplay) {
+
+      quantityDisplay.textContent =
+        currentQuantity;
+
+    }
+
+    syncHiddenFields();
+
+    updatePrice();
+
+  }
+
+
+  // =====================================================
+  // UPDATE PRICE
+  // =====================================================
+
+  function updatePrice() {
 
     const result =
       calculateTotal(
-        tankType.value,
-        capacity.value,
-        Number(quantity.value || 1),
-        getPaymentMethod()
+        currentTankType,
+        currentCapacity,
+        currentQuantity,
+        "online"
       );
 
-    unitPrice.textContent =
-      money(result.unitPrice);
 
-    subtotal.textContent =
-      money(result.subtotal);
+    // Service subtotal
 
-    quantityDiscount.textContent =
-      result.quantityDiscount > 0
-        ? `− ${money(result.quantityDiscount)}`
-        : "₹0";
+    if (subtotalDisplay) {
 
-    onlineDiscount.textContent =
-      result.onlineDiscount > 0
-        ? `− ${money(result.onlineDiscount)}`
-        : "₹0";
+      subtotalDisplay.textContent =
+        money(result.subtotal);
 
-    total.textContent =
-      money(result.total);
+    }
 
-    if (getPaymentMethod() === "online") {
 
-      payButton.textContent =
-        `Pay Online & Save 5% — ${money(result.total)}`;
+    // Quantity discount
 
-      cashButton.textContent =
-        `Pay Cash — ${money(
-          calculateTotal(
-            tankType.value,
-            capacity.value,
-            Number(quantity.value || 1),
-            "cash"
-          ).total
+    if (discountAmountDisplay) {
+
+      if (result.quantityDiscount > 0) {
+
+        discountAmountDisplay.textContent =
+          `− ${money(
+            result.quantityDiscount
+          )}`;
+
+      } else {
+
+        discountAmountDisplay.textContent =
+          "₹0";
+
+      }
+
+    }
+
+
+    // Total
+
+    if (totalDisplay) {
+
+      totalDisplay.textContent =
+        money(result.total);
+
+    }
+
+
+    // Discount percentage
+
+    const discountPercent =
+      getDiscount(currentQuantity);
+
+
+    // Main discount message
+
+    if (discountText) {
+
+      const tankText =
+        currentQuantity === 1
+          ? "1 tank"
+          : `${currentQuantity} tanks`;
+
+      if (discountPercent === 0) {
+
+        discountText.innerHTML = `
+          <strong>
+            ${tankText} • No discount
+          </strong>
+        `;
+
+      } else {
+
+        discountText.innerHTML = `
+          <strong>
+            ${tankText} • ${discountPercent}% OFF
+          </strong>
+        `;
+
+      }
+
+    }
+
+
+    // Next discount message
+
+    if (addMoreText) {
+
+      if (currentQuantity === 1) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 10% OFF";
+
+      } else if (currentQuantity === 2) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 12% OFF";
+
+      } else if (currentQuantity === 3) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 14% OFF";
+
+      } else if (currentQuantity === 4) {
+
+        addMoreText.textContent =
+          "Add 1 more tank → unlock 15% OFF";
+
+      } else {
+
+        addMoreText.textContent =
+          "Maximum quantity discount unlocked ✓";
+
+      }
+
+    }
+
+
+    // Update booking button
+
+    if (submitButton) {
+
+      submitButton.textContent =
+        `Pay Online & Save 5% — ${money(
+          result.total
         )}`;
 
-    } else {
-
-      payButton.textContent =
-        `Pay Online & Save 5%`;
-
-      cashButton.textContent =
-        `Book & Pay Cash — ${money(result.total)}`;
     }
+
   }
 
-  document
-    .querySelectorAll(
-      'input[name="paymentMethod"]'
-    )
-    .forEach(input => {
 
-      input.addEventListener(
-        "change",
-        calculatePrice
-      );
+  // =====================================================
+  // TANK TYPE CLICK
+  // =====================================================
 
-    });
+  tankTypeButtons.forEach(button => {
 
-  tankType.addEventListener(
-    "change",
-    populateCapacity
-  );
+    button.addEventListener(
+      "click",
+      () => {
 
-  capacity.addEventListener(
-    "change",
-    calculatePrice
-  );
+        currentTankType =
+          button.dataset.tankType;
 
-  quantity.addEventListener(
-    "change",
-    calculatePrice
-  );
+        updateTankType();
+
+      }
+    );
+
+  });
+
+
+  // =====================================================
+  // CAPACITY CLICK
+  // =====================================================
+
+  capacityButtons.forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        currentCapacity =
+          Number(
+            button.dataset.capacity
+          );
+
+        capacityButtons.forEach(
+          item => {
+
+            item.classList.toggle(
+              "active",
+              item === button
+            );
+
+          }
+        );
+
+        syncHiddenFields();
+
+        updatePrice();
+
+      }
+    );
+
+  });
+
+
+  // =====================================================
+  // QUANTITY MINUS
+  // =====================================================
+
+  if (quantityMinus) {
+
+    quantityMinus.addEventListener(
+      "click",
+      () => {
+
+        if (currentQuantity > 1) {
+
+          currentQuantity--;
+
+          updateQuantity();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  // =====================================================
+  // QUANTITY PLUS
+  // =====================================================
+
+  if (quantityPlus) {
+
+    quantityPlus.addEventListener(
+      "click",
+      () => {
+
+        if (currentQuantity < 20) {
+
+          currentQuantity++;
+
+          updateQuantity();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  // =====================================================
+  // FORM SUBMIT
+  // =====================================================
 
   form.addEventListener(
     "submit",
@@ -174,34 +524,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
       event.preventDefault();
 
-      bookingError.style.display = "none";
+      syncHiddenFields();
 
-      const paymentMethod =
-        getPaymentMethod();
+      updatePrice();
+
+      if (bookingError) {
+
+        bookingError.style.display =
+          "none";
+
+        bookingError.textContent =
+          "";
+
+      }
+
+
+      if (submitButton) {
+
+        submitButton.disabled =
+          true;
+
+        submitButton.textContent =
+          "Creating secure payment...";
+
+      }
+
 
       const formData =
         new FormData(form);
 
       const payload =
-        Object.fromEntries(formData.entries());
+        Object.fromEntries(
+          formData.entries()
+        );
 
-      payload.paymentMethod =
-        paymentMethod;
+
+      payload.tankType =
+        currentTankType;
+
+      payload.capacity =
+        currentCapacity;
 
       payload.quantity =
-        Number(payload.quantity);
+        currentQuantity;
 
-      const submitButton =
-        paymentMethod === "online"
-          ? payButton
-          : cashButton;
+      payload.paymentMethod =
+        "online";
 
-      submitButton.disabled = true;
-
-      submitButton.textContent =
-        paymentMethod === "online"
-          ? "Creating secure payment..."
-          : "Confirming booking...";
 
       try {
 
@@ -218,37 +587,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
               body:
                 JSON.stringify(payload)
+
             }
           );
+
 
         const data =
           await response.json();
 
-        if (!response.ok || !data.success) {
+
+        if (
+          !response.ok ||
+          !data.success
+        ) {
+
           throw new Error(
             data.message ||
             "Unable to create booking."
           );
+
         }
 
-        if (paymentMethod === "cash") {
 
-          showSuccess(
-            data.bookingId,
-            "Cash",
-            data.amount
+        // =================================================
+        // RAZORPAY
+        // =================================================
+
+        if (!window.Razorpay) {
+
+          throw new Error(
+            "Razorpay checkout could not be loaded."
           );
 
-          return;
         }
+
 
         const options = {
 
-          key: data.keyId,
+          key:
+            data.keyId,
 
-          amount: data.amount,
+          amount:
+            data.amount,
 
-          currency: data.currency,
+          currency:
+            data.currency,
 
           name:
             "VSH Tank Cleaning",
@@ -259,7 +642,9 @@ document.addEventListener("DOMContentLoaded", () => {
           order_id:
             data.orderId,
 
+
           prefill: {
+
             name:
               payload.name,
 
@@ -268,20 +653,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
             contact:
               payload.phone
+
           },
+
+
+          notes: {
+
+            booking_id:
+              data.bookingId,
+
+            tank_type:
+              currentTankType,
+
+            capacity:
+              currentCapacity,
+
+            quantity:
+              currentQuantity
+
+          },
+
 
           theme: {
-            color: "#0867ff"
+
+            color:
+              "#0867ff"
+
           },
 
+
           handler:
-            async function (
-              paymentResponse
-            ) {
+            async function(paymentResponse) {
 
               try {
 
-                const verify =
+                const verifyResponse =
                   await fetch(
                     "/api/verify-payment",
                     {
@@ -294,29 +700,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
                       body:
                         JSON.stringify({
+
                           ...paymentResponse,
+
                           bookingId:
                             data.bookingId
+
                         })
+
                     }
                   );
 
+
                 const verifyData =
-                  await verify.json();
+                  await verifyResponse.json();
+
 
                 if (
-                  !verify.ok ||
+                  !verifyResponse.ok ||
                   !verifyData.success
                 ) {
+
                   throw new Error(
                     verifyData.message ||
                     "Payment verification failed."
                   );
+
                 }
+
 
                 showSuccess(
                   data.bookingId,
-                  "Online Payment",
                   data.amount / 100
                 );
 
@@ -327,68 +741,124 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
               }
+
             },
 
+
           modal: {
-            ondismiss: function () {
-              calculatePrice();
-            }
+
+            ondismiss:
+              function() {
+
+                if (submitButton) {
+
+                  submitButton.disabled =
+                    false;
+
+                  updatePrice();
+
+                }
+
+              }
+
           }
+
         };
 
+
         const razorpay =
-          new Razorpay(options);
+          new window.Razorpay(
+            options
+          );
+
 
         razorpay.on(
           "payment.failed",
-          function (response) {
+          function(response) {
 
             showError(
               response.error?.description ||
               "Payment failed. Please try again."
             );
 
-            calculatePrice();
+            if (submitButton) {
+
+              submitButton.disabled =
+                false;
+
+              updatePrice();
+
+            }
+
           }
         );
 
+
         razorpay.open();
+
 
       } catch (error) {
 
         showError(
           error.message ||
-          "Something went wrong."
+          "Something went wrong. Please try again."
         );
 
-        calculatePrice();
+
+        if (submitButton) {
+
+          submitButton.disabled =
+            false;
+
+          updatePrice();
+
+        }
+
       }
 
     }
   );
 
+
+  // =====================================================
+  // ERROR
+  // =====================================================
+
   function showError(message) {
+
+    if (!bookingError) return;
 
     bookingError.style.display =
       "block";
 
     bookingError.textContent =
       `✕ ${message}`;
+
+    bookingError.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
   }
+
+
+  // =====================================================
+  // SUCCESS
+  // =====================================================
 
   function showSuccess(
     bookingId,
-    paymentMethod,
     amount
   ) {
 
     form.style.display =
       "none";
 
-    success.style.display =
-      "block";
 
-    success.innerHTML = `
+    if (!bookingSuccess) return;
+
+
+    bookingSuccess.innerHTML = `
 
       <div class="success-icon">
         ✓
@@ -399,41 +869,45 @@ document.addEventListener("DOMContentLoaded", () => {
       </h2>
 
       <p>
-        ${
-          paymentMethod === "Online Payment"
-            ? "Your online payment has been received successfully."
-            : "Your booking is confirmed. Please pay cash after the service is completed."
-        }
+        Your online payment has been
+        received successfully.
       </p>
 
       <div class="booking-confirmation">
 
         <div>
           <span>Booking ID</span>
+
           <strong>
             ${bookingId}
           </strong>
         </div>
 
+
         <div>
-          <span>Total</span>
+          <span>Total Paid</span>
+
           <strong>
             ${money(amount)}
           </strong>
         </div>
 
+
         <div>
           <span>Payment</span>
+
           <strong>
-            ${paymentMethod}
+            Paid Online
           </strong>
         </div>
 
       </div>
 
-      <p>
+
+      <p class="success-note">
         Keep your booking ID for reference.
       </p>
+
 
       <a
         class="btn btn-primary"
@@ -441,13 +915,34 @@ document.addEventListener("DOMContentLoaded", () => {
           `Hi VSH Tank Cleaning, my booking ID is ${bookingId}.`
         )}"
         target="_blank"
+        rel="noopener"
       >
         WhatsApp VSH
       </a>
+
     `;
+
+
+    bookingSuccess.style.display =
+      "block";
+
+
+    bookingSuccess.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
   }
 
-  populateCapacity();
-  calculatePrice();
+
+  // =====================================================
+  // INITIALIZE
+  // =====================================================
+
+  updateTankType();
+
+  syncHiddenFields();
+
+  updatePrice();
 
 });
