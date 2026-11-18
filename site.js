@@ -11,10 +11,36 @@
   ======================================================= */
 
   const WHATSAPP_NUMBER = "919599057079";
+
   const API_CREATE_ORDER = "/api/create-order";
   const API_VERIFY_PAYMENT = "/api/verify-payment";
 
+  /*
+    VSH SERVICE AREA
+
+    Delhi NCR PIN ranges:
+    Delhi       → 110xxx
+    Faridabad   → 121xxx
+    Gurugram    → 122xxx
+    Noida       → 201xxx
+    Ghaziabad   → 201xxx
+    Greater Noida → 201xxx
+  */
+
+  const SERVICE_PIN_PREFIXES = [
+    "110",
+    "121",
+    "122",
+    "201"
+  ];
+
+
+  /* =======================================================
+     PRICES
+  ======================================================= */
+
   const PRICES = {
+
     overhead: {
       500: 499,
       1000: 599,
@@ -31,7 +57,9 @@
       3000: 1299,
       5000: 1999
     }
+
   };
+
 
   const QUANTITY_DISCOUNTS = {
     1: 0,
@@ -40,6 +68,7 @@
     4: 14,
     5: 15
   };
+
 
   const ONLINE_PAYMENT_DISCOUNT = 5;
 
@@ -52,7 +81,9 @@
     return `₹${Number(amount || 0).toLocaleString("en-IN")}`;
   }
 
+
   function getDiscount(quantity) {
+
     const qty = Number(quantity);
 
     if (qty >= 5) {
@@ -62,11 +93,30 @@
     return QUANTITY_DISCOUNTS[qty] || 0;
   }
 
+
   function getPrice(tankType, capacity) {
+
     return Number(
       PRICES[tankType]?.[capacity] || 0
     );
   }
+
+
+  function isServiceablePin(pin) {
+
+    const cleanPin =
+      String(pin || "").trim();
+
+    if (!/^\d{6}$/.test(cleanPin)) {
+      return false;
+    }
+
+    return SERVICE_PIN_PREFIXES.some(
+      prefix =>
+        cleanPin.startsWith(prefix)
+    );
+  }
+
 
   function calculateTotal(
     tankType,
@@ -74,32 +124,48 @@
     quantity,
     paymentMethod = "online"
   ) {
-    const unitPrice = getPrice(tankType, capacity);
-    const qty = Number(quantity);
 
-    const subtotal = unitPrice * qty;
+    const unitPrice =
+      getPrice(
+        tankType,
+        capacity
+      );
 
-    const quantityDiscountPercent = getDiscount(qty);
+    const qty =
+      Number(quantity);
 
-    const quantityDiscount = Math.round(
-      subtotal * quantityDiscountPercent / 100
-    );
+    const subtotal =
+      unitPrice * qty;
+
+    const quantityDiscountPercent =
+      getDiscount(qty);
+
+    const quantityDiscount =
+      Math.round(
+        subtotal *
+        quantityDiscountPercent /
+        100
+      );
 
     const afterQuantityDiscount =
-      subtotal - quantityDiscount;
+      subtotal -
+      quantityDiscount;
 
     const onlineDiscount =
       paymentMethod === "online"
         ? Math.round(
             afterQuantityDiscount *
-            ONLINE_PAYMENT_DISCOUNT / 100
+            ONLINE_PAYMENT_DISCOUNT /
+            100
           )
         : 0;
 
     const total =
-      afterQuantityDiscount - onlineDiscount;
+      afterQuantityDiscount -
+      onlineDiscount;
 
     return {
+
       unitPrice,
       quantity: qty,
       subtotal,
@@ -107,6 +173,7 @@
       quantityDiscount,
       onlineDiscount,
       total
+
     };
   }
 
@@ -116,43 +183,72 @@
   ======================================================= */
 
   function setupMobileMenu() {
+
     const menuButton =
-      document.querySelector(".mobile-menu");
+      document.querySelector(
+        ".mobile-menu"
+      );
 
     const nav =
-      document.querySelector(".nav-links");
+      document.querySelector(
+        ".nav-links"
+      );
 
     if (!menuButton || !nav) {
       return;
     }
 
-    menuButton.addEventListener("click", () => {
-      nav.classList.toggle("mobile-open");
 
-      const opened =
-        nav.classList.contains("mobile-open");
+    menuButton.addEventListener(
+      "click",
+      () => {
 
-      menuButton.setAttribute(
-        "aria-expanded",
-        opened ? "true" : "false"
-      );
+        nav.classList.toggle(
+          "mobile-open"
+        );
 
-      menuButton.innerHTML =
-        opened ? "✕" : "☰";
-    });
-
-    nav.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
-        nav.classList.remove("mobile-open");
+        const opened =
+          nav.classList.contains(
+            "mobile-open"
+          );
 
         menuButton.setAttribute(
           "aria-expanded",
-          "false"
+          opened
+            ? "true"
+            : "false"
         );
 
-        menuButton.innerHTML = "☰";
+        menuButton.innerHTML =
+          opened
+            ? "✕"
+            : "☰";
+      }
+    );
+
+
+    nav.querySelectorAll("a")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          () => {
+
+            nav.classList.remove(
+              "mobile-open"
+            );
+
+            menuButton.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+            menuButton.innerHTML =
+              "☰";
+          }
+        );
+
       });
-    });
   }
 
 
@@ -161,12 +257,17 @@
   ======================================================= */
 
   function setupWhatsAppLinks() {
+
     document
-      .querySelectorAll("[data-whatsapp]")
+      .querySelectorAll(
+        "[data-whatsapp]"
+      )
       .forEach(link => {
 
         const message =
-          link.getAttribute("data-whatsapp");
+          link.getAttribute(
+            "data-whatsapp"
+          );
 
         if (!message) {
           return;
@@ -176,6 +277,7 @@
           `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
         link.target = "_blank";
+
       });
   }
 
@@ -185,6 +287,7 @@
   ======================================================= */
 
   function setupPricing() {
+
     const tankTypeButtons =
       document.querySelectorAll(
         "[data-tank-type]"
@@ -250,9 +353,11 @@
         "[data-add-more]"
       );
 
+
     if (!quantityElement) {
       return;
     }
+
 
     let tankType =
       selectedTankType?.value ||
@@ -260,37 +365,43 @@
 
     let capacity =
       Number(
-        selectedCapacity?.value || 500
+        selectedCapacity?.value ||
+        500
       );
 
     let quantity =
       Number(
-        selectedQuantity?.value || 1
+        selectedQuantity?.value ||
+        1
       );
 
 
     function updateCapacityAvailability() {
-      capacityButtons.forEach(button => {
 
-        const buttonCapacity =
-          Number(
-            button.dataset.capacity
-          );
+      capacityButtons
+        .forEach(button => {
 
-        const available =
-          getPrice(
-            tankType,
-            buttonCapacity
-          ) > 0;
+          const buttonCapacity =
+            Number(
+              button.dataset.capacity
+            );
 
-        button.style.display =
-          available ? "" : "none";
+          const available =
+            getPrice(
+              tankType,
+              buttonCapacity
+            ) > 0;
 
-      });
+          button.style.display =
+            available
+              ? ""
+              : "none";
+        });
     }
 
 
     function updatePricing() {
+
       const result =
         calculateTotal(
           tankType,
@@ -299,46 +410,56 @@
           "online"
         );
 
+
       if (quantityElement) {
         quantityElement.textContent =
           quantity;
       }
+
 
       if (selectedTankType) {
         selectedTankType.value =
           tankType;
       }
 
+
       if (selectedCapacity) {
         selectedCapacity.value =
           capacity;
       }
+
 
       if (selectedQuantity) {
         selectedQuantity.value =
           quantity;
       }
 
+
       if (subtotalElement) {
         subtotalElement.textContent =
-          money(result.subtotal);
+          money(
+            result.subtotal
+          );
       }
+
 
       if (discountElement) {
 
-        if (result.quantityDiscount > 0) {
-          discountElement.textContent =
-            `− ${money(result.quantityDiscount)}`;
-        } else {
-          discountElement.textContent =
-            "₹0";
-        }
+        discountElement.textContent =
+          result.quantityDiscount > 0
+            ? `− ${money(result.quantityDiscount)}`
+            : "₹0";
       }
 
+
       if (totalElement) {
+
         totalElement.textContent =
-          money(result.total);
+          money(
+            result.total
+          );
       }
+
 
       if (discountText) {
 
@@ -356,26 +477,16 @@
         }
       }
 
+
       if (addMoreElement) {
 
         if (quantity < 5) {
 
-          const nextQty =
-            quantity + 1;
+          const remaining =
+            5 - quantity;
 
-          const nextDiscount =
-            getDiscount(nextQty);
-
-          if (nextDiscount > 0) {
-
-            addMoreElement.textContent =
-              `Add ${5 - quantity} more tank${5 - quantity > 1 ? "s" : ""} to reach up to ${nextDiscount}% savings.`;
-
-          } else {
-
-            addMoreElement.textContent =
-              `Add another tank to unlock a quantity discount.`;
-          }
+          addMoreElement.textContent =
+            `Add ${remaining} more tank${remaining > 1 ? "s" : ""} to unlock up to 15% quantity savings.`;
 
         } else {
 
@@ -386,83 +497,115 @@
     }
 
 
-    tankTypeButtons.forEach(button => {
+    tankTypeButtons
+      .forEach(button => {
 
-      button.addEventListener("click", () => {
+        button.addEventListener(
+          "click",
+          () => {
 
-        tankType =
-          button.dataset.tankType;
+            tankType =
+              button.dataset.tankType;
 
-        tankTypeButtons.forEach(item => {
-          item.classList.remove("active");
-        });
+            tankTypeButtons
+              .forEach(item => {
 
-        button.classList.add("active");
+                item.classList.remove(
+                  "active"
+                );
 
-        const currentPrice =
-          getPrice(
-            tankType,
-            capacity
-          );
+              });
 
-        if (!currentPrice) {
+            button.classList.add(
+              "active"
+            );
 
-          const availableButton =
-            [...capacityButtons]
-              .find(item =>
-                getPrice(
-                  tankType,
+
+            if (
+              !getPrice(
+                tankType,
+                capacity
+              )
+            ) {
+
+              const availableButton =
+                [...capacityButtons]
+                  .find(item =>
+                    getPrice(
+                      tankType,
+                      Number(
+                        item.dataset.capacity
+                      )
+                    ) > 0
+                  );
+
+              if (availableButton) {
+
+                capacity =
                   Number(
-                    item.dataset.capacity
-                  )
-                ) > 0
+                    availableButton
+                      .dataset
+                      .capacity
+                  );
+              }
+            }
+
+
+            updateCapacityAvailability();
+            updatePricing();
+
+          }
+        );
+      });
+
+
+    capacityButtons
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const newCapacity =
+              Number(
+                button.dataset.capacity
               );
 
-          if (availableButton) {
+
+            if (
+              !getPrice(
+                tankType,
+                newCapacity
+              )
+            ) {
+              return;
+            }
+
 
             capacity =
-              Number(
-                availableButton.dataset.capacity
-              );
+              newCapacity;
+
+
+            capacityButtons
+              .forEach(item => {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              });
+
+
+            button.classList.add(
+              "active"
+            );
+
+
+            updatePricing();
+
           }
-        }
-
-        updateCapacityAvailability();
-        updatePricing();
+        );
       });
-    });
-
-
-    capacityButtons.forEach(button => {
-
-      button.addEventListener("click", () => {
-
-        const newCapacity =
-          Number(
-            button.dataset.capacity
-          );
-
-        if (
-          !getPrice(
-            tankType,
-            newCapacity
-          )
-        ) {
-          return;
-        }
-
-        capacity =
-          newCapacity;
-
-        capacityButtons.forEach(item => {
-          item.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        updatePricing();
-      });
-    });
 
 
     if (quantityMinus) {
@@ -478,6 +621,7 @@
             );
 
           updatePricing();
+
         }
       );
     }
@@ -496,6 +640,7 @@
             );
 
           updatePricing();
+
         }
       );
     }
@@ -507,18 +652,26 @@
 
 
   /* =======================================================
-     PIN CODE CHECK
+     PIN CHECK
   ======================================================= */
 
   function setupPinCheck() {
+
     const pinInput =
-      document.querySelector("#areaPin");
+      document.querySelector(
+        "#areaPin"
+      );
 
     const checkButton =
-      document.querySelector("#checkPin");
+      document.querySelector(
+        "#checkPin"
+      );
 
     const result =
-      document.querySelector("#pinResult");
+      document.querySelector(
+        "#pinResult"
+      );
+
 
     if (
       !pinInput ||
@@ -528,6 +681,7 @@
       return;
     }
 
+
     checkButton.addEventListener(
       "click",
       () => {
@@ -535,24 +689,37 @@
         const pin =
           pinInput.value.trim();
 
-        if (!/^\d{6}$/.test(pin)) {
+
+        if (
+          !/^\d{6}$/.test(pin)
+        ) {
 
           result.innerHTML =
-            `<div class="pin-error">Please enter a valid 6-digit PIN code.</div>`;
+            `<div class="pin-error">
+              Please enter a valid 6-digit PIN code.
+            </div>`;
 
           return;
         }
 
-        if (!/^110\d{3}$/.test(pin)) {
+
+        if (
+          !isServiceablePin(pin)
+        ) {
 
           result.innerHTML =
-            `<div class="pin-error">Sorry, online booking is currently available only for Delhi PIN codes beginning with 110.</div>`;
+            `<div class="pin-error">
+              Sorry, this PIN code is outside our current Delhi NCR service area.
+            </div>`;
 
           return;
         }
+
 
         result.innerHTML =
-          `<div class="pin-success">✓ Good news! VSH Tank Cleaning serves this Delhi PIN code.</div>`;
+          `<div class="pin-success">
+            ✓ Good news! VSH Tank Cleaning serves this Delhi NCR PIN code.
+          </div>`;
       }
     );
   }
@@ -563,36 +730,49 @@
   ======================================================= */
 
   function setupBookingForm() {
+
     const form =
-      document.querySelector("#bookingForm");
+      document.querySelector(
+        "#bookingForm"
+      );
+
 
     if (!form) {
       return;
     }
 
+
     const errorBox =
-      document.querySelector("#bookingError");
+      document.querySelector(
+        "#bookingError"
+      );
 
     const successBox =
-      document.querySelector("#bookingSuccess");
+      document.querySelector(
+        "#bookingSuccess"
+      );
 
     const submitButton =
       form.querySelector(
         'button[type="submit"]'
       );
 
+
     function showError(message) {
 
       if (errorBox) {
 
-        errorBox.style.display = "block";
+        errorBox.style.display =
+          "block";
 
         errorBox.innerHTML =
           `<strong>Booking could not be created.</strong><br>${message}`;
       }
 
+
       if (successBox) {
-        successBox.style.display = "none";
+        successBox.style.display =
+          "none";
       }
     }
 
@@ -600,8 +780,12 @@
     function clearError() {
 
       if (errorBox) {
-        errorBox.style.display = "none";
-        errorBox.innerHTML = "";
+
+        errorBox.style.display =
+          "none";
+
+        errorBox.innerHTML =
+          "";
       }
     }
 
@@ -609,16 +793,23 @@
     function showSuccess(message) {
 
       if (errorBox) {
-        errorBox.style.display = "none";
-        errorBox.innerHTML = "";
+
+        errorBox.style.display =
+          "none";
+
+        errorBox.innerHTML =
+          "";
       }
+
 
       if (successBox) {
 
-        successBox.style.display = "block";
+        successBox.style.display =
+          "block";
 
         successBox.innerHTML =
           message;
+
 
         successBox.scrollIntoView({
           behavior: "smooth",
@@ -636,135 +827,199 @@
 
         clearError();
 
+
         const formData =
           new FormData(form);
 
+
         const tankType =
-          formData.get("tankType");
+          formData.get(
+            "tankType"
+          );
+
 
         const capacity =
           Number(
-            formData.get("capacity")
+            formData.get(
+              "capacity"
+            )
           );
+
 
         const quantity =
           Number(
-            formData.get("quantity")
+            formData.get(
+              "quantity"
+            )
           );
+
 
         const name =
           String(
-            formData.get("name") || ""
+            formData.get(
+              "name"
+            ) || ""
           ).trim();
+
 
         const phone =
           String(
-            formData.get("phone") || ""
+            formData.get(
+              "phone"
+            ) || ""
           ).trim();
+
 
         const email =
           String(
-            formData.get("email") || ""
+            formData.get(
+              "email"
+            ) || ""
           ).trim();
+
 
         const pincode =
           String(
-            formData.get("pincode") || ""
+            formData.get(
+              "pincode"
+            ) || ""
           ).trim();
+
 
         const address =
           String(
-            formData.get("address") || ""
+            formData.get(
+              "address"
+            ) || ""
           ).trim();
+
 
         const date =
           String(
-            formData.get("date") || ""
+            formData.get(
+              "date"
+            ) || ""
           ).trim();
+
 
         const time =
           String(
-            formData.get("time") || ""
+            formData.get(
+              "time"
+            ) || ""
           ).trim();
 
 
-        /* -----------------------------------------------
-           CLIENT VALIDATION
-        ----------------------------------------------- */
+        /* =================================================
+           VALIDATION
+        ================================================= */
+
 
         if (!name) {
-          showError("Please enter your full name.");
+
+          showError(
+            "Please enter your full name."
+          );
+
           return;
         }
 
+
         if (
-          !/^[6-9]\d{9}$/.test(phone)
+          !/^[6-9]\d{9}$/.test(
+            phone
+          )
         ) {
+
           showError(
             "Please enter a valid 10-digit Indian mobile number."
           );
+
           return;
         }
 
+
         if (
-          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            email
+          )
         ) {
+
           showError(
             "Please enter a valid email address."
           );
+
           return;
         }
+
 
         if (
-          !/^110\d{3}$/.test(pincode)
+          !isServiceablePin(
+            pincode
+          )
         ) {
+
           showError(
-            "Online booking is currently available only for Delhi PIN codes beginning with 110."
+            "This PIN code is outside our current Delhi NCR service area. We currently serve Delhi, Gurgaon, Faridabad, Noida, Greater Noida and Ghaziabad."
           );
+
           return;
         }
 
+
         if (!address) {
+
           showError(
             "Please enter your complete service address."
           );
+
           return;
         }
 
+
         if (!date) {
+
           showError(
             "Please select your preferred service date."
           );
+
           return;
         }
 
+
         if (!time) {
+
           showError(
             "Please select your preferred time."
           );
+
           return;
         }
+
 
         if (
           !tankType ||
           !capacity ||
           !quantity
         ) {
+
           showError(
             "Please select your tank type, capacity and quantity."
           );
+
           return;
         }
 
 
-        /* -----------------------------------------------
-           DISABLE BUTTON
-        ----------------------------------------------- */
+        /* =================================================
+           DISABLE SUBMIT
+        ================================================= */
 
         const originalText =
           submitButton
             ? submitButton.innerHTML
             : "";
+
 
         if (submitButton) {
 
@@ -778,7 +1033,7 @@
 
         try {
 
-          const price =
+          const pricing =
             calculateTotal(
               tankType,
               capacity,
@@ -807,13 +1062,13 @@
               "online",
 
             amount:
-              price.total
+              pricing.total
           };
 
 
-          /* ---------------------------------------------
-             CREATE RAZORPAY ORDER
-          --------------------------------------------- */
+          /* =================================================
+             CREATE ORDER
+          ================================================= */
 
           const response =
             await fetch(
@@ -827,17 +1082,23 @@
                 },
 
                 body:
-                  JSON.stringify(payload)
+                  JSON.stringify(
+                    payload
+                  )
               }
             );
 
 
           let data = null;
 
+
           try {
+
             data =
               await response.json();
+
           } catch (_) {
+
             data = null;
           }
 
@@ -872,12 +1133,13 @@
           }
 
 
-          /* ---------------------------------------------
-             OPEN RAZORPAY
-          --------------------------------------------- */
+          /* =================================================
+             RAZORPAY
+          ================================================= */
 
           if (
-            typeof Razorpay === "undefined"
+            typeof Razorpay ===
+            "undefined"
           ) {
 
             throw new Error(
@@ -913,6 +1175,7 @@
               name,
               email,
               contact: phone
+
             },
 
 
@@ -922,29 +1185,32 @@
                 name,
 
               phone,
-
               email,
 
               pincode,
-
               address,
 
               date,
-
               time,
 
               tankType,
 
               capacity:
-                String(capacity),
+                String(
+                  capacity
+                ),
 
               quantity:
-                String(quantity)
+                String(
+                  quantity
+                )
+
             },
 
 
             theme: {
-              color: "#0878f9"
+              color:
+                "#0878f9"
             },
 
 
@@ -1001,6 +1267,7 @@
                   let verifyData =
                     null;
 
+
                   try {
 
                     verifyData =
@@ -1013,7 +1280,9 @@
                   }
 
 
-                  if (!verifyResponse.ok) {
+                  if (
+                    !verifyResponse.ok
+                  ) {
 
                     throw new Error(
                       verifyData?.error ||
@@ -1024,21 +1293,37 @@
 
 
                   showSuccess(`
-                    <div class="success-icon">✓</div>
 
-                    <h3>Booking confirmed!</h3>
+                    <div class="success-icon">
+                      ✓
+                    </div>
+
+                    <h3>
+                      Booking confirmed!
+                    </h3>
 
                     <p>
-                      Thank you, ${escapeHtml(name)}.
+                      Thank you,
+                      ${escapeHtml(name)}.
                       Your tank cleaning booking has been received.
                     </p>
 
                     <p>
-                      <strong>Booking details</strong><br>
-                      ${escapeHtml(tankType)} tank ·
-                      ${capacity.toLocaleString("en-IN")} L ·
-                      ${quantity} tank${quantity > 1 ? "s" : ""}<br>
-                      ${escapeHtml(date)} ·
+                      <strong>
+                        Booking details
+                      </strong><br>
+
+                      ${escapeHtml(tankType)}
+                      tank ·
+                      ${capacity.toLocaleString("en-IN")}
+                      L ·
+                      ${quantity}
+                      tank${quantity > 1 ? "s" : ""}
+
+                      <br>
+
+                      ${escapeHtml(date)}
+                      ·
                       ${escapeHtml(time)}
                     </p>
 
@@ -1061,6 +1346,7 @@
                     >
                       WhatsApp VSH
                     </a>
+
                   `);
 
 
@@ -1102,20 +1388,27 @@
                   }
                 }
             }
+
           };
 
 
           const razorpay =
-            new Razorpay(options);
+            new Razorpay(
+              options
+            );
+
 
           razorpay.on(
             "payment.failed",
-            function (response) {
+            function (
+              response
+            ) {
 
               showError(
                 response.error?.description ||
                 "Payment failed. Please try again."
               );
+
 
               if (submitButton) {
 
@@ -1138,10 +1431,12 @@
             error
           );
 
+
           showError(
             error.message ||
             "Unable to create booking. Please try again."
           );
+
 
           if (submitButton) {
 
@@ -1152,6 +1447,7 @@
               originalText;
           }
         }
+
       }
     );
   }
@@ -1164,16 +1460,31 @@
   function escapeHtml(value) {
 
     return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
   }
 
 
   /* =======================================================
-     SET MINIMUM BOOKING DATE
+     MINIMUM BOOKING DATE
   ======================================================= */
 
   function setupDateInput() {
@@ -1183,25 +1494,37 @@
         'input[name="date"]'
       );
 
+
     if (!dateInput) {
       return;
     }
 
+
     const today =
       new Date();
+
 
     const year =
       today.getFullYear();
 
+
     const month =
       String(
         today.getMonth() + 1
-      ).padStart(2, "0");
+      ).padStart(
+        2,
+        "0"
+      );
+
 
     const day =
       String(
         today.getDate()
-      ).padStart(2, "0");
+      ).padStart(
+        2,
+        "0"
+      );
+
 
     dateInput.min =
       `${year}-${month}-${day}`;
@@ -1209,7 +1532,7 @@
 
 
   /* =======================================================
-     INITIALIZE
+     INIT
   ======================================================= */
 
   document.addEventListener(
@@ -1217,10 +1540,15 @@
     () => {
 
       setupMobileMenu();
+
       setupWhatsAppLinks();
+
       setupPricing();
+
       setupPinCheck();
+
       setupBookingForm();
+
       setupDateInput();
 
     }
