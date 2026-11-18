@@ -34,10 +34,10 @@ const ONLINE_PAYMENT_DISCOUNT = 5;
 =========================================================
 DELHI NCR PIN CODES
 
-110xxx  = Delhi
-121xxx  = Faridabad
-122xxx  = Gurgaon / Gurugram
-201xxx  = Noida / Greater Noida / Ghaziabad
+110xxx = Delhi
+121xxx = Faridabad
+122xxx = Gurgaon / Gurugram
+201xxx = Noida / Greater Noida / Ghaziabad
 =========================================================
 */
 
@@ -59,12 +59,24 @@ function isServiceablePin(pin) {
 }
 
 
+/*
+=========================================================
+PRICE
+=========================================================
+*/
+
 function getPrice(tankType, capacity) {
   return Number(
     PRICES[tankType]?.[capacity] || 0
   );
 }
 
+
+/*
+=========================================================
+QUANTITY DISCOUNT
+=========================================================
+*/
 
 function getQuantityDiscount(quantity) {
   const qty = Number(quantity);
@@ -77,10 +89,25 @@ function getQuantityDiscount(quantity) {
 }
 
 
+/*
+=========================================================
+CALCULATE TOTAL
+
+ONLINE:
+- Quantity discount
+- Additional 5% online payment discount
+
+AFTER SERVICE:
+- Quantity discount
+- NO 5% online discount
+=========================================================
+*/
+
 function calculateTotal(
   tankType,
   capacity,
-  quantity
+  quantity,
+  paymentMethod
 ) {
   const unitPrice =
     getPrice(tankType, capacity);
@@ -105,11 +132,13 @@ function calculateTotal(
     subtotal - quantityDiscount;
 
   const onlineDiscount =
-    Math.round(
-      afterQuantityDiscount *
-      ONLINE_PAYMENT_DISCOUNT /
-      100
-    );
+    paymentMethod === "online"
+      ? Math.round(
+          afterQuantityDiscount *
+          ONLINE_PAYMENT_DISCOUNT /
+          100
+        )
+      : 0;
 
   const total =
     afterQuantityDiscount -
@@ -127,6 +156,12 @@ function calculateTotal(
 }
 
 
+/*
+=========================================================
+HANDLER
+=========================================================
+*/
+
 export default async function handler(req, res) {
 
   /*
@@ -138,32 +173,6 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method not allowed."
-    });
-  }
-
-
-  /*
-  ========================================================
-  RAZORPAY CONFIG
-  ========================================================
-  */
-
-  const keyId =
-    process.env.RAZORPAY_KEY_ID;
-
-  const keySecret =
-    process.env.RAZORPAY_KEY_SECRET;
-
-
-  if (!keyId || !keySecret) {
-
-    console.error(
-      "Razorpay environment variables are missing."
-    );
-
-    return res.status(500).json({
-      error:
-        "Payment system is not configured. Please contact VSH Tank Cleaning."
     });
   }
 
@@ -188,6 +197,12 @@ export default async function handler(req, res) {
 
   body = body || {};
 
+
+  /*
+  ========================================================
+  BOOKING DATA
+  ========================================================
+  */
 
   const {
     name,
@@ -235,10 +250,11 @@ export default async function handler(req, res) {
   ========================================================
   */
 
+  const cleanPhone =
+    String(phone).trim();
+
   if (
-    !/^[6-9]\d{9}$/.test(
-      String(phone).trim()
-    )
+    !/^[6-9]\d{9}$/.test(cleanPhone)
   ) {
     return res.status(400).json({
       error:
@@ -253,9 +269,12 @@ export default async function handler(req, res) {
   ========================================================
   */
 
+  const cleanEmail =
+    String(email).trim();
+
   if (
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-      String(email).trim()
+      cleanEmail
     )
   ) {
     return res.status(400).json({
@@ -284,7 +303,6 @@ export default async function handler(req, res) {
 
 
   if (!isServiceablePin(cleanPin)) {
-
     return res.status(400).json({
       error:
         "This PIN code is outside our current Delhi NCR service area. We currently serve Delhi, Gurgaon, Faridabad, Noida, Greater Noida and Ghaziabad."
@@ -294,7 +312,7 @@ export default async function handler(req, res) {
 
   /*
   ========================================================
-  TANK VALIDATION
+  TANK TYPE
   ========================================================
   */
 
@@ -310,6 +328,12 @@ export default async function handler(req, res) {
     });
   }
 
+
+  /*
+  ========================================================
+  CAPACITY + QUANTITY
+  ========================================================
+  */
 
   const numericCapacity =
     Number(capacity);
@@ -342,7 +366,7 @@ export default async function handler(req, res) {
 
   /*
   ========================================================
-  PRICE
+  CHECK PRICE
   ========================================================
   */
 
@@ -363,13 +387,24 @@ export default async function handler(req, res) {
 
   /*
   ========================================================
-  PAYMENT
+  PAYMENT METHOD
+  ========================================================
+
+  online       = Pay online + 5% additional discount
+
+  after_service = Pay after service + NO online discount
   ========================================================
   */
 
+  const selectedPaymentMethod =
+    paymentMethod || "online";
+
+
   if (
-    paymentMethod &&
-    paymentMethod !== "online"
+    ![
+      "online",
+      "after_service"
+    ].includes(selectedPaymentMethod)
   ) {
     return res.status(400).json({
       error:
@@ -378,17 +413,106 @@ export default async function handler(req, res) {
   }
 
 
+  /*
+  ========================================================
+  CALCULATE FINAL PRICE
+  ========================================================
+  */
+
   const pricing =
     calculateTotal(
       tankType,
       numericCapacity,
-      numericQuantity
+      numericQuantity,
+      selectedPaymentMethod
     );
 
 
   /*
   ========================================================
-  RAZORPAY
+  PAY AFTER SERVICE
+  ========================================================
+
+  No Razorpay order is created.
+
+  The booking is accepted and the customer
+  can pay after the cleaning service.
+  ========================================================
+  */
+
+  if (
+    selectedPaymentMethod === "after_service"
+  ) {
+
+    console.log(
+      "PAY AFTER SERVICE BOOKING:",
+      {
+        name: String(name),
+        phone: cleanPhone,
+        email: cleanEmail,
+        pincode: cleanPin,
+        address: String(address),
+        date: String(date),
+        time: String(time),
+        tankType: String(tankType),
+        capacity: numericCapacity,
+        quantity: numericQuantity,
+        paymentMethod:
+          "after_service",
+        total: pricing.total
+      }
+    );
+
+
+    return res.status(200).json({
+
+      success: true,
+
+      paymentMethod:
+        "after_service",
+
+      bookingConfirmed:
+        true,
+
+      message:
+        "Booking confirmed. You can pay after the tank cleaning service.",
+
+      pricing:
+        pricing
+
+    });
+  }
+
+
+  /*
+  ========================================================
+  RAZORPAY ENVIRONMENT VARIABLES
+  ========================================================
+  */
+
+  const keyId =
+    process.env.RAZORPAY_KEY_ID;
+
+  const keySecret =
+    process.env.RAZORPAY_KEY_SECRET;
+
+
+  if (!keyId || !keySecret) {
+
+    console.error(
+      "Razorpay environment variables are missing."
+    );
+
+    return res.status(500).json({
+      error:
+        "Payment system is not configured. Please contact VSH Tank Cleaning."
+    });
+  }
+
+
+  /*
+  ========================================================
+  CREATE RAZORPAY ORDER
   ========================================================
   */
 
@@ -423,13 +547,10 @@ export default async function handler(req, res) {
             ),
 
           phone:
-            String(phone),
+            cleanPhone,
 
           email:
-            String(email).substring(
-              0,
-              100
-            ),
+            cleanEmail,
 
           pincode:
             cleanPin,
@@ -453,7 +574,10 @@ export default async function handler(req, res) {
             String(numericCapacity),
 
           quantity:
-            String(numericQuantity)
+            String(numericQuantity),
+
+          paymentMethod:
+            "online"
 
         }
       });
@@ -468,6 +592,9 @@ export default async function handler(req, res) {
     return res.status(200).json({
 
       success: true,
+
+      paymentMethod:
+        "online",
 
       orderId:
         order.id,
@@ -496,11 +623,13 @@ export default async function handler(req, res) {
 
 
     return res.status(500).json({
+
       error:
         error?.error?.description ||
         error?.description ||
         error?.message ||
         "Unable to create Razorpay order."
+
     });
   }
 }
