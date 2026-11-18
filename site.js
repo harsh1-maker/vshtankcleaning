@@ -6,6 +6,7 @@
 (() => {
   "use strict";
 
+
   /* =======================================================
      CONFIG
   ======================================================= */
@@ -15,23 +16,16 @@
   const API_CREATE_ORDER = "/api/create-order";
   const API_VERIFY_PAYMENT = "/api/verify-payment";
 
-  /*
-    VSH SERVICE AREA
 
-    Delhi NCR PIN ranges:
-    Delhi       → 110xxx
-    Faridabad   → 121xxx
-    Gurugram    → 122xxx
-    Noida       → 201xxx
-    Ghaziabad   → 201xxx
-    Greater Noida → 201xxx
-  */
+  /* =======================================================
+     DELHI NCR SERVICE AREA
+  ======================================================= */
 
   const SERVICE_PIN_PREFIXES = [
-    "110",
-    "121",
-    "122",
-    "201"
+    "110", // Delhi
+    "121", // Faridabad
+    "122", // Gurgaon / Gurugram
+    "201"  // Noida / Greater Noida / Ghaziabad
   ];
 
 
@@ -167,11 +161,17 @@
     return {
 
       unitPrice,
+
       quantity: qty,
+
       subtotal,
+
       quantityDiscountPercent,
+
       quantityDiscount,
+
       onlineDiscount,
+
       total
 
     };
@@ -223,6 +223,7 @@
           opened
             ? "✕"
             : "☰";
+
       }
     );
 
@@ -245,10 +246,12 @@
 
             menuButton.innerHTML =
               "☰";
+
           }
         );
 
       });
+
   }
 
 
@@ -276,9 +279,11 @@
         link.href =
           `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-        link.target = "_blank";
+        link.target =
+          "_blank";
 
       });
+
   }
 
 
@@ -396,7 +401,9 @@
             available
               ? ""
               : "none";
+
         });
+
     }
 
 
@@ -436,10 +443,12 @@
 
 
       if (subtotalElement) {
+
         subtotalElement.textContent =
           money(
             result.subtotal
           );
+
       }
 
 
@@ -449,6 +458,7 @@
           result.quantityDiscount > 0
             ? `− ${money(result.quantityDiscount)}`
             : "₹0";
+
       }
 
 
@@ -458,6 +468,7 @@
           money(
             result.total
           );
+
       }
 
 
@@ -474,7 +485,9 @@
 
           discountText.innerHTML =
             `<strong>${quantity} tanks • ${result.quantityDiscountPercent}% quantity discount</strong>`;
+
         }
+
       }
 
 
@@ -492,8 +505,11 @@
 
           addMoreElement.textContent =
             "Maximum quantity discount unlocked: 15%.";
+
         }
+
       }
+
     }
 
 
@@ -547,7 +563,9 @@
                       .dataset
                       .capacity
                   );
+
               }
+
             }
 
 
@@ -556,6 +574,7 @@
 
           }
         );
+
       });
 
 
@@ -605,6 +624,7 @@
 
           }
         );
+
       });
 
 
@@ -624,6 +644,7 @@
 
         }
       );
+
     }
 
 
@@ -643,11 +664,13 @@
 
         }
       );
+
     }
 
 
     updateCapacityAvailability();
     updatePricing();
+
   }
 
 
@@ -720,8 +743,131 @@
           `<div class="pin-success">
             ✓ Good news! VSH Tank Cleaning serves this Delhi NCR PIN code.
           </div>`;
+
       }
     );
+
+  }
+
+
+  /* =======================================================
+     PAYMENT METHOD UI
+  ======================================================= */
+
+  function setupPaymentMethod() {
+
+    const paymentOptions =
+      document.querySelectorAll(
+        "[data-payment-method]"
+      );
+
+    const paymentMethodInput =
+      document.querySelector(
+        "#paymentMethod"
+      );
+
+    const onlineDiscountElement =
+      document.querySelector(
+        "[data-online-discount]"
+      );
+
+    const paymentNote =
+      document.querySelector(
+        "[data-payment-note]"
+      );
+
+    const submitButton =
+      document.querySelector(
+        "#bookingForm button[type=\"submit\"]"
+      );
+
+
+    if (
+      !paymentOptions.length ||
+      !paymentMethodInput
+    ) {
+      return;
+    }
+
+
+    function updatePaymentUI(method) {
+
+      paymentMethodInput.value =
+        method;
+
+
+      paymentOptions
+        .forEach(option => {
+
+          option.classList.toggle(
+            "active",
+            option.dataset.paymentMethod === method
+          );
+
+        });
+
+
+      if (onlineDiscountElement) {
+
+        onlineDiscountElement.style.display =
+          method === "online"
+            ? ""
+            : "none";
+
+      }
+
+
+      if (paymentNote) {
+
+        if (method === "online") {
+
+          paymentNote.innerHTML =
+            "🔒 Pay securely online and get an additional <strong>5% discount</strong>.";
+
+        } else {
+
+          paymentNote.innerHTML =
+            "💵 Pay after the tank cleaning service is completed. No online payment discount is applied.";
+
+        }
+
+      }
+
+
+      if (submitButton) {
+
+        submitButton.innerHTML =
+          method === "online"
+            ? "Pay & Book Now →"
+            : "Confirm Booking →";
+
+      }
+
+    }
+
+
+    paymentOptions
+      .forEach(option => {
+
+        option.addEventListener(
+          "click",
+          () => {
+
+            updatePaymentUI(
+              option.dataset.paymentMethod
+            );
+
+          }
+        );
+
+      });
+
+
+    updatePaymentUI(
+      paymentMethodInput.value ||
+      "online"
+    );
+
   }
 
 
@@ -757,6 +903,11 @@
         'button[type="submit"]'
       );
 
+    const paymentMethodInput =
+      document.querySelector(
+        "#paymentMethod"
+      );
+
 
     function showError(message) {
 
@@ -767,6 +918,7 @@
 
         errorBox.innerHTML =
           `<strong>Booking could not be created.</strong><br>${message}`;
+
       }
 
 
@@ -774,6 +926,7 @@
         successBox.style.display =
           "none";
       }
+
     }
 
 
@@ -786,7 +939,9 @@
 
         errorBox.innerHTML =
           "";
+
       }
+
     }
 
 
@@ -799,6 +954,7 @@
 
         errorBox.innerHTML =
           "";
+
       }
 
 
@@ -815,7 +971,9 @@
           behavior: "smooth",
           block: "center"
         });
+
       }
+
     }
 
 
@@ -910,10 +1068,17 @@
           ).trim();
 
 
+        const paymentMethod =
+          String(
+            formData.get(
+              "paymentMethod"
+            ) || "online"
+          );
+
+
         /* =================================================
            VALIDATION
         ================================================= */
-
 
         if (!name) {
 
@@ -1011,6 +1176,23 @@
         }
 
 
+        if (
+          ![
+            "online",
+            "after_service"
+          ].includes(
+            paymentMethod
+          )
+        ) {
+
+          showError(
+            "Please select a payment method."
+          );
+
+          return;
+        }
+
+
         /* =================================================
            DISABLE SUBMIT
         ================================================= */
@@ -1027,7 +1209,10 @@
             true;
 
           submitButton.innerHTML =
-            "Creating booking…";
+            paymentMethod === "online"
+              ? "Creating payment…"
+              : "Confirming booking…";
+
         }
 
 
@@ -1038,7 +1223,7 @@
               tankType,
               capacity,
               quantity,
-              "online"
+              paymentMethod
             );
 
 
@@ -1058,22 +1243,23 @@
             capacity,
             quantity,
 
-            paymentMethod:
-              "online",
+            paymentMethod,
 
             amount:
               pricing.total
+
           };
 
 
           /* =================================================
-             CREATE ORDER
+             CREATE BOOKING / ORDER
           ================================================= */
 
           const response =
             await fetch(
               API_CREATE_ORDER,
               {
+
                 method: "POST",
 
                 headers: {
@@ -1085,11 +1271,13 @@
                   JSON.stringify(
                     payload
                   )
+
               }
             );
 
 
-          let data = null;
+          let data =
+            null;
 
 
           try {
@@ -1099,7 +1287,9 @@
 
           } catch (_) {
 
-            data = null;
+            data =
+              null;
+
           }
 
 
@@ -1110,6 +1300,7 @@
               data?.message ||
               `Server returned HTTP ${response.status}.`
             );
+
           }
 
 
@@ -1118,8 +1309,105 @@
             throw new Error(
               "The booking server returned an empty response."
             );
+
           }
 
+
+          /* =================================================
+             PAY AFTER SERVICE
+          ================================================= */
+
+          if (
+            paymentMethod ===
+            "after_service"
+          ) {
+
+            if (
+              data.bookingConfirmed !== true
+            ) {
+
+              throw new Error(
+                data.error ||
+                "The booking server did not confirm the booking."
+              );
+
+            }
+
+
+            showSuccess(`
+
+              <div class="success-icon">
+                ✓
+              </div>
+
+              <h3>
+                Booking confirmed!
+              </h3>
+
+              <p>
+                Thank you,
+                ${escapeHtml(name)}.
+                Your tank cleaning booking has been received.
+              </p>
+
+              <p>
+
+                <strong>
+                  Booking details
+                </strong>
+
+                <br>
+
+                ${escapeHtml(tankType)}
+                tank ·
+                ${capacity.toLocaleString("en-IN")}
+                L ·
+                ${quantity}
+                tank${quantity > 1 ? "s" : ""}
+
+                <br>
+
+                ${escapeHtml(date)}
+                ·
+                ${escapeHtml(time)}
+
+              </p>
+
+              <p>
+
+                <strong>
+                  Amount payable after service:
+                  ${money(pricing.total)}
+                </strong>
+
+              </p>
+
+              <p>
+                No online payment discount has been applied.
+              </p>
+
+              <a
+                href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                  `Hi VSH Tank Cleaning, my booking is confirmed. Name: ${name}, Date: ${date}, Time: ${time}, Amount payable after service: ${money(pricing.total)}`
+                )}"
+                target="_blank"
+                class="btn btn-whatsapp"
+              >
+                WhatsApp VSH
+              </a>
+
+            `);
+
+
+            form.reset();
+
+            return;
+          }
+
+
+          /* =================================================
+             ONLINE PAYMENT
+          ================================================= */
 
           if (
             !data.orderId ||
@@ -1130,12 +1418,9 @@
               data.error ||
               "The booking server did not return a Razorpay order."
             );
+
           }
 
-
-          /* =================================================
-             RAZORPAY
-          ================================================= */
 
           if (
             typeof Razorpay ===
@@ -1145,6 +1430,7 @@
             throw new Error(
               "Razorpay checkout could not be loaded. Please refresh the page and try again."
             );
+
           }
 
 
@@ -1174,7 +1460,8 @@
 
               name,
               email,
-              contact: phone
+              contact:
+                phone
 
             },
 
@@ -1203,7 +1490,10 @@
               quantity:
                 String(
                   quantity
-                )
+                ),
+
+              paymentMethod:
+                "online"
 
             },
 
@@ -1228,6 +1518,7 @@
 
                     submitButton.innerHTML =
                       "Confirming payment…";
+
                   }
 
 
@@ -1235,6 +1526,7 @@
                     await fetch(
                       API_VERIFY_PAYMENT,
                       {
+
                         method: "POST",
 
                         headers: {
@@ -1259,7 +1551,9 @@
 
                             booking:
                               payload
+
                           })
+
                       }
                     );
 
@@ -1277,6 +1571,7 @@
 
                     verifyData =
                       null;
+
                   }
 
 
@@ -1289,6 +1584,7 @@
                       verifyData?.message ||
                       "Payment verification failed."
                     );
+
                   }
 
 
@@ -1309,9 +1605,12 @@
                     </p>
 
                     <p>
+
                       <strong>
                         Booking details
-                      </strong><br>
+                      </strong>
+
+                      <br>
 
                       ${escapeHtml(tankType)}
                       tank ·
@@ -1325,6 +1624,7 @@
                       ${escapeHtml(date)}
                       ·
                       ${escapeHtml(time)}
+
                     </p>
 
                     <p>
@@ -1368,8 +1668,11 @@
 
                     submitButton.innerHTML =
                       originalText;
+
                   }
+
                 }
+
               },
 
 
@@ -1385,8 +1688,11 @@
 
                     submitButton.innerHTML =
                       originalText;
+
                   }
+
                 }
+
             }
 
           };
@@ -1417,7 +1723,9 @@
 
                 submitButton.innerHTML =
                   originalText;
+
               }
+
             }
           );
 
@@ -1445,11 +1753,14 @@
 
             submitButton.innerHTML =
               originalText;
+
           }
+
         }
 
       }
     );
+
   }
 
 
@@ -1460,26 +1771,32 @@
   function escapeHtml(value) {
 
     return String(value)
+
       .replaceAll(
         "&",
         "&amp;"
       )
+
       .replaceAll(
         "<",
         "&lt;"
       )
+
       .replaceAll(
         ">",
         "&gt;"
       )
+
       .replaceAll(
         '"',
         "&quot;"
       )
+
       .replaceAll(
         "'",
         "&#039;"
       );
+
   }
 
 
@@ -1528,6 +1845,7 @@
 
     dateInput.min =
       `${year}-${month}-${day}`;
+
   }
 
 
@@ -1546,6 +1864,8 @@
       setupPricing();
 
       setupPinCheck();
+
+      setupPaymentMethod();
 
       setupBookingForm();
 
