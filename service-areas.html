@@ -1,737 +1,474 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1"
+    content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    VSH Tank Cleaning | Service Areas
-  </title>
+  <title>Service Areas | VSH Tank Cleaning</title>
 
   <meta
     name="description"
-    content="Check VSH Tank Cleaning service areas across Delhi NCR, Delhi, Haryana and Uttar Pradesh."
+    content="Check whether VSH Tank Cleaning serves your area across Delhi NCR, Delhi, Uttar Pradesh and Haryana."
   >
 
-  <link
-    rel="stylesheet"
-    href="styles.css"
-  >
-
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     TOP BAR
-====================================================== -->
-
-<div class="topbar">
-
-  <div class="container topbar-inner">
-
-    <span>
-      💧 Professional Water Tank Cleaning
-    </span>
-
-    <span class="topbar-right">
-      ✓ Transparent pricing
-      &nbsp; • &nbsp;
-      ✓ Easy booking
-    </span>
-
-  </div>
-
-</div>
-
-
-
 <!-- =====================================================
      HEADER
-====================================================== -->
+===================================================== -->
 
 <header class="site-header">
 
-  <div class="container nav-inner">
+  <div class="container navbar">
 
-    <a
-      href="index.html"
-      class="logo"
-    >
-
-      <span class="logo-mark">
-        V
-      </span>
-
-      <span>
-        VSH Tank Cleaning
-      </span>
-
+    <a href="index.html" class="logo">
+      <span class="logo-mark">V</span>
+      <span>VSH Tank Cleaning</span>
     </a>
 
-
-    <nav
-      class="nav-links"
-      id="mainNav"
-    >
-
-      <a href="index.html">
-        Home
-      </a>
-
-      <a href="services.html">
-        Services
-      </a>
-
-      <a
-        href="service-areas.html"
-        class="active"
-      >
-        Service Areas
-      </a>
-
-      <a href="pricing.html">
-        Prices
-      </a>
-
-      <a href="index.html#process">
-        Process
-      </a>
-
-      <a href="pricing.html#faq">
-        FAQs
-      </a>
-
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="service-areas.html">Service Areas</a>
+      <a href="pricing.html">Prices</a>
+      <a href="index.html#process">Process</a>
+      <a href="index.html#faq">FAQs</a>
     </nav>
 
-
-    <div class="nav-actions">
-
-      <a
-        href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
-        target="_blank"
-        class="nav-whatsapp"
-      >
-        WhatsApp
-      </a>
+    <div class="header-actions">
 
       <a
-        href="tel:+919599057079"
-        class="nav-call"
+        href="tel:+91XXXXXXXXXX"
+        class="btn btn-outline"
       >
         ☎ Call
       </a>
 
       <a
-        href="pricing.html#book"
-        class="btn btn-primary nav-book"
+        href="https://wa.me/91XXXXXXXXXX"
+        target="_blank"
+        class="btn btn-green"
       >
-        Book Now →
+        WhatsApp
+      </a>
+
+      <a
+        href="pricing.html"
+        class="btn btn-blue"
+      >
+        Book Now
       </a>
 
     </div>
 
-
     <button
-      class="mobile-menu"
-      id="mobileMenu"
+      class="menu-toggle"
+      id="menuToggle"
       aria-label="Open menu"
-      aria-expanded="false"
-      type="button"
     >
       ☰
     </button>
 
   </div>
 
-</header>
+  <div class="mobile-menu" id="mobileMenu">
 
+    <div class="mobile-menu-inner">
 
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="service-areas.html">Service Areas</a>
+      <a href="pricing.html">Prices</a>
+      <a href="index.html#process">Process</a>
+      <a href="index.html#faq">FAQs</a>
 
-<main>
+      <div class="mobile-menu-buttons">
 
-
-<!-- =====================================================
-     SERVICE AREA HERO
-====================================================== -->
-
-<section class="service-area-hero">
-
-  <div class="container">
-
-    <div class="service-area-hero-card">
-
-      <span class="eyebrow">
-        📍 Where we operate
-      </span>
-
-      <h1>
-        VSH Tank Cleaning
-        <span>Service Areas</span>
-      </h1>
-
-      <p>
-        Check whether we serve your location across
-        Delhi NCR and nearby areas.
-      </p>
-
-
-      <div class="area-search">
-
-        <div class="area-search-input">
-
-          <span>
-            ⌕
-          </span>
-
-          <input
-            type="text"
-            id="serviceAreaSearch"
-            placeholder="Search PIN code or area name"
-            autocomplete="off"
-          >
-
-        </div>
-
-
-        <button
-          type="button"
-          id="serviceAreaSearchButton"
-          class="btn btn-primary"
+        <a
+          href="tel:+91XXXXXXXXXX"
+          class="btn btn-outline"
         >
-          Check Area
-        </button>
+          ☎ Call
+        </a>
+
+        <a
+          href="https://wa.me/91XXXXXXXXXX"
+          target="_blank"
+          class="btn btn-green"
+        >
+          WhatsApp
+        </a>
+
+        <a
+          href="pricing.html"
+          class="btn btn-blue"
+          style="grid-column: 1 / -1;"
+        >
+          Book Now
+        </a>
 
       </div>
-
-
-      <div
-        id="serviceAreaResult"
-        class="service-area-result"
-      ></div>
 
     </div>
 
   </div>
 
-</section>
+</header>
 
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<main>
+
+<section class="hero">
+
+  <div class="container">
+
+    <div class="section-header center">
+
+      <span class="section-eyebrow">
+        📍 Service coverage
+      </span>
+
+      <h1 class="section-title">
+        Tank cleaning across
+        <span style="color:#0878f9;">
+          Delhi NCR
+        </span>
+      </h1>
+
+      <p class="section-subtitle">
+        Check your area before booking. We serve major
+        areas across Delhi, Uttar Pradesh and Haryana.
+      </p>
+
+    </div>
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================= -->
+
+    <div class="area-search-box">
+
+      <input
+        type="text"
+        id="areaSearch"
+        placeholder="Search by PIN code or area name..."
+        autocomplete="off"
+      >
+
+      <button id="searchArea">
+        Check Area
+      </button>
+
+    </div>
+
+    <div
+      id="areaResult"
+      style="
+        max-width:900px;
+        margin:15px auto 0;
+        text-align:center;
+        font-weight:800;
+      "
+    ></div>
+
+  </div>
+
+</section>
 
 
 <!-- =====================================================
      SERVICE AREA CARDS
-====================================================== -->
+===================================================== -->
 
-<section class="service-area-list-section">
+<section class="section section-light">
 
   <div class="container">
 
-    <div class="section-heading">
+    <div class="section-header">
 
-      <span class="eyebrow">
-        Delhi NCR coverage
+      <span class="section-eyebrow">
+        📍 Where we operate
       </span>
 
-      <h2>
-        Find your area
+      <h2 class="section-title">
+        Our service areas
       </h2>
 
-      <p>
-        Browse the areas currently listed for VSH Tank
-        Cleaning service.
+      <p class="section-subtitle">
+        Select your area or search above to check whether
+        VSH Tank Cleaning is available near you.
       </p>
 
     </div>
 
 
-    <div
-      class="service-area-grid"
-      id="serviceAreaGrid"
-    >
+    <div class="area-grid" id="areaGrid">
 
 
       <!-- DELHI NCR -->
 
-      <article
-        class="service-location-card"
-        data-area="delhi ncr delhi north delhi south delhi west delhi"
-      >
+      <div class="area-card" data-area="delhi ncr">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            Delhi NCR
-          </h3>
+          Delhi NCR
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Delhi
-          </span>
-
-          <span>
-            North Delhi
-          </span>
-
-          <span>
-            South Delhi
-          </span>
-
-          <span>
-            West Delhi
-          </span>
+          <span class="area-tag">Delhi</span>
+          <span class="area-tag">North Delhi</span>
+          <span class="area-tag">South Delhi</span>
+          <span class="area-tag">West Delhi</span>
 
         </div>
 
-      </article>
-
+      </div>
 
 
       <!-- WEST DELHI -->
 
-      <article
-        class="service-location-card"
-        data-area="west delhi janakpuri kirti nagar mayapuri naraina paschim vihar punjabi bagh rajouri garden uttam nagar"
-      >
+      <div class="area-card" data-area="west delhi">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            West Delhi
-          </h3>
+          West Delhi
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Janakpuri
-          </span>
-
-          <span>
-            Kirti Nagar
-          </span>
-
-          <span>
-            Mayapuri
-          </span>
-
-          <span>
-            Naraina
-          </span>
-
-          <span>
-            Paschim Vihar
-          </span>
-
-          <span>
-            Punjabi Bagh
-          </span>
-
-          <span>
-            Rajouri Garden
-          </span>
-
-          <span>
-            Uttam Nagar
-          </span>
+          <span class="area-tag">Janakpuri</span>
+          <span class="area-tag">Kirti Nagar</span>
+          <span class="area-tag">Mayapuri</span>
+          <span class="area-tag">Naraina</span>
+          <span class="area-tag">Paschim Vihar</span>
+          <span class="area-tag">Punjabi Bagh</span>
+          <span class="area-tag">Rajouri Garden</span>
+          <span class="area-tag">Uttam Nagar</span>
 
         </div>
 
-      </article>
-
+      </div>
 
 
       <!-- CENTRAL DELHI -->
 
-      <article
-        class="service-location-card"
-        data-area="central delhi karol bagh patel nagar"
-      >
+      <div class="area-card" data-area="central delhi">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            Central Delhi
-          </h3>
+          Central Delhi
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Karol Bagh
-          </span>
-
-          <span>
-            Patel Nagar
-          </span>
+          <span class="area-tag">Karol Bagh</span>
+          <span class="area-tag">Patel Nagar</span>
 
         </div>
 
-      </article>
-
+      </div>
 
 
       <!-- SOUTH DELHI -->
 
-      <article
-        class="service-location-card"
-        data-area="south delhi saket vasant kunj"
-      >
+      <div class="area-card" data-area="south delhi">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            South Delhi
-          </h3>
+          South Delhi
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Saket
-          </span>
-
-          <span>
-            Vasant Kunj
-          </span>
+          <span class="area-tag">Saket</span>
+          <span class="area-tag">Vasant Kunj</span>
 
         </div>
 
-      </article>
-
+      </div>
 
 
       <!-- SOUTH WEST DELHI -->
 
-      <article
-        class="service-location-card"
-        data-area="south west delhi delhi cantt dwarka"
-      >
+      <div class="area-card" data-area="south west delhi">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            South West Delhi
-          </h3>
+          South West Delhi
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Delhi Cantt
-          </span>
-
-          <span>
-            Dwarka
-          </span>
+          <span class="area-tag">Delhi Cantt</span>
+          <span class="area-tag">Dwarka</span>
 
         </div>
 
-      </article>
-
+      </div>
 
 
       <!-- NORTH WEST DELHI -->
 
-      <article
-        class="service-location-card"
-        data-area="north west delhi pitampura rohini"
-      >
+      <div class="area-card" data-area="north west delhi">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            North West Delhi
-          </h3>
+          North West Delhi
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Pitampura
-          </span>
-
-          <span>
-            Rohini
-          </span>
+          <span class="area-tag">Pitampura</span>
+          <span class="area-tag">Rohini</span>
 
         </div>
 
-      </article>
-
+      </div>
 
 
       <!-- UTTAR PRADESH -->
 
-      <article
-        class="service-location-card"
-        data-area="uttar pradesh ghaziabad greater noida noida"
-      >
+      <div class="area-card" data-area="uttar pradesh">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            Uttar Pradesh
-          </h3>
+          Uttar Pradesh
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Ghaziabad
-          </span>
-
-          <span>
-            Greater Noida
-          </span>
-
-          <span>
-            Noida
-          </span>
+          <span class="area-tag">Ghaziabad</span>
+          <span class="area-tag">Greater Noida</span>
+          <span class="area-tag">Noida</span>
 
         </div>
 
-      </article>
-
+      </div>
 
 
       <!-- HARYANA -->
 
-      <article
-        class="service-location-card"
-        data-area="haryana faridabad gurgaon gurugram"
-      >
+      <div class="area-card" data-area="haryana">
 
-        <div class="location-title">
+        <div class="area-card-title">
 
-          <span class="location-pin">
-            ⌖
+          <span class="area-pin">
+            📍
           </span>
 
-          <h3>
-            Haryana
-          </h3>
+          Haryana
 
         </div>
 
+        <div class="area-tags">
 
-        <div class="location-tags">
-
-          <span>
-            Faridabad
-          </span>
-
-          <span>
-            Gurgaon
-          </span>
+          <span class="area-tag">Faridabad</span>
+          <span class="area-tag">Gurgaon</span>
 
         </div>
 
-      </article>
-
-
-    </div>
-
-
-    <div
-      id="noServiceArea"
-      class="no-service-area"
-      style="display:none"
-    >
-
-      <div>
-        🔎
       </div>
-
-      <h3>
-        Area not found
-      </h3>
-
-      <p>
-        We couldn't find that area in our current
-        service-area list.
-      </p>
-
-      <a
-        href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20check%20if%20you%20provide%20tank%20cleaning%20in%20my%20area."
-        target="_blank"
-        class="btn btn-whatsapp"
-      >
-        Ask on WhatsApp
-      </a>
 
     </div>
 
   </div>
 
 </section>
-
-
-
-<!-- =====================================================
-     PIN CHECK
-====================================================== -->
-
-<section class="pin-section">
-
-  <div class="container">
-
-    <div class="pin-check-card">
-
-      <div>
-
-        <span class="eyebrow">
-          📍 Check your PIN
-        </span>
-
-        <h2>
-          Not sure if we cover your location?
-        </h2>
-
-        <p>
-          Enter your 6-digit PIN code and we'll check
-          whether it falls within our current Delhi
-          service area.
-        </p>
-
-      </div>
-
-
-      <div class="pin-check-form">
-
-        <input
-          type="text"
-          id="areaPin"
-          maxlength="6"
-          inputmode="numeric"
-          placeholder="Enter PIN code"
-        >
-
-        <button
-          type="button"
-          id="checkPin"
-          class="btn btn-primary"
-        >
-          Check
-        </button>
-
-      </div>
-
-
-      <div
-        id="pinResult"
-        class="pin-result"
-      ></div>
-
-    </div>
-
-  </div>
-
-</section>
-
 
 
 <!-- =====================================================
      CTA
-====================================================== -->
+===================================================== -->
 
 <section class="final-cta">
 
   <div class="container">
 
-    <div class="final-cta-card">
+    <div class="cta-box">
 
       <div>
 
-        <span class="eyebrow light">
-          Ready to book?
-        </span>
-
         <h2>
-          Get your tank cleaned professionally.
+          Ready to get your tank cleaned?
         </h2>
 
         <p>
-          Check your price and book your preferred
-          service slot.
+          Check your area and book your tank cleaning
+          service in just a few minutes.
         </p>
 
       </div>
 
-
-      <div class="cta-buttons">
+      <div class="cta-actions">
 
         <a
-          href="pricing.html#book"
-          class="btn btn-white btn-large"
+          href="tel:+91XXXXXXXXXX"
+          class="btn btn-outline"
         >
-          Book Now →
+          ☎ Call
         </a>
 
         <a
-          href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
+          href="https://wa.me/91XXXXXXXXXX"
           target="_blank"
-          class="btn btn-whatsapp btn-large"
+          class="btn btn-green"
         >
           WhatsApp
         </a>
 
         <a
-          href="tel:+919599057079"
-          class="btn btn-outline-white btn-large"
+          href="pricing.html"
+          class="btn btn-dark"
         >
-          ☎ Call
+          Book Now
         </a>
 
       </div>
@@ -742,172 +479,128 @@
 
 </section>
 
-
 </main>
-
 
 
 <!-- =====================================================
      FOOTER
-====================================================== -->
+===================================================== -->
 
 <footer class="site-footer">
 
-  <div class="container footer-grid">
+  <div class="container">
 
-    <div>
+    <div class="footer-grid">
 
-      <a
-        href="index.html"
-        class="footer-logo"
-      >
+      <div>
 
-        <span class="logo-mark">
-          V
-        </span>
+        <div class="footer-logo">
+          VSH Tank Cleaning
+        </div>
 
-        VSH Tank Cleaning
+        <p class="footer-text">
+          Professional overhead and underground water
+          tank cleaning services across Delhi NCR.
+        </p>
 
-      </a>
+      </div>
 
+      <div>
 
-      <p>
-        Professional water tank cleaning with
-        transparent pricing and easy online booking.
-      </p>
+        <div class="footer-title">
+          Quick Links
+        </div>
 
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="service-areas.html">Service Areas</a>
+          <a href="pricing.html">Prices</a>
+        </div>
 
-      <div class="footer-social">
+      </div>
 
-        <a
-          href="https://wa.me/919599057079"
-          target="_blank"
-        >
-          WhatsApp
-        </a>
+      <div>
 
-        <a href="tel:+919599057079">
-          Call
-        </a>
+        <div class="footer-title">
+          Service Areas
+        </div>
+
+        <div class="footer-links">
+          <a href="#">Delhi</a>
+          <a href="#">Gurgaon</a>
+          <a href="#">Noida</a>
+          <a href="#">Ghaziabad</a>
+          <a href="#">Faridabad</a>
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="footer-title">
+          Contact
+        </div>
+
+        <div class="footer-links">
+
+          <a href="tel:+91XXXXXXXXXX">
+            ☎ Call us
+          </a>
+
+          <a
+            href="https://wa.me/91XXXXXXXXXX"
+            target="_blank"
+          >
+            WhatsApp
+          </a>
+
+          <a href="pricing.html">
+            Book a service
+          </a>
+
+        </div>
 
       </div>
 
     </div>
 
 
-    <div>
-
-      <h4>
-        Company
-      </h4>
-
-      <a href="index.html">
-        Home
-      </a>
-
-      <a href="services.html">
-        Services
-      </a>
-
-      <a href="service-areas.html">
-        Service Areas
-      </a>
-
-      <a href="pricing.html">
-        Prices
-      </a>
-
+    <div class="footer-bottom">
+      © 2026 VSH Tank Cleaning. All rights reserved.
     </div>
 
-
-    <div>
-
-      <h4>
-        Booking
-      </h4>
-
-      <a href="pricing.html#book">
-        Book Now
-      </a>
-
-      <a href="pricing.html#faq">
-        FAQs
-      </a>
-
-      <a href="pricing.html">
-        Check Price
-      </a>
-
-    </div>
-
-
-    <div>
-
-      <h4>
-        Contact
-      </h4>
-
-      <a href="tel:+919599057079">
-        +91 95990 57079
-      </a>
-
-      <a
-        href="https://wa.me/919599057079"
-        target="_blank"
-      >
-        WhatsApp us
-      </a>
-
-    </div>
-
-  </div>
-
-
-  <div class="container copyright">
-    © 2026 VSH Tank Cleaning. All rights reserved.
   </div>
 
 </footer>
 
 
-
 <!-- =====================================================
-     MOBILE BOTTOM BAR
-====================================================== -->
+     MOBILE CTA
+===================================================== -->
 
-<div class="mobile-bottom-bar">
+<div class="mobile-bottom-cta">
 
   <a
-    href="tel:+919599057079"
-    class="bottom-call"
+    href="tel:+91XXXXXXXXXX"
+    class="mobile-call"
   >
-    ☎
-    <span>
-      Call
-    </span>
+    ☎ Call
   </a>
 
-
   <a
-    href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
+    href="https://wa.me/91XXXXXXXXXX"
     target="_blank"
-    class="bottom-whatsapp"
+    class="mobile-whatsapp"
   >
-    ◉
-    <span>
-      WhatsApp
-    </span>
+    WhatsApp
   </a>
 
-
   <a
-    href="pricing.html#book"
-    class="bottom-book"
+    href="pricing.html"
+    class="mobile-book"
   >
-    Book tank cleaning
-    <span>
-      →
-    </span>
+    Book Now
   </a>
 
 </div>
@@ -915,47 +608,71 @@
 
 <script src="site.js"></script>
 
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  if (menuToggle && mobileMenu) {
+
+    menuToggle.addEventListener("click", function () {
+
+      mobileMenu.classList.toggle("open");
+
+      menuToggle.textContent =
+        mobileMenu.classList.contains("open")
+          ? "✕"
+          : "☰";
+
+    });
+
+  }
+
+
   const searchInput =
-    document.getElementById("serviceAreaSearch");
+    document.getElementById("areaSearch");
 
   const searchButton =
-    document.getElementById("serviceAreaSearchButton");
+    document.getElementById("searchArea");
 
   const result =
-    document.getElementById("serviceAreaResult");
+    document.getElementById("areaResult");
 
   const cards =
-    document.querySelectorAll(".service-location-card");
-
-  const noArea =
-    document.getElementById("noServiceArea");
+    document.querySelectorAll(".area-card");
 
 
-  function searchAreas() {
+  function searchArea() {
 
     const query =
-      searchInput.value
-        .trim()
-        .toLowerCase();
+      searchInput.value.trim().toLowerCase();
+
+    if (!query) {
+
+      cards.forEach(card => {
+        card.style.display = "";
+      });
+
+      result.textContent = "";
+
+      return;
+    }
+
 
     let found = false;
 
 
-    cards.forEach(function (card) {
+    cards.forEach(card => {
 
-      const area =
-        card.dataset.area.toLowerCase();
+      const text =
+        card.textContent.toLowerCase();
 
       const matches =
-        query === "" ||
-        area.includes(query);
+        text.includes(query);
 
       card.style.display =
-        matches ? "" : "block";
+        matches ? "" : "none";
 
       if (matches) {
         found = true;
@@ -964,36 +681,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    if (query === "") {
-
-      cards.forEach(function (card) {
-        card.style.display = "";
-      });
-
-      noArea.style.display = "none";
-      result.innerHTML = "";
-
-      return;
-    }
-
-
     if (found) {
 
-      noArea.style.display = "none";
+      result.textContent =
+        "✓ Service available in the matching area.";
 
-      result.innerHTML =
-        '<div class="search-success">' +
-        '✓ Service area found' +
-        '</div>';
+      result.style.color =
+        "#0b934e";
 
     } else {
 
-      noArea.style.display = "block";
+      result.textContent =
+        "We couldn't find that area. WhatsApp us to confirm availability.";
 
-      result.innerHTML =
-        '<div class="search-warning">' +
-        'No matching service area found.' +
-        '</div>';
+      result.style.color =
+        "#c0392b";
 
     }
 
@@ -1001,12 +703,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   if (searchButton) {
-
     searchButton.addEventListener(
       "click",
-      searchAreas
+      searchArea
     );
-
   }
 
 
@@ -1017,83 +717,7 @@ document.addEventListener("DOMContentLoaded", function () {
       function (event) {
 
         if (event.key === "Enter") {
-          searchAreas();
-        }
-
-      }
-    );
-
-  }
-
-
-
-  const pinInput =
-    document.getElementById("areaPin");
-
-  const pinButton =
-    document.getElementById("checkPin");
-
-  const pinResult =
-    document.getElementById("pinResult");
-
-
-  function checkPin() {
-
-    const pin =
-      pinInput.value.trim();
-
-
-    if (!/^\d{6}$/.test(pin)) {
-
-      pinResult.innerHTML =
-        '<div class="pin-error">' +
-        'Please enter a valid 6-digit PIN code.' +
-        '</div>';
-
-      return;
-
-    }
-
-
-    if (pin.startsWith("110")) {
-
-      pinResult.innerHTML =
-        '<div class="pin-success">' +
-        '<strong>✓ Service available</strong>' +
-        '<span>VSH currently accepts bookings for Delhi PIN codes beginning with 110.</span>' +
-        '</div>';
-
-    } else {
-
-      pinResult.innerHTML =
-        '<div class="pin-warning">' +
-        '<strong>Check with us</strong>' +
-        '<span>We may still be able to help. Contact VSH on WhatsApp to confirm availability.</span>' +
-        '</div>';
-
-    }
-
-  }
-
-
-  if (pinButton) {
-
-    pinButton.addEventListener(
-      "click",
-      checkPin
-    );
-
-  }
-
-
-  if (pinInput) {
-
-    pinInput.addEventListener(
-      "keydown",
-      function (event) {
-
-        if (event.key === "Enter") {
-          checkPin();
+          searchArea();
         }
 
       }
@@ -1103,7 +727,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-
 
 </body>
 </html>
