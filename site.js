@@ -1,70 +1,20 @@
 /* =========================================================
-   VSH TANK CLEANING - SITE JS
+   VSH TANK CLEANING
+   COMPLETE SITE JAVASCRIPT
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+(() => {
+  "use strict";
 
   /* =======================================================
-     MOBILE MENU
+     CONFIG
   ======================================================= */
 
-  const menuButton = document.querySelector(".mobile-menu-btn");
-  const navbar = document.querySelector(".navbar");
-
-  if (menuButton && navbar) {
-
-    menuButton.addEventListener("click", () => {
-
-      navbar.classList.toggle("mobile-open");
-
-      const open =
-        navbar.classList.contains("mobile-open");
-
-      menuButton.textContent = open ? "✕" : "☰";
-
-    });
-
-  }
-
-
-  /* =======================================================
-     FAQ
-  ======================================================= */
-
-  document
-    .querySelectorAll(".faq-question")
-    .forEach((button) => {
-
-      button.addEventListener("click", () => {
-
-        const item =
-          button.closest(".faq-item");
-
-        if (!item) return;
-
-        item.classList.toggle("open");
-
-        const symbol =
-          button.querySelector("span");
-
-        if (symbol) {
-          symbol.textContent =
-            item.classList.contains("open")
-              ? "−"
-              : "+";
-        }
-
-      });
-
-    });
-
-
-  /* =======================================================
-     PRICING CONFIG
-  ======================================================= */
+  const WHATSAPP_NUMBER = "919599057079";
+  const API_CREATE_ORDER = "/api/create-order";
+  const API_VERIFY_PAYMENT = "/api/verify-payment";
 
   const PRICES = {
-
     overhead: {
       500: 499,
       1000: 599,
@@ -81,9 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       3000: 1299,
       5000: 1999
     }
-
   };
-
 
   const QUANTITY_DISCOUNTS = {
     1: 0,
@@ -93,12 +41,18 @@ document.addEventListener("DOMContentLoaded", () => {
     5: 15
   };
 
-
   const ONLINE_PAYMENT_DISCOUNT = 5;
 
 
-  function getQuantityDiscount(quantity) {
+  /* =======================================================
+     HELPERS
+  ======================================================= */
 
+  function money(amount) {
+    return `₹${Number(amount || 0).toLocaleString("en-IN")}`;
+  }
+
+  function getDiscount(quantity) {
     const qty = Number(quantity);
 
     if (qty >= 5) {
@@ -106,1172 +60,1170 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     return QUANTITY_DISCOUNTS[qty] || 0;
-
   }
 
-
   function getPrice(tankType, capacity) {
-
     return Number(
       PRICES[tankType]?.[capacity] || 0
     );
-
   }
-
 
   function calculateTotal(
     tankType,
     capacity,
     quantity,
-    paymentMethod
+    paymentMethod = "online"
   ) {
+    const unitPrice = getPrice(tankType, capacity);
+    const qty = Number(quantity);
 
-    const unitPrice =
-      getPrice(tankType, capacity);
+    const subtotal = unitPrice * qty;
 
-    const qty =
-      Number(quantity);
+    const quantityDiscountPercent = getDiscount(qty);
 
-    const subtotal =
-      unitPrice * qty;
-
-    const quantityDiscountPercent =
-      getQuantityDiscount(qty);
-
-    const quantityDiscount =
-      Math.round(
-        subtotal *
-        quantityDiscountPercent /
-        100
-      );
+    const quantityDiscount = Math.round(
+      subtotal * quantityDiscountPercent / 100
+    );
 
     const afterQuantityDiscount =
-      subtotal -
-      quantityDiscount;
+      subtotal - quantityDiscount;
 
     const onlineDiscount =
       paymentMethod === "online"
         ? Math.round(
             afterQuantityDiscount *
-            ONLINE_PAYMENT_DISCOUNT /
-            100
+            ONLINE_PAYMENT_DISCOUNT / 100
           )
         : 0;
 
     const total =
-      afterQuantityDiscount -
-      onlineDiscount;
+      afterQuantityDiscount - onlineDiscount;
 
     return {
-
       unitPrice,
-
       quantity: qty,
-
       subtotal,
-
       quantityDiscountPercent,
-
       quantityDiscount,
-
       onlineDiscount,
-
       total
-
     };
-
   }
 
 
   /* =======================================================
-     PRICING PAGE
+     MOBILE MENU
   ======================================================= */
 
-  const pricingPage =
-    document.querySelector(".pricing-shell");
+  function setupMobileMenu() {
+    const menuButton =
+      document.querySelector(".mobile-menu");
 
-  if (pricingPage) {
+    const nav =
+      document.querySelector(".nav-links");
 
-    let tankType =
-      document.querySelector("#selectedTankType")
-        ?.value || "overhead";
+    if (!menuButton || !nav) {
+      return;
+    }
 
-    let capacity =
-      Number(
-        document.querySelector("#selectedCapacity")
-          ?.value || 500
+    menuButton.addEventListener("click", () => {
+      nav.classList.toggle("mobile-open");
+
+      const opened =
+        nav.classList.contains("mobile-open");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        opened ? "true" : "false"
       );
 
-    let quantity =
-      Number(
-        document.querySelector("#selectedQuantity")
-          ?.value || 1
+      menuButton.innerHTML =
+        opened ? "✕" : "☰";
+    });
+
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("mobile-open");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        menuButton.innerHTML = "☰";
+      });
+    });
+  }
+
+
+  /* =======================================================
+     WHATSAPP LINKS
+  ======================================================= */
+
+  function setupWhatsAppLinks() {
+    document
+      .querySelectorAll("[data-whatsapp]")
+      .forEach(link => {
+
+        const message =
+          link.getAttribute("data-whatsapp");
+
+        if (!message) {
+          return;
+        }
+
+        link.href =
+          `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+        link.target = "_blank";
+      });
+  }
+
+
+  /* =======================================================
+     PRICING CALCULATOR
+  ======================================================= */
+
+  function setupPricing() {
+    const tankTypeButtons =
+      document.querySelectorAll(
+        "[data-tank-type]"
       );
 
-    let paymentMethod =
-      document.querySelector(
-        'input[name="paymentMethod"]:checked'
-      )?.value || "online";
+    const capacityButtons =
+      document.querySelectorAll(
+        "[data-capacity]"
+      );
 
-
-    /* -----------------------------------------------
-       TANK TYPE
-    ----------------------------------------------- */
-
-    document
-      .querySelectorAll(".tank-type")
-      .forEach((button) => {
-
-        button.addEventListener("click", () => {
-
-          document
-            .querySelectorAll(".tank-type")
-            .forEach((item) => {
-              item.classList.remove("active");
-            });
-
-          button.classList.add("active");
-
-          tankType =
-            button.dataset.tankType;
-
-          const hidden =
-            document.querySelector(
-              "#selectedTankType"
-            );
-
-          if (hidden) {
-            hidden.value = tankType;
-          }
-
-          updatePricing();
-
-        });
-
-      });
-
-
-    /* -----------------------------------------------
-       CAPACITY
-    ----------------------------------------------- */
-
-    document
-      .querySelectorAll(".capacity-card")
-      .forEach((button) => {
-
-        button.addEventListener("click", () => {
-
-          document
-            .querySelectorAll(".capacity-card")
-            .forEach((item) => {
-              item.classList.remove("active");
-            });
-
-          button.classList.add("active");
-
-          capacity =
-            Number(button.dataset.capacity);
-
-          const hidden =
-            document.querySelector(
-              "#selectedCapacity"
-            );
-
-          if (hidden) {
-            hidden.value = capacity;
-          }
-
-          updatePricing();
-
-        });
-
-      });
-
-
-    /* -----------------------------------------------
-       QUANTITY
-    ----------------------------------------------- */
-
-    const quantityDisplay =
+    const quantityElement =
       document.querySelector(
         "[data-quantity]"
       );
 
-    const quantityHidden =
-      document.querySelector(
-        "#selectedQuantity"
-      );
-
-
-    const minusButton =
+    const quantityMinus =
       document.querySelector(
         "[data-quantity-minus]"
       );
 
-    const plusButton =
+    const quantityPlus =
       document.querySelector(
         "[data-quantity-plus]"
       );
 
-
-    function setQuantity(value) {
-
-      quantity =
-        Math.max(
-          1,
-          Math.min(
-            20,
-            Number(value)
-          )
-        );
-
-      if (quantityDisplay) {
-        quantityDisplay.textContent =
-          quantity;
-      }
-
-      if (quantityHidden) {
-        quantityHidden.value =
-          quantity;
-      }
-
-      updatePricing();
-
-    }
-
-
-    if (minusButton) {
-
-      minusButton.addEventListener(
-        "click",
-        () => {
-          setQuantity(quantity - 1);
-        }
+    const selectedTankType =
+      document.querySelector(
+        "#selectedTankType"
       );
 
-    }
-
-
-    if (plusButton) {
-
-      plusButton.addEventListener(
-        "click",
-        () => {
-          setQuantity(quantity + 1);
-        }
+    const selectedCapacity =
+      document.querySelector(
+        "#selectedCapacity"
       );
 
+    const selectedQuantity =
+      document.querySelector(
+        "#selectedQuantity"
+      );
+
+    const subtotalElement =
+      document.querySelector(
+        "[data-price-subtotal]"
+      );
+
+    const discountElement =
+      document.querySelector(
+        "[data-discount-amount]"
+      );
+
+    const totalElement =
+      document.querySelector(
+        "[data-price-total]"
+      );
+
+    const discountText =
+      document.querySelector(
+        "[data-discount-text]"
+      );
+
+    const addMoreElement =
+      document.querySelector(
+        "[data-add-more]"
+      );
+
+    if (!quantityElement) {
+      return;
     }
 
+    let tankType =
+      selectedTankType?.value ||
+      "overhead";
 
-    /* -----------------------------------------------
-       PAYMENT METHOD
-    ----------------------------------------------- */
+    let capacity =
+      Number(
+        selectedCapacity?.value || 500
+      );
 
-    document
-      .querySelectorAll(
-        "[data-payment-option]"
-      )
-      .forEach((option) => {
+    let quantity =
+      Number(
+        selectedQuantity?.value || 1
+      );
 
-        option.addEventListener(
-          "click",
-          () => {
 
-            const radio =
-              option.querySelector(
-                'input[type="radio"]'
-              );
+    function updateCapacityAvailability() {
+      capacityButtons.forEach(button => {
 
-            if (!radio) return;
+        const buttonCapacity =
+          Number(
+            button.dataset.capacity
+          );
 
-            radio.checked = true;
+        const available =
+          getPrice(
+            tankType,
+            buttonCapacity
+          ) > 0;
 
-            paymentMethod =
-              radio.value;
-
-            document
-              .querySelectorAll(
-                "[data-payment-option]"
-              )
-              .forEach((item) => {
-                item.classList.remove(
-                  "active"
-                );
-              });
-
-            option.classList.add(
-              "active"
-            );
-
-            updatePricing();
-
-          }
-        );
+        button.style.display =
+          available ? "" : "none";
 
       });
+    }
 
-
-    /* -----------------------------------------------
-       UPDATE PRICING
-    ----------------------------------------------- */
 
     function updatePricing() {
-
       const result =
         calculateTotal(
           tankType,
           capacity,
           quantity,
-          paymentMethod
+          "online"
         );
 
-
-      const subtotal =
-        document.querySelector(
-          "[data-price-subtotal]"
-        );
-
-      const discount =
-        document.querySelector(
-          "[data-discount-amount]"
-        );
-
-      const total =
-        document.querySelector(
-          "[data-price-total]"
-        );
-
-
-      if (subtotal) {
-
-        subtotal.textContent =
-          formatMoney(
-            result.subtotal
-          );
-
+      if (quantityElement) {
+        quantityElement.textContent =
+          quantity;
       }
 
-
-      if (discount) {
-
-        discount.textContent =
-          result.quantityDiscount > 0
-            ? "- " +
-              formatMoney(
-                result.quantityDiscount
-              )
-            : "₹0";
-
+      if (selectedTankType) {
+        selectedTankType.value =
+          tankType;
       }
 
-
-      const onlineRow =
-        document.querySelector(
-          "#onlineDiscountRow"
-        );
-
-      const onlineAmount =
-        document.querySelector(
-          "#onlineDiscountAmount"
-        );
-
-
-      if (onlineRow) {
-
-        onlineRow.style.display =
-          paymentMethod === "online"
-            ? "flex"
-            : "none";
-
+      if (selectedCapacity) {
+        selectedCapacity.value =
+          capacity;
       }
 
-
-      if (onlineAmount) {
-
-        onlineAmount.textContent =
-          paymentMethod === "online"
-            ? "- " +
-              formatMoney(
-                result.onlineDiscount
-              )
-            : "₹0";
-
+      if (selectedQuantity) {
+        selectedQuantity.value =
+          quantity;
       }
 
-
-      if (total) {
-
-        total.textContent =
-          formatMoney(
-            result.total
-          );
-
+      if (subtotalElement) {
+        subtotalElement.textContent =
+          money(result.subtotal);
       }
 
+      if (discountElement) {
 
-      const discountText =
-        document.querySelector(
-          "[data-discount-text]"
-        );
+        if (result.quantityDiscount > 0) {
+          discountElement.textContent =
+            `− ${money(result.quantityDiscount)}`;
+        } else {
+          discountElement.textContent =
+            "₹0";
+        }
+      }
 
+      if (totalElement) {
+        totalElement.textContent =
+          money(result.total);
+      }
 
       if (discountText) {
 
         if (
-          paymentMethod === "online"
+          result.quantityDiscountPercent === 0
         ) {
 
-          if (
-            result.quantityDiscountPercent > 0
-          ) {
-
-            discountText.textContent =
-              `${result.quantityDiscountPercent}% quantity saving + 5% online discount applied.`;
-
-          } else {
-
-            discountText.textContent =
-              "Pay online and save 5%.";
-
-          }
+          discountText.innerHTML =
+            `<strong>${quantity} tank${quantity > 1 ? "s" : ""} • No quantity discount</strong>`;
 
         } else {
 
-          if (
-            result.quantityDiscountPercent > 0
-          ) {
-
-            discountText.textContent =
-              `${result.quantityDiscountPercent}% quantity saving applied. Pay after service has no 5% online discount.`;
-
-          } else {
-
-            discountText.textContent =
-              "Pay after service. No online payment discount.";
-
-          }
-
+          discountText.innerHTML =
+            `<strong>${quantity} tanks • ${result.quantityDiscountPercent}% quantity discount</strong>`;
         }
-
       }
 
+      if (addMoreElement) {
 
-      const addMore =
-        document.querySelector(
-          "[data-add-more]"
-        );
-
-      if (addMore) {
-
-        if (
-          quantity < 5
-        ) {
+        if (quantity < 5) {
 
           const nextQty =
             quantity + 1;
 
           const nextDiscount =
-            getQuantityDiscount(
-              nextQty
-            );
+            getDiscount(nextQty);
 
-          addMore.textContent =
-            `Add ${5 - quantity} more tank${5 - quantity === 1 ? "" : "s"} to unlock up to ${nextDiscount}% quantity savings.`;
+          if (nextDiscount > 0) {
+
+            addMoreElement.textContent =
+              `Add ${5 - quantity} more tank${5 - quantity > 1 ? "s" : ""} to reach up to ${nextDiscount}% savings.`;
+
+          } else {
+
+            addMoreElement.textContent =
+              `Add another tank to unlock a quantity discount.`;
+          }
 
         } else {
 
-          addMore.textContent =
-            "Maximum 15% quantity saving unlocked.";
-
+          addMoreElement.textContent =
+            "Maximum quantity discount unlocked: 15%.";
         }
-
       }
-
     }
 
 
-    function formatMoney(amount) {
+    tankTypeButtons.forEach(button => {
 
-      return (
-        "₹" +
-        Number(amount).toLocaleString(
-          "en-IN"
-        )
-      );
+      button.addEventListener("click", () => {
 
-    }
+        tankType =
+          button.dataset.tankType;
 
-
-    updatePricing();
-
-
-    /* =====================================================
-       BOOKING FORM
-    ===================================================== */
-
-    const bookingForm =
-      document.querySelector(
-        "#bookingForm"
-      );
-
-
-    if (bookingForm) {
-
-      bookingForm.addEventListener(
-        "submit",
-        async (event) => {
-
-          event.preventDefault();
-
-
-          const errorBox =
-            document.querySelector(
-              "#bookingError"
-            );
-
-          if (errorBox) {
-            errorBox.classList.remove(
-              "show"
-            );
-            errorBox.textContent = "";
-          }
-
-
-          const name =
-            document.querySelector(
-              "#customerName"
-            )?.value.trim();
-
-
-          const phone =
-            document.querySelector(
-              "#customerPhone"
-            )?.value.trim();
-
-
-          const email =
-            document.querySelector(
-              "#customerEmail"
-            )?.value.trim();
-
-
-          const pin =
-            document.querySelector(
-              "#customerPin"
-            )?.value.trim();
-
-
-          const address =
-            document.querySelector(
-              "#customerAddress"
-            )?.value.trim();
-
-
-          if (!name || !phone || !pin || !address) {
-
-            showBookingError(
-              "Please fill in all required fields."
-            );
-
-            return;
-
-          }
-
-
-          if (!/^[6-9]\d{9}$/.test(phone)) {
-
-            showBookingError(
-              "Please enter a valid 10-digit Indian mobile number."
-            );
-
-            return;
-
-          }
-
-
-          if (!/^110\d{3}$/.test(pin)) {
-
-            showBookingError(
-              "Please enter a valid Delhi PIN code starting with 110."
-            );
-
-            return;
-
-          }
-
-
-          const result =
-            calculateTotal(
-              tankType,
-              capacity,
-              quantity,
-              paymentMethod
-            );
-
-
-          const button =
-            bookingForm.querySelector(
-              'button[type="submit"]'
-            );
-
-
-          const originalText =
-            button
-              ? button.textContent
-              : "";
-
-
-          if (button) {
-
-            button.disabled = true;
-
-            button.textContent =
-              "Processing...";
-
-          }
-
-
-          try {
-
-            const response =
-              await fetch(
-                "/api/create-order",
-                {
-
-                  method: "POST",
-
-                  headers: {
-                    "Content-Type":
-                      "application/json"
-                  },
-
-                  body: JSON.stringify({
-
-                    name,
-
-                    phone,
-
-                    email,
-
-                    pin,
-
-                    address,
-
-                    tankType,
-
-                    capacity,
-
-                    quantity,
-
-                    paymentMethod,
-
-                    amount:
-                      result.total
-
-                  })
-
-                }
-              );
-
-
-            const data =
-              await response.json();
-
-
-            if (!response.ok) {
-
-              throw new Error(
-                data.error ||
-                "Unable to create booking."
-              );
-
-            }
-
-
-            /* -------------------------------------------
-               PAY AFTER SERVICE
-            ------------------------------------------- */
-
-            if (
-              paymentMethod ===
-              "after_service"
-            ) {
-
-              showBookingSuccess();
-
-              return;
-
-            }
-
-
-            /* -------------------------------------------
-               RAZORPAY
-            ------------------------------------------- */
-
-            if (
-              !data.order
-            ) {
-
-              throw new Error(
-                "Payment order was not created."
-              );
-
-            }
-
-
-            if (
-              typeof Razorpay ===
-              "undefined"
-            ) {
-
-              throw new Error(
-                "Razorpay failed to load."
-              );
-
-            }
-
-
-            const options = {
-
-              key:
-                data.key,
-
-              amount:
-                data.order.amount,
-
-              currency:
-                data.order.currency ||
-                "INR",
-
-              name:
-                "VSH Tank Cleaning",
-
-              description:
-                "Water Tank Cleaning Booking",
-
-              order_id:
-                data.order.id,
-
-
-              prefill: {
-
-                name,
-
-                email,
-
-                contact:
-                  phone
-
-              },
-
-
-              theme: {
-
-                color:
-                  "#0878f9"
-
-              },
-
-
-              handler:
-                async function (
-                  payment
-                ) {
-
-                  try {
-
-                    const verifyResponse =
-                      await fetch(
-                        "/api/verify-payment",
-                        {
-
-                          method:
-                            "POST",
-
-                          headers: {
-                            "Content-Type":
-                              "application/json"
-                          },
-
-                          body:
-                            JSON.stringify({
-
-                              razorpay_order_id:
-                                payment.razorpay_order_id,
-
-                              razorpay_payment_id:
-                                payment.razorpay_payment_id,
-
-                              razorpay_signature:
-                                payment.razorpay_signature
-
-                            })
-
-                        }
-                      );
-
-
-                    const verifyData =
-                      await verifyResponse.json();
-
-
-                    if (
-                      !verifyResponse.ok ||
-                      !verifyData.success
-                    ) {
-
-                      throw new Error(
-                        verifyData.error ||
-                        "Payment verification failed."
-                      );
-
-                    }
-
-
-                    showBookingSuccess();
-
-                  } catch (error) {
-
-                    showBookingError(
-                      error.message ||
-                      "Payment verification failed."
-                    );
-
-                    if (button) {
-
-                      button.disabled =
-                        false;
-
-                      button.textContent =
-                        originalText;
-
-                    }
-
-                  }
-
-                }
-
-            };
-
-
-            const razorpay =
-              new Razorpay(
-                options
-              );
-
-
-            razorpay.on(
-              "payment.failed",
-              function (
-                response
-              ) {
-
-                showBookingError(
-                  response.error?.description ||
-                  "Payment failed. Please try again."
-                );
-
-                if (button) {
-
-                  button.disabled =
-                    false;
-
-                  button.textContent =
-                    originalText;
-
-                }
-
-              }
-            );
-
-
-            razorpay.open();
-
-
-          } catch (error) {
-
-            showBookingError(
-              error.message ||
-              "Something went wrong. Please try again."
-            );
-
-
-            if (button) {
-
-              button.disabled =
-                false;
-
-              button.textContent =
-                originalText;
-
-            }
-
-          }
-
-        }
-      );
-
-    }
-
-
-    function showBookingError(message) {
-
-      const errorBox =
-        document.querySelector(
-          "#bookingError"
-        );
-
-      if (!errorBox) return;
-
-      errorBox.textContent =
-        message;
-
-      errorBox.classList.add(
-        "show"
-      );
-
-      errorBox.style.display =
-        "block";
-
-      errorBox.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-
-    }
-
-
-    function showBookingSuccess() {
-
-      const form =
-        document.querySelector(
-          "#bookingForm"
-        );
-
-      const success =
-        document.querySelector(
-          "#bookingSuccess"
-        );
-
-      if (form) {
-        form.style.display =
-          "none";
-      }
-
-      if (success) {
-
-        success.style.display =
-          "block";
-
-        success.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
+        tankTypeButtons.forEach(item => {
+          item.classList.remove("active");
         });
 
-      }
+        button.classList.add("active");
 
+        const currentPrice =
+          getPrice(
+            tankType,
+            capacity
+          );
+
+        if (!currentPrice) {
+
+          const availableButton =
+            [...capacityButtons]
+              .find(item =>
+                getPrice(
+                  tankType,
+                  Number(
+                    item.dataset.capacity
+                  )
+                ) > 0
+              );
+
+          if (availableButton) {
+
+            capacity =
+              Number(
+                availableButton.dataset.capacity
+              );
+          }
+        }
+
+        updateCapacityAvailability();
+        updatePricing();
+      });
+    });
+
+
+    capacityButtons.forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        const newCapacity =
+          Number(
+            button.dataset.capacity
+          );
+
+        if (
+          !getPrice(
+            tankType,
+            newCapacity
+          )
+        ) {
+          return;
+        }
+
+        capacity =
+          newCapacity;
+
+        capacityButtons.forEach(item => {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        updatePricing();
+      });
+    });
+
+
+    if (quantityMinus) {
+
+      quantityMinus.addEventListener(
+        "click",
+        () => {
+
+          quantity =
+            Math.max(
+              1,
+              quantity - 1
+            );
+
+          updatePricing();
+        }
+      );
     }
 
+
+    if (quantityPlus) {
+
+      quantityPlus.addEventListener(
+        "click",
+        () => {
+
+          quantity =
+            Math.min(
+              20,
+              quantity + 1
+            );
+
+          updatePricing();
+        }
+      );
+    }
+
+
+    updateCapacityAvailability();
+    updatePricing();
   }
 
 
   /* =======================================================
-     SERVICE AREA SEARCH
+     PIN CODE CHECK
   ======================================================= */
 
-  const checkPinButton =
-    document.querySelector(
-      "#checkPin"
-    );
+  function setupPinCheck() {
+    const pinInput =
+      document.querySelector("#areaPin");
 
-  const areaInput =
-    document.querySelector(
-      "#areaPin"
-    );
+    const checkButton =
+      document.querySelector("#checkPin");
 
-  const areaResult =
-    document.querySelector(
-      "#pinResult"
-    );
+    const result =
+      document.querySelector("#pinResult");
 
-
-  const serviceAreas = [
-
-    "Delhi",
-    "North Delhi",
-    "South Delhi",
-    "West Delhi",
-
-    "Janakpuri",
-    "Kirti Nagar",
-    "Mayapuri",
-    "Naraina",
-    "Paschim Vihar",
-    "Punjabi Bagh",
-    "Rajouri Garden",
-    "Uttam Nagar",
-
-    "Karol Bagh",
-    "Patel Nagar",
-
-    "Saket",
-    "Vasant Kunj",
-
-    "Delhi Cantt",
-    "Dwarka",
-
-    "Pitampura",
-    "Rohini",
-
-    "Ghaziabad",
-    "Greater Noida",
-    "Noida",
-
-    "Faridabad",
-    "Gurgaon"
-
-  ];
-
-
-  function checkServiceArea() {
-
-    if (!areaInput || !areaResult) {
-      return;
-    }
-
-
-    const value =
-      areaInput.value
-        .trim()
-        .toLowerCase();
-
-
-    if (!value) {
-
-      areaResult.className =
-        "area-result show error";
-
-      areaResult.textContent =
-        "Please enter a PIN code or area name.";
-
-      return;
-
-    }
-
-
-    /* PIN */
     if (
-      /^\d{6}$/.test(value)
+      !pinInput ||
+      !checkButton ||
+      !result
     ) {
-
-      if (
-        value.startsWith("110")
-      ) {
-
-        areaResult.className =
-          "area-result show success";
-
-        areaResult.textContent =
-          "✓ This PIN is within our Delhi service-check area. Please continue to booking or contact us to confirm your exact locality.";
-
-      } else {
-
-        areaResult.className =
-          "area-result show error";
-
-        areaResult.textContent =
-          "We currently focus on Delhi NCR service areas. Please WhatsApp us to check your exact location.";
-
-      }
-
       return;
-
     }
 
-
-    const match =
-      serviceAreas.find(
-        (area) =>
-          area.toLowerCase() ===
-          value
-      );
-
-
-    if (match) {
-
-      areaResult.className =
-        "area-result show success";
-
-      areaResult.textContent =
-        `✓ Yes, we serve ${match}. You can continue to booking.`;
-
-      return;
-
-    }
-
-
-    const partialMatch =
-      serviceAreas.find(
-        (area) =>
-          area
-            .toLowerCase()
-            .includes(value)
-      );
-
-
-    if (partialMatch) {
-
-      areaResult.className =
-        "area-result show success";
-
-      areaResult.textContent =
-        `✓ ${partialMatch} is in our listed service coverage.`;
-
-      return;
-
-    }
-
-
-    areaResult.className =
-      "area-result show error";
-
-    areaResult.textContent =
-      "We couldn't find that area in our listed service areas. WhatsApp us with your location and we'll check.";
-
-  }
-
-
-  if (checkPinButton) {
-
-    checkPinButton.addEventListener(
+    checkButton.addEventListener(
       "click",
-      checkServiceArea
-    );
+      () => {
 
-  }
+        const pin =
+          pinInput.value.trim();
 
+        if (!/^\d{6}$/.test(pin)) {
 
-  if (areaInput) {
+          result.innerHTML =
+            `<div class="pin-error">Please enter a valid 6-digit PIN code.</div>`;
 
-    areaInput.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          event.key === "Enter"
-        ) {
-
-          event.preventDefault();
-
-          checkServiceArea();
-
+          return;
         }
 
+        if (!/^110\d{3}$/.test(pin)) {
+
+          result.innerHTML =
+            `<div class="pin-error">Sorry, online booking is currently available only for Delhi PIN codes beginning with 110.</div>`;
+
+          return;
+        }
+
+        result.innerHTML =
+          `<div class="pin-success">✓ Good news! VSH Tank Cleaning serves this Delhi PIN code.</div>`;
       }
     );
-
   }
 
 
-});
+  /* =======================================================
+     BOOKING FORM
+  ======================================================= */
+
+  function setupBookingForm() {
+    const form =
+      document.querySelector("#bookingForm");
+
+    if (!form) {
+      return;
+    }
+
+    const errorBox =
+      document.querySelector("#bookingError");
+
+    const successBox =
+      document.querySelector("#bookingSuccess");
+
+    const submitButton =
+      form.querySelector(
+        'button[type="submit"]'
+      );
+
+    function showError(message) {
+
+      if (errorBox) {
+
+        errorBox.style.display = "block";
+
+        errorBox.innerHTML =
+          `<strong>Booking could not be created.</strong><br>${message}`;
+      }
+
+      if (successBox) {
+        successBox.style.display = "none";
+      }
+    }
+
+
+    function clearError() {
+
+      if (errorBox) {
+        errorBox.style.display = "none";
+        errorBox.innerHTML = "";
+      }
+    }
+
+
+    function showSuccess(message) {
+
+      if (errorBox) {
+        errorBox.style.display = "none";
+        errorBox.innerHTML = "";
+      }
+
+      if (successBox) {
+
+        successBox.style.display = "block";
+
+        successBox.innerHTML =
+          message;
+
+        successBox.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+    }
+
+
+    form.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+        clearError();
+
+        const formData =
+          new FormData(form);
+
+        const tankType =
+          formData.get("tankType");
+
+        const capacity =
+          Number(
+            formData.get("capacity")
+          );
+
+        const quantity =
+          Number(
+            formData.get("quantity")
+          );
+
+        const name =
+          String(
+            formData.get("name") || ""
+          ).trim();
+
+        const phone =
+          String(
+            formData.get("phone") || ""
+          ).trim();
+
+        const email =
+          String(
+            formData.get("email") || ""
+          ).trim();
+
+        const pincode =
+          String(
+            formData.get("pincode") || ""
+          ).trim();
+
+        const address =
+          String(
+            formData.get("address") || ""
+          ).trim();
+
+        const date =
+          String(
+            formData.get("date") || ""
+          ).trim();
+
+        const time =
+          String(
+            formData.get("time") || ""
+          ).trim();
+
+
+        /* -----------------------------------------------
+           CLIENT VALIDATION
+        ----------------------------------------------- */
+
+        if (!name) {
+          showError("Please enter your full name.");
+          return;
+        }
+
+        if (
+          !/^[6-9]\d{9}$/.test(phone)
+        ) {
+          showError(
+            "Please enter a valid 10-digit Indian mobile number."
+          );
+          return;
+        }
+
+        if (
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        ) {
+          showError(
+            "Please enter a valid email address."
+          );
+          return;
+        }
+
+        if (
+          !/^110\d{3}$/.test(pincode)
+        ) {
+          showError(
+            "Online booking is currently available only for Delhi PIN codes beginning with 110."
+          );
+          return;
+        }
+
+        if (!address) {
+          showError(
+            "Please enter your complete service address."
+          );
+          return;
+        }
+
+        if (!date) {
+          showError(
+            "Please select your preferred service date."
+          );
+          return;
+        }
+
+        if (!time) {
+          showError(
+            "Please select your preferred time."
+          );
+          return;
+        }
+
+        if (
+          !tankType ||
+          !capacity ||
+          !quantity
+        ) {
+          showError(
+            "Please select your tank type, capacity and quantity."
+          );
+          return;
+        }
+
+
+        /* -----------------------------------------------
+           DISABLE BUTTON
+        ----------------------------------------------- */
+
+        const originalText =
+          submitButton
+            ? submitButton.innerHTML
+            : "";
+
+        if (submitButton) {
+
+          submitButton.disabled =
+            true;
+
+          submitButton.innerHTML =
+            "Creating booking…";
+        }
+
+
+        try {
+
+          const price =
+            calculateTotal(
+              tankType,
+              capacity,
+              quantity,
+              "online"
+            );
+
+
+          const payload = {
+
+            name,
+            phone,
+            email,
+
+            pincode,
+            address,
+
+            date,
+            time,
+
+            tankType,
+            capacity,
+            quantity,
+
+            paymentMethod:
+              "online",
+
+            amount:
+              price.total
+          };
+
+
+          /* ---------------------------------------------
+             CREATE RAZORPAY ORDER
+          --------------------------------------------- */
+
+          const response =
+            await fetch(
+              API_CREATE_ORDER,
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(payload)
+              }
+            );
+
+
+          let data = null;
+
+          try {
+            data =
+              await response.json();
+          } catch (_) {
+            data = null;
+          }
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              data?.error ||
+              data?.message ||
+              `Server returned HTTP ${response.status}.`
+            );
+          }
+
+
+          if (!data) {
+
+            throw new Error(
+              "The booking server returned an empty response."
+            );
+          }
+
+
+          if (
+            !data.orderId ||
+            !data.keyId
+          ) {
+
+            throw new Error(
+              data.error ||
+              "The booking server did not return a Razorpay order."
+            );
+          }
+
+
+          /* ---------------------------------------------
+             OPEN RAZORPAY
+          --------------------------------------------- */
+
+          if (
+            typeof Razorpay === "undefined"
+          ) {
+
+            throw new Error(
+              "Razorpay checkout could not be loaded. Please refresh the page and try again."
+            );
+          }
+
+
+          const options = {
+
+            key:
+              data.keyId,
+
+            amount:
+              data.amount,
+
+            currency:
+              data.currency ||
+              "INR",
+
+            name:
+              "VSH Tank Cleaning",
+
+            description:
+              "Water Tank Cleaning Booking",
+
+            order_id:
+              data.orderId,
+
+
+            prefill: {
+
+              name,
+              email,
+              contact: phone
+            },
+
+
+            notes: {
+
+              bookingName:
+                name,
+
+              phone,
+
+              email,
+
+              pincode,
+
+              address,
+
+              date,
+
+              time,
+
+              tankType,
+
+              capacity:
+                String(capacity),
+
+              quantity:
+                String(quantity)
+            },
+
+
+            theme: {
+              color: "#0878f9"
+            },
+
+
+            handler:
+              async function (
+                paymentResponse
+              ) {
+
+                try {
+
+                  if (submitButton) {
+
+                    submitButton.disabled =
+                      true;
+
+                    submitButton.innerHTML =
+                      "Confirming payment…";
+                  }
+
+
+                  const verifyResponse =
+                    await fetch(
+                      API_VERIFY_PAYMENT,
+                      {
+                        method: "POST",
+
+                        headers: {
+                          "Content-Type":
+                            "application/json"
+                        },
+
+                        body:
+                          JSON.stringify({
+
+                            razorpay_order_id:
+                              paymentResponse
+                                .razorpay_order_id,
+
+                            razorpay_payment_id:
+                              paymentResponse
+                                .razorpay_payment_id,
+
+                            razorpay_signature:
+                              paymentResponse
+                                .razorpay_signature,
+
+                            booking:
+                              payload
+                          })
+                      }
+                    );
+
+
+                  let verifyData =
+                    null;
+
+                  try {
+
+                    verifyData =
+                      await verifyResponse.json();
+
+                  } catch (_) {
+
+                    verifyData =
+                      null;
+                  }
+
+
+                  if (!verifyResponse.ok) {
+
+                    throw new Error(
+                      verifyData?.error ||
+                      verifyData?.message ||
+                      "Payment verification failed."
+                    );
+                  }
+
+
+                  showSuccess(`
+                    <div class="success-icon">✓</div>
+
+                    <h3>Booking confirmed!</h3>
+
+                    <p>
+                      Thank you, ${escapeHtml(name)}.
+                      Your tank cleaning booking has been received.
+                    </p>
+
+                    <p>
+                      <strong>Booking details</strong><br>
+                      ${escapeHtml(tankType)} tank ·
+                      ${capacity.toLocaleString("en-IN")} L ·
+                      ${quantity} tank${quantity > 1 ? "s" : ""}<br>
+                      ${escapeHtml(date)} ·
+                      ${escapeHtml(time)}
+                    </p>
+
+                    <p>
+                      Payment ID:
+                      <strong>
+                        ${escapeHtml(
+                          paymentResponse
+                            .razorpay_payment_id
+                        )}
+                      </strong>
+                    </p>
+
+                    <a
+                      href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                        `Hi VSH Tank Cleaning, I have completed my booking. Payment ID: ${paymentResponse.razorpay_payment_id}`
+                      )}"
+                      target="_blank"
+                      class="btn btn-whatsapp"
+                    >
+                      WhatsApp VSH
+                    </a>
+                  `);
+
+
+                  form.reset();
+
+                } catch (error) {
+
+                  showError(
+                    error.message ||
+                    "Payment was received, but booking confirmation failed. Please contact VSH with your payment ID."
+                  );
+
+                } finally {
+
+                  if (submitButton) {
+
+                    submitButton.disabled =
+                      false;
+
+                    submitButton.innerHTML =
+                      originalText;
+                  }
+                }
+              },
+
+
+            modal: {
+
+              ondismiss:
+                function () {
+
+                  if (submitButton) {
+
+                    submitButton.disabled =
+                      false;
+
+                    submitButton.innerHTML =
+                      originalText;
+                  }
+                }
+            }
+          };
+
+
+          const razorpay =
+            new Razorpay(options);
+
+          razorpay.on(
+            "payment.failed",
+            function (response) {
+
+              showError(
+                response.error?.description ||
+                "Payment failed. Please try again."
+              );
+
+              if (submitButton) {
+
+                submitButton.disabled =
+                  false;
+
+                submitButton.innerHTML =
+                  originalText;
+              }
+            }
+          );
+
+
+          razorpay.open();
+
+        } catch (error) {
+
+          console.error(
+            "VSH booking error:",
+            error
+          );
+
+          showError(
+            error.message ||
+            "Unable to create booking. Please try again."
+          );
+
+          if (submitButton) {
+
+            submitButton.disabled =
+              false;
+
+            submitButton.innerHTML =
+              originalText;
+          }
+        }
+      }
+    );
+  }
+
+
+  /* =======================================================
+     ESCAPE HTML
+  ======================================================= */
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+
+  /* =======================================================
+     SET MINIMUM BOOKING DATE
+  ======================================================= */
+
+  function setupDateInput() {
+
+    const dateInput =
+      document.querySelector(
+        'input[name="date"]'
+      );
+
+    if (!dateInput) {
+      return;
+    }
+
+    const today =
+      new Date();
+
+    const year =
+      today.getFullYear();
+
+    const month =
+      String(
+        today.getMonth() + 1
+      ).padStart(2, "0");
+
+    const day =
+      String(
+        today.getDate()
+      ).padStart(2, "0");
+
+    dateInput.min =
+      `${year}-${month}-${day}`;
+  }
+
+
+  /* =======================================================
+     INITIALIZE
+  ======================================================= */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      setupMobileMenu();
+      setupWhatsAppLinks();
+      setupPricing();
+      setupPinCheck();
+      setupBookingForm();
+      setupDateInput();
+
+    }
+  );
+
+})();
