@@ -2,2274 +2,29 @@
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>VSH Tank Cleaning | Pricing & Booking</title>
+<meta charset="utf-8">
 
 <meta
-name="description"
-content="Check VSH Tank Cleaning prices, select your tank size, choose a quantity and book your tank cleaning online."
+  name="viewport"
+  content="width=device-width, initial-scale=1"
 >
 
-<link rel="stylesheet" href="styles.css">
-
-<style>
-
-/* =========================================================
-   VSH PRICING PAGE
-========================================================= */
-
-:root {
-  --blue: #0877f9;
-  --blue-dark: #0057d9;
-  --cyan: #21c8ff;
-  --navy: #061b38;
-  --text: #10233d;
-  --muted: #647891;
-  --border: #dce6f0;
-  --green: #18a86a;
-  --green-light: #e5f8ef;
-  --soft-blue: #eef8ff;
-}
-
-
-/* =========================================================
-   BASE
-========================================================= */
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  overflow-x: hidden;
-  background:
-    #f4f9fd;
-}
-
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar {
-  background:
-    linear-gradient(
-      90deg,
-      #031a37,
-      #0877f9,
-      #03b9c9,
-      #0877f9,
-      #031a37
-    );
-
-  color: white;
-}
-
-.topbar .container {
-  min-height: 38px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-size: 13px;
-  font-weight: 800;
-}
-
-
-/* =========================================================
-   NAV
-========================================================= */
-
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
-  background:
-    rgba(255,255,255,.94);
-
-  backdrop-filter:
-    blur(18px);
-
-  border-bottom:
-    1px solid #e4edf6;
-}
-
-.nav-inner {
-  min-height: 76px;
-}
-
-.logo {
-  color: var(--navy);
-
-  font-weight: 950;
-  font-size: 20px;
-
-  text-decoration: none;
-
-  display: flex;
-  align-items: center;
-
-  gap: 10px;
-}
-
-.logo-mark {
-  width: 40px;
-  height: 40px;
-
-  border-radius: 13px;
-
-  display: grid;
-  place-items: center;
-
-  color: white;
-
-  font-weight: 950;
-
-  background:
-    linear-gradient(
-      145deg,
-      #0877f9,
-      #003f9e
-    );
-
-  box-shadow:
-    0 8px 25px rgba(8,119,249,.35);
-}
-
-.nav-links a {
-  font-weight: 750;
-
-  transition:
-    color .2s ease,
-    transform .2s ease;
-}
-
-.nav-links a:hover {
-  color: var(--blue);
-
-  transform:
-    translateY(-1px);
-}
-
-.nav-actions {
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-}
-
-.lang {
-  color: var(--muted);
-
-  font-weight: 800;
-
-  text-decoration: none;
-}
-
-.book-btn {
-  color: white !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0877f9,
-      #0055cf
-    );
-
-  border-radius: 999px;
-
-  padding:
-    12px 21px;
-
-  font-weight: 950;
-
-  text-decoration: none;
-
-  box-shadow:
-    0 10px 28px rgba(8,119,249,.28);
-}
-
-
-/* =========================================================
-   PAGE HERO
-========================================================= */
-
-.page-hero {
-  position: relative;
-
-  overflow: hidden;
-
-  color: white;
-
-  background:
-    linear-gradient(
-      135deg,
-      #031a37 0%,
-      #064287 50%,
-      #0877f9 100%
-    );
-
-  padding:
-    58px 0 100px;
-}
-
-.page-hero::before {
-  content: "";
-
-  position: absolute;
-
-  width: 600px;
-  height: 600px;
-
-  border-radius: 50%;
-
-  right: -250px;
-  top: -300px;
-
-  background:
-    rgba(35,200,255,.17);
-
-  filter:
-    blur(12px);
-}
-
-.page-hero::after {
-  content: "";
-
-  position: absolute;
-
-  width: 850px;
-  height: 220px;
-
-  left: -250px;
-  bottom: -150px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255,255,255,.08);
-
-  transform:
-    rotate(-8deg);
-}
-
-.page-hero-content {
-  position: relative;
-
-  z-index: 3;
-
-  text-align: center;
-
-  max-width: 800px;
-
-  margin:
-    0 auto;
-}
-
-.page-eyebrow {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  padding:
-    9px 15px;
-
-  border-radius: 999px;
-
-  background:
-    rgba(255,255,255,.1);
-
-  border:
-    1px solid rgba(255,255,255,.18);
-
-  color:
-    #8fe8ff;
-
-  font-size:
-    12px;
-
-  font-weight:
-    950;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    .08em;
-}
-
-.page-hero h1 {
-  color: white;
-
-  font-size:
-    clamp(42px,6vw,70px);
-
-  line-height:
-    .95;
-
-  letter-spacing:
-    -.055em;
-
-  margin:
-    20px 0 15px;
-}
-
-.page-hero h1 span {
-  color:
-    #65e5ff;
-
-  text-shadow:
-    0 0 35px rgba(35,200,255,.35);
-}
-
-.page-hero p {
-  color:
-    rgba(255,255,255,.78);
-
-  font-size:
-    17px;
-
-  line-height:
-    1.7;
-
-  max-width:
-    650px;
-
-  margin:
-    0 auto;
-}
-
-
-/* =========================================================
-   MAIN PRICING AREA
-========================================================= */
-
-.pricing-area {
-  position: relative;
-
-  z-index: 10;
-
-  margin-top:
-    -55px;
-
-  padding-bottom:
-    80px;
-}
-
-
-/* =========================================================
-   PRICING CARD
-========================================================= */
-
-.pricing-card {
-  background:
-    white;
-
-  border:
-    1px solid #e0eaf3;
-
-  border-radius:
-    28px;
-
-  box-shadow:
-    0 30px 90px rgba(10,55,100,.13);
-
-  overflow:
-    hidden;
-
-  position:
-    relative;
-}
-
-.pricing-card::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  right: 0;
-
-  height:
-    6px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #0877f9,
-      #21c8ff,
-      #18b978
-    );
-}
-
-
-/* =========================================================
-   PRICE HEADER
-========================================================= */
-
-.price-header {
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  gap:
-    20px;
-
-  padding:
-    30px 34px 20px;
-}
-
-.price-header h2 {
-  color:
-    #11243d;
-
-  font-size:
-    29px;
-
-  letter-spacing:
-    -.03em;
-
-  margin:
-    0;
-}
-
-.live-pill {
-  white-space:
-    nowrap;
-
-  display:
-    inline-flex;
-
-  align-items:
-    center;
-
-  gap:
-    8px;
-
-  padding:
-    10px 15px;
-
-  border-radius:
-    999px;
-
-  color:
-    #005aa8;
-
-  background:
-    #e7f5ff;
-
-  font-weight:
-    900;
-
-  font-size:
-    13px;
-}
-
-.live-pill::before {
-  content:
-    "✦";
-
-  color:
-    #0877f9;
-
-  font-size:
-    15px;
-}
-
-
-/* =========================================================
-   TYPE SELECTOR
-========================================================= */
-
-.tank-types {
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    13px;
-
-  padding:
-    0 34px 22px;
-}
-
-.tank-type {
-  min-height:
-    92px;
-
-  padding:
-    11px;
-
-  border:
-    2px solid var(--border);
-
-  border-radius:
-    20px;
-
-  background:
-    white;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    14px;
-
-  cursor:
-    pointer;
-
-  transition:
-    .2s ease;
-}
-
-.tank-type:hover {
-  transform:
-    translateY(-2px);
-
-  border-color:
-    #a5c3dc;
-}
-
-.tank-type.active {
-  border-color:
-    var(--blue);
-
-  background:
-    #e9f6ff;
-
-  box-shadow:
-    0 12px 30px rgba(8,119,249,.1);
-}
-
-.type-image {
-  width:
-    72px;
-
-  height:
-    68px;
-
-  flex:
-    0 0 72px;
-
-  border-radius:
-    15px;
-
-  overflow:
-    hidden;
-
-  position:
-    relative;
-
-  background:
-    linear-gradient(
-      145deg,
-      #dcebf4,
-      #abc8da
-    );
-}
-
-.type-title {
-  color:
-    #12253e;
-
-  font-size:
-    18px;
-
-  font-weight:
-    950;
-
-  display:
-    block;
-}
-
-.type-subtitle {
-  display:
-    block;
-
-  color:
-    #647891;
-
-  font-size:
-    13px;
-
-  margin-top:
-    4px;
-}
-
-
-/* Overhead illustration */
-
-.overhead-shape {
-  position:
-    absolute;
-
-  left:
-    20px;
-
-  top:
-    9px;
-
-  width:
-    33px;
-
-  height:
-    49px;
-
-  border-radius:
-    5px 5px 8px 8px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #233a53,
-      #70899d,
-      #213850
-    );
-
-  box-shadow:
-    5px 6px 0 #a6b9c7;
-}
-
-.overhead-shape::before {
-  content:
-    "";
-
-  position:
-    absolute;
-
-  width:
-    38px;
-
-  height:
-    6px;
-
-  left:
-    -3px;
-
-  top:
-    -5px;
-
-  border-radius:
-    5px;
-
-  background:
-    #182e47;
-}
-
-.overhead-shape::after {
-  content:
-    "";
-
-  position:
-    absolute;
-
-  width:
-    4px;
-
-  height:
-    4px;
-
-  left:
-    7px;
-
-  top:
-    10px;
-
-  background:
-    #d8e6ef;
-
-  box-shadow:
-    0 8px #d8e6ef,
-    0 16px #d8e6ef,
-    10px 0 #d8e6ef,
-    10px 8px #d8e6ef,
-    10px 16px #d8e6ef;
-}
-
-
-/* Underground illustration */
-
-.underground-shape {
-  position:
-    absolute;
-
-  left:
-    13px;
-
-  top:
-    11px;
-
-  width:
-    48px;
-
-  height:
-    43px;
-
-  border-radius:
-    6px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #81705b,
-      #c9b99c,
-      #62564a
-    );
-}
-
-.underground-shape::before {
-  content:
-    "";
-
-  position:
-    absolute;
-
-  left:
-    8px;
-
-  top:
-    6px;
-
-  width:
-    32px;
-
-  height:
-    26px;
-
-  border:
-    3px solid #4d504a;
-
-  border-radius:
-    3px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #879c97,
-      #263a3a
-    );
-}
-
-.underground-shape::after {
-  content:
-    "";
-
-  position:
-    absolute;
-
-  width:
-    3px;
-
-  height:
-    3px;
-
-  top:
-    12px;
-
-  left:
-    14px;
-
-  background:
-    white;
-
-  box-shadow:
-    8px 2px rgba(255,255,255,.6),
-    14px -3px rgba(255,255,255,.5),
-    5px 9px rgba(255,255,255,.5);
-}
-
-
-/* =========================================================
-   CAPACITY
-========================================================= */
-
-.capacity-heading {
-  padding:
-    0 34px 12px;
-
-  color:
-    #213651;
-
-  font-size:
-    17px;
-
-  font-weight:
-    950;
-}
-
-.capacity-grid {
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:
-    13px;
-
-  padding:
-    0 34px;
-}
-
-.capacity {
-  min-height:
-    82px;
-
-  padding:
-    13px 15px;
-
-  border:
-    2px solid var(--border);
-
-  border-radius:
-    17px;
-
-  background:
-    white;
-
-  cursor:
-    pointer;
-
-  position:
-    relative;
-
-  transition:
-    .18s ease;
-}
-
-.capacity:hover {
-  transform:
-    translateY(-2px);
-
-  border-color:
-    #9cbdd8;
-}
-
-.capacity.active {
-  border-color:
-    var(--blue);
-
-  background:
-    #e8f6ff;
-}
-
-.capacity.active::after {
-  content:
-    "✓";
-
-  position:
-    absolute;
-
-  right:
-    0;
-
-  top:
-    0;
-
-  width:
-    27px;
-
-  height:
-    27px;
-
-  border-radius:
-    0 15px 0 15px;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  color:
-    white;
-
-  background:
-    var(--blue);
-
-  font-size:
-    12px;
-
-  font-weight:
-    950;
-}
-
-.capacity-name {
-  color:
-    #12253e;
-
-  font-size:
-    16px;
-
-  font-weight:
-    800;
-}
-
-.price-line {
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    7px;
-
-  margin-top:
-    5px;
-}
-
-.current-price {
-  color:
-    #071b34;
-
-  font-size:
-    18px;
-
-  font-weight:
-    950;
-}
-
-.old-price {
-  color:
-    #718197;
-
-  font-size:
-    13px;
-
-  text-decoration:
-    line-through;
-}
-
-.save {
-  margin-left:
-    auto;
-
-  padding:
-    4px 8px;
-
-  border-radius:
-    999px;
-
-  color:
-    #078052;
-
-  background:
-    #e2f7ef;
-
-  font-size:
-    11px;
-
-  font-weight:
-    950;
-
-  white-space:
-    nowrap;
-}
-
-
-/* =========================================================
-   OTHER SIZE
-========================================================= */
-
-.other-size {
-  min-height:
-    82px;
-
-  padding:
-    12px 15px;
-
-  border:
-    2px dashed #75d7a6;
-
-  border-radius:
-    17px;
-
-  background:
-    #f8fffb;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    11px;
-
-  text-decoration:
-    none;
-
-  color:
-    #10233d;
-}
-
-.whatsapp-circle {
-  width:
-    33px;
-
-  height:
-    33px;
-
-  border-radius:
-    50%;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  color:
-    #13a85f;
-
-  font-size:
-    20px;
-}
-
-.other-size strong {
-  display:
-    block;
-
-  font-size:
-    16px;
-}
-
-.other-size span {
-  display:
-    block;
-
-  color:
-    #647891;
-
-  font-size:
-    13px;
-
-  margin-top:
-    3px;
-}
-
-
-/* =========================================================
-   QUANTITY
-========================================================= */
-
-.quantity-section {
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  padding:
-    20px 34px;
-}
-
-.quantity-text {
-  color:
-    #213651;
-
-  font-size:
-    17px;
-
-  font-weight:
-    800;
-}
-
-.quantity-text span {
-  color:
-    #647891;
-
-  font-weight:
-    500;
-}
-
-.quantity-control {
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    20px;
-
-  padding:
-    5px 12px;
-
-  border:
-    1px solid #dce5ee;
-
-  border-radius:
-    999px;
-
-  background:
-    white;
-}
-
-.quantity-control button {
-  width:
-    28px;
-
-  height:
-    28px;
-
-  border:
-    0;
-
-  background:
-    transparent;
-
-  color:
-    #12253e;
-
-  font-size:
-    24px;
-
-  cursor:
-    pointer;
-}
-
-.quantity-number {
-  min-width:
-    15px;
-
-  text-align:
-    center;
-
-  font-size:
-    18px;
-
-  font-weight:
-    950;
-}
-
-
-/* =========================================================
-   ORDER SUMMARY
-========================================================= */
-
-.summary {
-  margin:
-    0 34px 25px;
-
-  padding:
-    20px;
-
-  border-radius:
-    20px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f0f8ff,
-      #f7fbff
-    );
-
-  border:
-    1px solid #dceaf5;
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr auto;
-
-  gap:
-    15px;
-}
-
-.summary-left h3 {
-  margin:
-    0 0 5px;
-
-  color:
-    #11243d;
-
-  font-size:
-    17px;
-}
-
-.summary-left p {
-  margin:
-    0;
-
-  color:
-    #647891;
-
-  font-size:
-    13px;
-}
-
-.summary-right {
-  text-align:
-    right;
-}
-
-.summary-label {
-  display:
-    block;
-
-  color:
-    #647891;
-
-  font-size:
-    11px;
-
-  font-weight:
-    800;
-}
-
-.summary-total {
-  display:
-    block;
-
-  color:
-    #071b34;
-
-  font-size:
-    27px;
-
-  font-weight:
-    950;
-}
-
-.discount-message {
-  color:
-    #078052;
-
-  font-size:
-    12px;
-
-  font-weight:
-    900;
-}
-
-
-/* =========================================================
-   BOOKING SECTION
-========================================================= */
-
-.booking-wrapper {
-  display:
-    grid;
-
-  grid-template-columns:
-    minmax(0,1fr)
-    360px;
-
-  gap:
-    25px;
-
-  align-items:
-    start;
-}
-
-.booking-card,
-.booking-info {
-  background:
-    white;
-
-  border:
-    1px solid #e0eaf3;
-
-  border-radius:
-    25px;
-
-  box-shadow:
-    0 20px 55px rgba(15,55,90,.07);
-}
-
-.booking-card {
-  padding:
-    34px;
-}
-
-.booking-title {
-  margin-bottom:
-    25px;
-}
-
-.booking-title .eyebrow {
-  color:
-    var(--blue);
-
-  font-size:
-    12px;
-
-  font-weight:
-    950;
-
-  letter-spacing:
-    .08em;
-
-  text-transform:
-    uppercase;
-}
-
-.booking-title h2 {
-  color:
-    #10233d;
-
-  font-size:
-    32px;
-
-  letter-spacing:
-    -.035em;
-
-  margin:
-    8px 0;
-}
-
-.booking-title p {
-  color:
-    var(--muted);
-
-  margin:
-    0;
-
-  line-height:
-    1.6;
-}
-
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.form-grid {
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    17px;
-}
-
-.field {
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    7px;
-}
-
-.field.full {
-  grid-column:
-    1 / -1;
-}
-
-.field label {
-  color:
-    #243a55;
-
-  font-size:
-    13px;
-
-  font-weight:
-    900;
-}
-
-.field input,
-.field select,
-.field textarea {
-  width:
-    100%;
-
-  box-sizing:
-    border-box;
-
-  min-height:
-    49px;
-
-  padding:
-    0 14px;
-
-  border:
-    1px solid #d8e3ee;
-
-  border-radius:
-    12px;
-
-  outline:
-    none;
-
-  background:
-    #fbfdff;
-
-  color:
-    #10233d;
-
-  font-family:
-    inherit;
-
-  transition:
-    border-color .2s ease,
-    box-shadow .2s ease;
-}
-
-.field textarea {
-  padding-top:
-    13px;
-
-  min-height:
-    90px;
-
-  resize:
-    vertical;
-}
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  border-color:
-    #0877f9;
-
-  box-shadow:
-    0 0 0 4px rgba(8,119,249,.08);
-
-  background:
-    white;
-}
-
-
-/* =========================================================
-   PAYMENT
-========================================================= */
-
-.payment-box {
-  margin-top:
-    22px;
-
-  padding:
-    20px;
-
-  border:
-    1px solid #dceaf5;
-
-  border-radius:
-    17px;
-
-  background:
-    #f6fbff;
-}
-
-.payment-box-title {
-  color:
-    #10233d;
-
-  font-weight:
-    950;
-
-  margin-bottom:
-    5px;
-}
-
-.payment-box-text {
-  color:
-    #647891;
-
-  font-size:
-    13px;
-
-  line-height:
-    1.6;
-}
-
-
-/* =========================================================
-   PAY BUTTON
-========================================================= */
-
-.pay-button {
-  width:
-    100%;
-
-  min-height:
-    57px;
-
-  margin-top:
-    20px;
-
-  border:
-    0;
-
-  border-radius:
-    14px;
-
-  color:
-    white;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0877f9,
-      #0057d9
-    );
-
-  font-size:
-    16px;
-
-  font-weight:
-    950;
-
-  cursor:
-    pointer;
-
-  box-shadow:
-    0 15px 35px rgba(8,119,249,.23);
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
-}
-
-.pay-button:hover {
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 20px 42px rgba(8,119,249,.3);
-}
-
-.pay-button:disabled {
-  opacity:
-    .6;
-
-  cursor:
-    not-allowed;
-
-  transform:
-    none;
-}
-
-
-/* =========================================================
-   ERROR / SUCCESS
-========================================================= */
-
-.booking-error {
-  display:
-    none;
-
-  margin-top:
-    15px;
-
-  padding:
-    13px 15px;
-
-  border-radius:
-    12px;
-
-  color:
-    #a52222;
-
-  background:
-    #fff1f1;
-
-  border:
-    1px solid #ffcaca;
-
-  font-size:
-    13px;
-
-  font-weight:
-    700;
-}
-
-.booking-success {
-  display:
-    none;
-
-  margin-top:
-    20px;
-
-  padding:
-    22px;
-
-  border-radius:
-    16px;
-
-  color:
-    #086d47;
-
-  background:
-    #e9faf2;
-
-  border:
-    1px solid #b9e9d2;
-}
-
-.booking-success h3 {
-  margin:
-    0 0 5px;
-}
-
-.booking-success p {
-  margin:
-    0;
-
-  line-height:
-    1.6;
-}
-
-
-/* =========================================================
-   SIDE INFO
-========================================================= */
-
-.booking-info {
-  padding:
-    28px;
-}
-
-.info-title {
-  color:
-    #10233d;
-
-  font-size:
-    21px;
-
-  font-weight:
-    950;
-
-  margin-bottom:
-    20px;
-}
-
-.info-item {
-  display:
-    flex;
-
-  gap:
-    13px;
-
-  padding:
-    15px 0;
-
-  border-bottom:
-    1px solid #edf2f7;
-}
-
-.info-item:last-child {
-  border-bottom:
-    0;
-}
-
-.info-icon {
-  width:
-    40px;
-
-  height:
-    40px;
-
-  flex:
-    0 0 40px;
-
-  border-radius:
-    12px;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  color:
-    white;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0877f9,
-      #21c8ff
-    );
-
-  font-weight:
-    950;
-}
-
-.info-item strong {
-  display:
-    block;
-
-  color:
-    #10233d;
-
-  font-size:
-    14px;
-}
-
-.info-item span {
-  display:
-    block;
-
-  color:
-    #647891;
-
-  font-size:
-    12px;
-
-  line-height:
-    1.5;
-
-  margin-top:
-    3px;
-}
-
-
-/* =========================================================
-   WHATSAPP BOX
-========================================================= */
-
-.whatsapp-box {
-  margin-top:
-    20px;
-
-  padding:
-    19px;
-
-  border:
-    2px dashed #78d9a9;
-
-  border-radius:
-    17px;
-
-  background:
-    #f7fffb;
-
-  text-decoration:
-    none;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    12px;
-}
-
-.whatsapp-box-icon {
-  width:
-    40px;
-
-  height:
-    40px;
-
-  border-radius:
-    50%;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  color:
-    white;
-
-  background:
-    #19c86b;
-
-  font-size:
-    19px;
-}
-
-.whatsapp-box strong {
-  display:
-    block;
-
-  color:
-    #10233d;
-
-  font-size:
-    14px;
-}
-
-.whatsapp-box span {
-  display:
-    block;
-
-  color:
-    #647891;
-
-  font-size:
-    12px;
-
-  margin-top:
-    3px;
-}
-
-
-/* =========================================================
-   FAQ
-========================================================= */
-
-.faq-section {
-  padding:
-    80px 0 100px;
-}
-
-.faq-grid {
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    15px;
-}
-
-.faq {
-  background:
-    white;
-
-  border:
-    1px solid #e0eaf3;
-
-  border-radius:
-    17px;
-
-  padding:
-    20px 22px;
-}
-
-.faq h3 {
-  color:
-    #10233d;
-
-  font-size:
-    16px;
-
-  margin:
-    0 0 7px;
-}
-
-.faq p {
-  color:
-    #647891;
-
-  font-size:
-    13px;
-
-  line-height:
-    1.65;
-
-  margin:
-    0;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer {
-  background:
-    #04152c;
-
-  color:
-    #9fb1c7;
-
-  padding-top:
-    70px;
-}
-
-.footer h3,
-.footer h4 {
-  color:
-    white;
-}
-
-.footer a {
-  color:
-    #9fb1c7;
-}
-
-.footer a:hover {
-  color:
-    white;
-}
-
-.copyright {
-  border-top:
-    1px solid rgba(255,255,255,.1);
-
-  margin-top:
-    50px;
-
-  padding:
-    20px 0;
-
-  font-size:
-    13px;
-}
-
-
-/* =========================================================
-   FLOATING CONTACT
-========================================================= */
-
-.floating-contact {
-  position:
-    fixed;
-
-  right:
-    20px;
-
-  bottom:
-    20px;
-
-  z-index:
-    2000;
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    10px;
-}
-
-.floating-contact a {
-  width:
-    59px;
-
-  height:
-    59px;
-
-  border-radius:
-    50%;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  color:
-    white;
-
-  text-decoration:
-    none;
-
-  font-size:
-    22px;
-
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.22);
-}
-
-.floating-whatsapp {
-  background:
-    #19c86b;
-}
-
-.floating-call {
-  background:
-    #0877f9;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-.mobile-menu {
-  display:
-    none;
-}
-
-@media (max-width: 950px) {
-
-  .booking-wrapper {
-    grid-template-columns:
-      1fr;
-  }
-
-  .booking-info {
-    order:
-      -1;
-  }
-
-  .faq-grid {
-    grid-template-columns:
-      1fr;
-  }
-
-}
-
-
-@media (max-width: 700px) {
-
-  .topbar .container span:last-child {
-    display:
-      none;
-  }
-
-  .nav-links {
-    display:
-      none;
-  }
-
-  .nav-actions {
-    display:
-      none;
-  }
-
-  .mobile-menu {
-    display:
-      block;
-
-    border:
-      0;
-
-    background:
-      transparent;
-
-    font-size:
-      25px;
-
-    cursor:
-      pointer;
-  }
-
-  .nav-links.mobile-open {
-    display:
-      flex;
-
-    position:
-      absolute;
-
-    top:
-      76px;
-
-    left:
-      0;
-
-    right:
-      0;
-
-    padding:
-      18px;
-
-    background:
-      white;
-
-    flex-direction:
-      column;
-
-    border-bottom:
-      1px solid #e4edf6;
-
-    box-shadow:
-      0 15px 30px rgba(0,0,0,.08);
-  }
-
-  .page-hero {
-    padding:
-      45px 0 85px;
-  }
-
-  .page-hero h1 {
-    font-size:
-      45px;
-  }
-
-  .price-header {
-    padding:
-      26px 18px 17px;
-  }
-
-  .price-header h2 {
-    font-size:
-      22px;
-  }
-
-  .live-pill {
-    font-size:
-      11px;
-
-    padding:
-      8px 10px;
-  }
-
-  .tank-types {
-    padding:
-      0 18px 18px;
-
-    gap:
-      8px;
-  }
-
-  .tank-type {
-    min-height:
-      75px;
-
-    gap:
-      7px;
-
-    padding:
-      7px;
-  }
-
-  .type-image {
-    width:
-      48px;
-
-    height:
-      50px;
-
-    flex-basis:
-      48px;
-  }
-
-  .type-title {
-    font-size:
-      14px;
-  }
-
-  .type-subtitle {
-    font-size:
-      10px;
-  }
-
-  .capacity-heading {
-    padding:
-      0 18px 10px;
-  }
-
-  .capacity-grid {
-    padding:
-      0 18px;
-
-    gap:
-      8px;
-  }
-
-  .capacity {
-    min-height:
-      82px;
-
-    padding:
-      10px;
-  }
-
-  .capacity-name {
-    font-size:
-      13px;
-  }
-
-  .current-price {
-    font-size:
-      15px;
-  }
-
-  .old-price {
-    font-size:
-      10px;
-  }
-
-  .save {
-    font-size:
-      9px;
-
-    padding:
-      3px 5px;
-  }
-
-  .quantity-section {
-    padding:
-      17px 18px;
-  }
-
-  .quantity-text {
-    font-size:
-      13px;
-  }
-
-  .quantity-control {
-    gap:
-      12px;
-  }
-
-  .summary {
-    margin:
-      0 18px 20px;
-
-    padding:
-      16px;
-  }
-
-  .booking-card {
-    padding:
-      23px 18px;
-  }
-
-  .form-grid {
-    grid-template-columns:
-      1fr;
-  }
-
-  .field.full {
-    grid-column:
-      auto;
-  }
-
-  .booking-title h2 {
-    font-size:
-      28px;
-  }
-
-  .booking-info {
-    padding:
-      23px 18px;
-  }
-
-  .floating-contact {
-    right:
-      15px;
-
-    bottom:
-      15px;
-  }
-
-}
-
-</style>
+<title>
+  VSH Tank Cleaning | Prices & Booking
+</title>
+
+<meta
+  name="description"
+  content="Check VSH Tank Cleaning prices, quantity discounts, Delhi availability and book your tank cleaning service online."
+>
+
+<link
+  rel="stylesheet"
+  href="styles.css"
+>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 </head>
 
@@ -2283,14 +38,15 @@ body {
 
 <div class="topbar">
 
-  <div class="container">
+  <div class="container topbar-inner">
 
     <span>
       💧 Professional Water Tank Cleaning
     </span>
 
     <span>
-      Safe • Hygienic • Transparent Pricing
+      ✓ Transparent pricing &nbsp; • &nbsp;
+      ✓ Easy online booking
     </span>
 
   </div>
@@ -2300,65 +56,69 @@ body {
 
 
 <!-- =====================================================
-     NAVIGATION
+     HEADER
 ====================================================== -->
 
-<nav class="nav">
+<header class="site-header">
 
   <div class="container nav-inner">
 
     <a
-      class="logo"
       href="index.html"
+      class="logo"
     >
 
       <span class="logo-mark">
         V
       </span>
 
-      VSH Tank Cleaning
+      <span>
+        VSH Tank Cleaning
+      </span>
 
     </a>
 
 
-    <div class="nav-links">
+    <nav class="nav-links">
+
+      <a href="index.html">
+        Home
+      </a>
 
       <a href="services.html">
         Services
       </a>
 
-      <a href="pricing.html">
+      <a
+        href="pricing.html"
+        class="active"
+      >
         Prices
-      </a>
-
-      <a href="index.html#areas">
-        Areas
       </a>
 
       <a href="index.html#process">
         Process
       </a>
 
-      <a href="index.html#reviews">
-        Reviews
-      </a>
-
-      <a href="#faq">
+      <a href="pricing.html#faq">
         FAQs
       </a>
 
-    </div>
+    </nav>
 
 
     <div class="nav-actions">
 
-      <a class="lang" href="#">
-        EN
+      <a
+        href="tel:+919599057079"
+        class="nav-call"
+      >
+        ☎ Call
       </a>
 
       <a
-        class="book-btn"
-        href="#book"
+        href="pricing.html#book"
+        class="btn btn-primary nav-book"
       >
         Book Now →
       </a>
@@ -2368,37 +128,707 @@ body {
 
     <button
       class="mobile-menu"
-      onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')"
-      aria-label="Menu"
+      aria-label="Open menu"
     >
       ☰
     </button>
 
   </div>
 
-</nav>
+</header>
 
 
 
 <!-- =====================================================
-     HERO
+     MAIN
 ====================================================== -->
 
-<section class="page-hero">
+<main>
 
-  <div class="container page-hero-content">
 
-    <span class="page-eyebrow">
-      ✦ Transparent pricing
-    </span>
+<!-- =====================================================
+     PRICING HERO
+====================================================== -->
 
-    <h1>
-      Price your tank in
-      <span>seconds.</span>
-    </h1>
+<section class="pricing-hero">
 
-    <p>
-      Select your tank type, choose the capacity and quantity, then book your cleaning online.
+  <div class="container">
+
+    <div class="pricing-hero-copy">
+
+      <span class="eyebrow">
+        ✦ Simple & transparent
+      </span>
+
+      <h1>
+        Price your tank
+        <span>in seconds.</span>
+      </h1>
+
+      <p>
+        Choose your tank type, capacity and quantity.
+        Your discount updates automatically.
+      </p>
+
+    </div>
+
+
+    <!-- =================================================
+         PRICING CALCULATOR
+    ================================================== -->
+
+    <div class="pricing-layout">
+
+
+      <div class="pricing-card">
+
+
+        <div class="pricing-card-top">
+
+          <div>
+
+            <span class="mini-label">
+              LIVE PRICING
+            </span>
+
+            <h2>
+              Choose your tank
+            </h2>
+
+          </div>
+
+          <div class="live-pill">
+            ✦ Live pricing
+          </div>
+
+        </div>
+
+
+
+        <!-- TANK TYPE -->
+
+        <div class="tank-type-grid">
+
+          <button
+            type="button"
+            class="tank-type active"
+            data-tank-type="overhead"
+          >
+
+            <div class="tank-thumb overhead-thumb">
+              💧
+            </div>
+
+            <div>
+
+              <strong>
+                Overhead tank
+              </strong>
+
+              <span>
+                Rooftop & loft tanks
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="tank-type"
+            data-tank-type="underground"
+          >
+
+            <div class="tank-thumb underground-thumb">
+              🛁
+            </div>
+
+            <div>
+
+              <strong>
+                Underground tank
+              </strong>
+
+              <span>
+                Sumps below ground
+              </span>
+
+            </div>
+
+          </button>
+
+        </div>
+
+
+
+        <!-- CAPACITY -->
+
+        <div class="calculator-section">
+
+          <div class="calculator-title">
+            Tank capacity
+          </div>
+
+
+          <div class="capacity-grid">
+
+            <button
+              type="button"
+              class="capacity-card active"
+              data-capacity="500"
+            >
+
+              <span>
+                Up to 500 L
+              </span>
+
+              <strong>
+                ₹499
+              </strong>
+
+              <del>
+                ₹599
+              </del>
+
+              <small>
+                Save ₹100
+              </small>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="capacity-card"
+              data-capacity="1000"
+            >
+
+              <span>
+                501–1,000 L
+              </span>
+
+              <strong>
+                ₹599
+              </strong>
+
+              <del>
+                ₹719
+              </del>
+
+              <small>
+                Save ₹120
+              </small>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="capacity-card"
+              data-capacity="1500"
+            >
+
+              <span>
+                1,001–1,500 L
+              </span>
+
+              <strong>
+                ₹799
+              </strong>
+
+              <del>
+                ₹934
+              </del>
+
+              <small>
+                Save ₹135
+              </small>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="capacity-card"
+              data-capacity="2000"
+            >
+
+              <span>
+                1,501–2,000 L
+              </span>
+
+              <strong>
+                ₹999
+              </strong>
+
+              <del>
+                ₹1,199
+              </del>
+
+              <small>
+                Save ₹200
+              </small>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="capacity-card"
+              data-capacity="5000"
+            >
+
+              <span>
+                2,500–5,000 L
+              </span>
+
+              <strong>
+                ₹1,999
+              </strong>
+
+              <del>
+                ₹2,499
+              </del>
+
+              <small>
+                Save ₹500
+              </small>
+
+            </button>
+
+
+            <a
+              class="other-size-card"
+              data-whatsapp="Hi, I have a tank size that isn't listed. Can you help me with the price?"
+              href="https://wa.me/919599057079"
+            >
+
+              <div class="whatsapp-icon">
+                ⌕
+              </div>
+
+              <div>
+
+                <strong>
+                  Other size?
+                </strong>
+
+                <span>
+                  Chat on WhatsApp
+                </span>
+
+              </div>
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- QUANTITY -->
+
+        <div class="quantity-row">
+
+          <div>
+
+            <div class="quantity-label">
+              Tanks of this size
+            </div>
+
+            <div class="quantity-sub">
+              Quantity discount applies automatically
+            </div>
+
+          </div>
+
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              data-quantity-minus
+            >
+              −
+            </button>
+
+            <strong data-quantity>
+              1
+            </strong>
+
+            <button
+              type="button"
+              data-quantity-plus
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- DISCOUNT BOX -->
+
+        <div class="discount-box">
+
+          <div
+            class="discount-main"
+            data-discount-text
+          >
+            <strong>
+              1 tank • No discount
+            </strong>
+          </div>
+
+          <div
+            class="add-more"
+            data-add-more
+          >
+          </div>
+
+          <a href="#faq">
+            Have a promo code?
+          </a>
+
+        </div>
+
+
+
+        <!-- TOTAL -->
+
+        <div class="price-summary">
+
+          <div>
+
+            <span>
+              Service subtotal
+            </span>
+
+            <strong data-price-subtotal>
+              ₹499
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Quantity discount
+            </span>
+
+            <strong
+              class="green"
+              data-discount-amount
+            >
+            </strong>
+
+          </div>
+
+
+          <div class="total-row">
+
+            <span>
+              Total
+            </span>
+
+            <strong data-price-total>
+              ₹499
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <a
+          href="#book"
+          class="btn btn-primary btn-large full-btn"
+        >
+          Book now →
+        </a>
+
+      </div>
+
+
+
+      <!-- RIGHT INFORMATION CARD -->
+
+      <aside class="pricing-side">
+
+
+        <div class="side-card">
+
+          <span class="side-number">
+            01
+          </span>
+
+          <h3>
+            Choose your tank
+          </h3>
+
+          <p>
+            Select overhead or underground and choose
+            the closest capacity.
+          </p>
+
+        </div>
+
+
+        <div class="side-card">
+
+          <span class="side-number">
+            02
+          </span>
+
+          <h3>
+            Add multiple tanks
+          </h3>
+
+          <p>
+            The more tanks you book together,
+            the larger your automatic discount.
+          </p>
+
+        </div>
+
+
+        <div class="side-card green-side">
+
+          <span class="side-number">
+            ✓
+          </span>
+
+          <h3>
+            Delhi service area
+          </h3>
+
+          <p>
+            Enter your Delhi PIN code below to
+            check service availability.
+          </p>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     AREA CHECK
+====================================================== -->
+
+<section class="area-section">
+
+  <div class="container">
+
+    <div class="area-card">
+
+      <div class="area-copy">
+
+        <span class="eyebrow">
+          📍 Check your area
+        </span>
+
+        <h2>
+          Is VSH available in your area?
+        </h2>
+
+        <p>
+          Enter your 6-digit Delhi PIN code to check
+          service availability.
+        </p>
+
+      </div>
+
+
+      <div class="pin-check">
+
+        <div class="pin-input-wrap">
+
+          <span>
+            ⌖
+          </span>
+
+          <input
+            type="text"
+            id="areaPin"
+            maxlength="6"
+            inputmode="numeric"
+            placeholder="Enter Delhi PIN code"
+          >
+
+        </div>
+
+
+        <button
+          type="button"
+          id="checkPin"
+          class="btn btn-dark"
+        >
+          Check
+        </button>
+
+      </div>
+
+
+      <div
+        id="pinResult"
+        class="pin-result"
+      >
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TRANSPORTATION
+====================================================== -->
+
+<section class="transport-section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <span class="eyebrow">
+        🚚 Transportation
+      </span>
+
+      <h2>
+        Simple, distance-based transport charges
+      </h2>
+
+      <p>
+        Transportation is charged <strong>once per booking</strong>,
+        not per tank.
+      </p>
+
+    </div>
+
+
+    <div class="transport-note">
+
+      <div class="office-badges">
+
+        <span>
+          📍 Uttam Nagar office
+        </span>
+
+        <span>
+          📍 Karol Bagh office
+        </span>
+
+      </div>
+
+
+      <p>
+        Up to <strong>5 km</strong> from either office:
+        <strong class="green">FREE</strong>
+      </p>
+
+    </div>
+
+
+    <div class="transport-table-wrap">
+
+      <table class="transport-table">
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Road distance from nearest office
+            </th>
+
+            <th>
+              Transportation charge
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              Up to 5 km
+            </td>
+
+            <td class="free">
+              Free
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Above 5 km up to 10 km
+            </td>
+
+            <td>
+              ₹50
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Above 10 km up to 15 km
+            </td>
+
+            <td>
+              ₹75
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Above 15 km
+            </td>
+
+            <td>
+              ₹100
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <p class="transport-footnote">
+      Transportation, if applicable, is calculated once per booking
+      based on the road distance from the nearest VSH office.
     </p>
 
   </div>
@@ -2408,619 +838,299 @@ body {
 
 
 <!-- =====================================================
-     PRICING
-====================================================== -->
-
-<main class="pricing-area">
-
-  <div class="container">
-
-    <div class="pricing-card">
-
-
-      <!-- HEADER -->
-
-      <div class="price-header">
-
-        <h2>
-          Price your tanks in seconds
-        </h2>
-
-        <div class="live-pill">
-          Live pricing
-        </div>
-
-      </div>
-
-
-
-      <!-- TANK TYPE -->
-
-      <div class="tank-types">
-
-        <button
-          type="button"
-          class="tank-type active"
-          data-type="overhead"
-        >
-
-          <div class="type-image">
-
-            <div class="overhead-shape"></div>
-
-          </div>
-
-          <div>
-
-            <span class="type-title">
-              Overhead tank
-            </span>
-
-            <span class="type-subtitle">
-              Rooftop & loft tanks
-            </span>
-
-          </div>
-
-        </button>
-
-
-        <button
-          type="button"
-          class="tank-type"
-          data-type="underground"
-        >
-
-          <div class="type-image">
-
-            <div class="underground-shape"></div>
-
-          </div>
-
-          <div>
-
-            <span class="type-title">
-              Underground tank
-            </span>
-
-            <span class="type-subtitle">
-              Sumps below ground
-            </span>
-
-          </div>
-
-        </button>
-
-      </div>
-
-
-
-      <!-- CAPACITY -->
-
-      <div class="capacity-heading">
-        Tank capacity
-      </div>
-
-
-      <div
-        class="capacity-grid"
-        id="capacityGrid"
-      >
-      </div>
-
-
-
-      <!-- QUANTITY -->
-
-      <div class="quantity-section">
-
-        <div class="quantity-text">
-
-          Tanks of this size
-          <span>in your booking</span>
-
-        </div>
-
-
-        <div class="quantity-control">
-
-          <button
-            type="button"
-            id="minusBtn"
-          >
-            −
-          </button>
-
-          <span
-            class="quantity-number"
-            id="quantityValue"
-          >
-            1
-          </span>
-
-          <button
-            type="button"
-            id="plusBtn"
-          >
-            +
-          </button>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- SUMMARY -->
-
-      <div class="summary">
-
-        <div class="summary-left">
-
-          <h3 id="summaryTitle">
-            Overhead tank · Up to 500 L
-          </h3>
-
-          <p id="summaryDetails">
-            ₹499 × 1 tank
-          </p>
-
-        </div>
-
-
-        <div class="summary-right">
-
-          <span class="summary-label">
-            Estimated total
-          </span>
-
-          <span
-            class="summary-total"
-            id="totalPrice"
-          >
-            ₹499
-          </span>
-
-          <span
-            class="discount-message"
-            id="discountMessage"
-          >
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</main>
-
-
-
-<!-- =====================================================
      BOOKING
 ====================================================== -->
 
 <section
-  class="section"
+  class="booking-section"
   id="book"
 >
 
   <div class="container">
 
-    <div class="booking-wrapper">
+    <div class="booking-layout">
 
 
-      <!-- BOOKING FORM -->
+      <div class="booking-intro">
 
-      <div class="booking-card">
+        <span class="eyebrow">
+          🔒 Secure booking
+        </span>
 
-        <div class="booking-title">
+        <h2>
+          Book your tank cleaning
+        </h2>
 
-          <span class="eyebrow">
-            Secure booking
+        <p>
+          Fill in your details and choose your preferred
+          date and time. Payment is processed securely
+          through Razorpay.
+        </p>
+
+
+        <div class="booking-benefit">
+
+          <span>
+            ✓
           </span>
 
-          <h2>
-            Book your tank cleaning
-          </h2>
-
-          <p>
-            Enter your details below. Your final amount will be shown before Razorpay checkout.
-          </p>
-
-        </div>
-
-
-        <form id="bookingForm">
-
-
-          <div class="form-grid">
-
-
-            <div class="field">
-
-              <label for="name">
-                Full name
-              </label>
-
-              <input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Your name"
-                required
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="phone">
-                Phone number
-              </label>
-
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="10-digit mobile number"
-                required
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="email">
-                Email
-              </label>
-
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                required
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="pincode">
-                Pincode
-              </label>
-
-              <input
-                id="pincode"
-                name="pincode"
-                type="text"
-                inputmode="numeric"
-                placeholder="Pincode"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="tankType">
-                Tank type
-              </label>
-
-              <select
-                id="tankType"
-                name="tankType"
-                required
-              >
-
-                <option value="overhead">
-                  Overhead tank
-                </option>
-
-                <option value="underground">
-                  Underground tank
-                </option>
-
-              </select>
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="capacity">
-                Tank capacity
-              </label>
-
-              <select
-                id="capacity"
-                name="capacity"
-                required
-              >
-
-              </select>
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="quantity">
-                Quantity
-              </label>
-
-              <input
-                id="quantity"
-                name="quantity"
-                type="number"
-                min="1"
-                max="20"
-                value="1"
-                required
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="date">
-                Preferred date
-              </label>
-
-              <input
-                id="date"
-                name="date"
-                type="date"
-                required
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label for="time">
-                Preferred time
-              </label>
-
-              <select
-                id="time"
-                name="time"
-                required
-              >
-
-                <option value="">
-                  Select a time
-                </option>
-
-                <option value="08:00 AM">
-                  08:00 AM
-                </option>
-
-                <option value="10:00 AM">
-                  10:00 AM
-                </option>
-
-                <option value="12:00 PM">
-                  12:00 PM
-                </option>
-
-                <option value="02:00 PM">
-                  02:00 PM
-                </option>
-
-                <option value="04:00 PM">
-                  04:00 PM
-                </option>
-
-                <option value="06:00 PM">
-                  06:00 PM
-                </option>
-
-              </select>
-
-            </div>
-
-
-            <div class="field full">
-
-              <label for="address">
-                Full address
-              </label>
-
-              <textarea
-                id="address"
-                name="address"
-                placeholder="House / flat number, street, locality..."
-                required
-              ></textarea>
-
-            </div>
-
-          </div>
-
-
-
-          <!-- PAYMENT INFO -->
-
-          <div class="payment-box">
-
-            <div class="payment-box-title">
-              🔒 Secure online payment
-            </div>
-
-            <div class="payment-box-text">
-              Your booking amount will be processed securely through Razorpay. The final amount is calculated using the selected tank type, capacity and quantity.
-            </div>
-
-          </div>
-
-
-          <button
-            type="submit"
-            class="pay-button"
-            id="payButton"
-          >
-            Continue to Secure Payment →
-          </button>
-
-
-          <div
-            class="booking-error"
-            id="bookingError"
-          ></div>
-
-
-          <div
-            class="booking-success"
-            id="success"
-          >
-
-            <h3>
-              Booking successful 🎉
-            </h3>
+          <div>
+
+            <strong>
+              Transparent pricing
+            </strong>
 
             <p>
-              Your payment was received and your booking has been submitted successfully.
+              Your service price is calculated before payment.
             </p>
 
           </div>
 
+        </div>
 
-        </form>
+
+        <div class="booking-benefit">
+
+          <span>
+            ✓
+          </span>
+
+          <div>
+
+            <strong>
+              Quantity discount
+            </strong>
+
+            <p>
+              Multi-tank bookings automatically receive discounts.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="booking-benefit">
+
+          <span>
+            ✓
+          </span>
+
+          <div>
+
+            <strong>
+              Delhi service
+            </strong>
+
+            <p>
+              Online booking is currently available for Delhi PIN codes.
+            </p>
+
+          </div>
+
+        </div>
 
       </div>
 
 
 
-      <!-- SIDE INFO -->
+      <div class="booking-card">
 
-      <aside class="booking-info">
-
-        <div class="info-title">
-          What happens next?
-        </div>
+        <form id="bookingForm">
 
 
-        <div class="info-item">
+          <input
+            type="hidden"
+            name="tankType"
+            id="selectedTankType"
+            value="overhead"
+          >
 
-          <div class="info-icon">
-            1
+
+          <input
+            type="hidden"
+            name="capacity"
+            id="selectedCapacity"
+            value="500"
+          >
+
+
+          <input
+            type="hidden"
+            name="quantity"
+            id="selectedQuantity"
+            value="1"
+          >
+
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label>
+                Full name
+              </label>
+
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Your name"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Phone number
+              </label>
+
+              <input
+                type="tel"
+                name="phone"
+                required
+                placeholder="10-digit mobile number"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Email
+              </label>
+
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Delhi PIN code
+              </label>
+
+              <input
+                type="text"
+                name="pincode"
+                maxlength="6"
+                required
+                inputmode="numeric"
+                placeholder="1100XX"
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label>
+                Address
+              </label>
+
+              <textarea
+                name="address"
+                required
+                placeholder="Full service address"
+              ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Preferred date
+              </label>
+
+              <input
+                type="date"
+                name="date"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Preferred time
+              </label>
+
+              <select
+                name="time"
+                required
+              >
+
+                <option value="">
+                  Select time
+                </option>
+
+                <option value="08:00 AM - 10:00 AM">
+                  08:00 AM – 10:00 AM
+                </option>
+
+                <option value="10:00 AM - 12:00 PM">
+                  10:00 AM – 12:00 PM
+                </option>
+
+                <option value="12:00 PM - 02:00 PM">
+                  12:00 PM – 02:00 PM
+                </option>
+
+                <option value="02:00 PM - 04:00 PM">
+                  02:00 PM – 04:00 PM
+                </option>
+
+                <option value="04:00 PM - 06:00 PM">
+                  04:00 PM – 06:00 PM
+                </option>
+
+              </select>
+
+            </div>
+
           </div>
 
-          <div>
 
-            <strong>
-              Choose your service
-            </strong>
-
-            <span>
-              Select overhead or underground tank cleaning and your capacity.
-            </span>
-
-          </div>
-
-        </div>
+          <div
+            id="bookingError"
+            class="booking-error"
+          ></div>
 
 
-        <div class="info-item">
-
-          <div class="info-icon">
-            2
-          </div>
-
-          <div>
-
-            <strong>
-              Pick your slot
-            </strong>
-
-            <span>
-              Tell us your preferred cleaning date and time.
-            </span>
-
-          </div>
-
-        </div>
+          <button
+            type="submit"
+            class="btn btn-primary btn-large full-btn"
+          >
+            Pay & Book Now →
+          </button>
 
 
-        <div class="info-item">
+          <p class="secure-note">
+            🔒 Secure payment powered by Razorpay
+          </p>
 
-          <div class="info-icon">
-            3
-          </div>
-
-          <div>
-
-            <strong>
-              Pay securely
-            </strong>
-
-            <span>
-              Complete the payment through Razorpay checkout.
-            </span>
-
-          </div>
-
-        </div>
+        </form>
 
 
-        <div class="info-item">
+        <div
+          id="bookingSuccess"
+          class="booking-success"
+          style="display:none"
+        ></div>
 
-          <div class="info-icon">
-            4
-          </div>
-
-          <div>
-
-            <strong>
-              Booking confirmation
-            </strong>
-
-            <span>
-              Your booking details are processed after successful payment.
-            </span>
-
-          </div>
-
-        </div>
-
-
-
-        <a
-          class="whatsapp-box"
-          href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20need%20help%20with%20booking."
-          target="_blank"
-          rel="noopener"
-        >
-
-          <div class="whatsapp-box-icon">
-            💬
-          </div>
-
-          <div>
-
-            <strong>
-              Need help choosing?
-            </strong>
-
-            <span>
-              Chat with us on WhatsApp
-            </span>
-
-          </div>
-
-        </a>
-
-      </aside>
+      </div>
 
     </div>
 
@@ -3041,14 +1151,14 @@ body {
 
   <div class="container">
 
-    <div class="section-head">
+    <div class="section-heading">
 
       <span class="eyebrow">
-        FAQs
+        Frequently asked
       </span>
 
       <h2>
-        Questions before booking?
+        Questions before booking
       </h2>
 
     </div>
@@ -3056,83 +1166,89 @@ body {
 
     <div class="faq-grid">
 
+      <details>
 
-      <div class="faq">
-
-        <h3>
-          What tank types do you clean?
-        </h3>
-
-        <p>
-          VSH provides cleaning for both overhead and underground water tanks.
-        </p>
-
-      </div>
-
-
-      <div class="faq">
-
-        <h3>
-          Is the price calculated per tank?
-        </h3>
+        <summary>
+          Do you clean overhead tanks?
+        </summary>
 
         <p>
-          Yes. The displayed price is based on the selected tank type and capacity. Quantity discounts are automatically applied for multiple tanks.
+          Yes. VSH provides cleaning for overhead,
+          rooftop and loft water tanks.
         </p>
 
-      </div>
+      </details>
 
 
-      <div class="faq">
+      <details>
 
-        <h3>
-          Can I clean multiple tanks together?
-        </h3>
+        <summary>
+          Do you clean underground tanks?
+        </summary>
 
         <p>
-          Yes. Select the number of tanks during booking and the applicable quantity discount will be included in the total.
+          Yes. Underground sump and water storage
+          tanks can also be booked.
         </p>
 
-      </div>
+      </details>
 
 
-      <div class="faq">
+      <details>
 
-        <h3>
-          What if my tank size isn't listed?
-        </h3>
+        <summary>
+          Is the quantity discount per tank?
+        </summary>
 
         <p>
-          Use the WhatsApp option above to send us your tank size and we'll help with the pricing.
+          The discount is applied to the combined
+          service subtotal when multiple tanks are
+          booked together.
         </p>
 
-      </div>
+      </details>
 
 
-      <div class="faq">
+      <details>
 
-        <h3>
-          How do I pay?
-        </h3>
+        <summary>
+          Is transportation charged per tank?
+        </summary>
 
         <p>
-          Online payments are handled through Razorpay during checkout.
+          No. Transportation, when applicable,
+          is charged once per booking.
         </p>
 
-      </div>
+      </details>
 
 
-      <div class="faq">
+      <details>
 
-        <h3>
-          Can I contact VSH directly?
-        </h3>
+        <summary>
+          Can I book a tank size not listed?
+        </summary>
 
         <p>
-          Yes. You can WhatsApp us or call 9599057079 for booking assistance.
+          Yes. Tap the Other size? WhatsApp option
+          and send us your tank capacity.
         </p>
 
-      </div>
+      </details>
+
+
+      <details>
+
+        <summary>
+          Which areas are currently supported?
+        </summary>
+
+        <p>
+          Online booking is currently limited to
+          Delhi PIN codes beginning with 110.
+        </p>
+
+      </details>
 
     </div>
 
@@ -3141,24 +1257,50 @@ body {
 </section>
 
 
+</main>
+
+
 
 <!-- =====================================================
      FOOTER
 ====================================================== -->
 
-<footer class="footer">
+<footer class="site-footer">
 
   <div class="container footer-grid">
 
     <div>
 
-      <h3>
+      <a
+        href="index.html"
+        class="footer-logo"
+      >
+        <span class="logo-mark">
+          V
+        </span>
+
         VSH Tank Cleaning
-      </h3>
+      </a>
 
       <p>
-        Professional water tank cleaning with transparent pricing and easy online booking.
+        Professional water tank cleaning with
+        transparent pricing and easy online booking.
       </p>
+
+      <div class="footer-social">
+
+        <a
+          href="https://wa.me/919599057079"
+          target="_blank"
+        >
+          WhatsApp
+        </a>
+
+        <a href="tel:+919599057079">
+          Call
+        </a>
+
+      </div>
 
     </div>
 
@@ -3190,16 +1332,16 @@ body {
         Booking
       </h4>
 
-      <a href="#book">
+      <a href="pricing.html#book">
         Book now
       </a>
 
-      <a href="#faq">
+      <a href="pricing.html#faq">
         FAQs
       </a>
 
-      <a href="index.html#process">
-        Process
+      <a href="pricing.html">
+        Check price
       </a>
 
     </div>
@@ -3212,19 +1354,14 @@ body {
       </h4>
 
       <a href="tel:+919599057079">
-        ☎ 9599057079
+        +91 95990 57079
       </a>
 
       <a
         href="https://wa.me/919599057079"
         target="_blank"
-        rel="noopener"
       >
-        💬 WhatsApp
-      </a>
-
-      <a href="mailto:hello@vshtankcleaning.com">
-        Email us
+        WhatsApp us
       </a>
 
     </div>
@@ -3234,7 +1371,8 @@ body {
 
   <div class="container copyright">
 
-    © 2026 VSH Tank Cleaning. All rights reserved.
+    © 2026 VSH Tank Cleaning.
+    All rights reserved.
 
   </div>
 
@@ -3243,1063 +1381,50 @@ body {
 
 
 <!-- =====================================================
-     FLOATING CONTACT
+     MOBILE BOTTOM BAR
 ====================================================== -->
 
-<div class="floating-contact">
+<div class="mobile-bottom-bar">
 
   <a
-    class="floating-whatsapp"
-    href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20book%20a%20tank%20cleaning."
-    target="_blank"
-    rel="noopener"
-    title="WhatsApp"
+    href="tel:+919599057079"
+    class="bottom-call"
   >
-    💬
+    ☎
+    <span>
+      Call
+    </span>
   </a>
 
 
   <a
-    class="floating-call"
-    href="tel:+919599057079"
-    title="Call"
+    href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
+    target="_blank"
+    class="bottom-whatsapp"
   >
-    ☎
+    ◉
+    <span>
+      WhatsApp
+    </span>
+  </a>
+
+
+  <a
+    href="#book"
+    class="bottom-book"
+  >
+    Book tank cleaning
+    <span>
+      →
+    </span>
   </a>
 
 </div>
 
 
 
-<!-- =====================================================
-     RAZORPAY
-====================================================== -->
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-
-
-<!-- =====================================================
-     PRICING + BOOKING JS
-====================================================== -->
-
-<script>
-
-const PRICES = {
-
-  overhead: {
-
-    500: {
-      name: "Up to 500 L",
-      price: 499,
-      old: 599,
-      save: 100
-    },
-
-    1000: {
-      name: "501–1,000 L",
-      price: 599,
-      old: 719,
-      save: 120
-    },
-
-    1500: {
-      name: "1,001–1,500 L",
-      price: 799,
-      old: 934,
-      save: 135
-    },
-
-    2000: {
-      name: "1,501–2,000 L",
-      price: 999,
-      old: 1199,
-      save: 200
-    },
-
-    5000: {
-      name: "2,500–5,000 L",
-      price: 1999,
-      old: 2499,
-      save: 500
-    }
-
-  },
-
-
-  underground: {
-
-    500: {
-      name: "Up to 500 L",
-      price: 799,
-      old: 899,
-      save: 100
-    },
-
-    1000: {
-      name: "501–1,000 L",
-      price: 899,
-      old: 1019,
-      save: 120
-    },
-
-    1500: {
-      name: "1,001–1,500 L",
-      price: 999,
-      old: 1134,
-      save: 135
-    },
-
-    2000: {
-      name: "1,501–2,000 L",
-      price: 1099,
-      old: 1299,
-      save: 200
-    },
-
-    3000: {
-      name: "2,500–5,000 L",
-      price: 1299,
-      old: 1499,
-      save: 200
-    },
-
-    5000: {
-      name: "5,000 L+",
-      price: 1999,
-      old: 2499,
-      save: 500
-    }
-
-  }
-
-};
-
-
-const QUANTITY_DISCOUNTS = {
-  1: 0,
-  2: 10,
-  3: 12,
-  4: 14,
-  5: 15
-};
-
-
-let selectedType =
-  "overhead";
-
-let selectedCapacity =
-  "500";
-
-let quantity =
-  1;
-
-
-
-const capacityGrid =
-  document.getElementById(
-    "capacityGrid"
-  );
-
-const quantityValue =
-  document.getElementById(
-    "quantityValue"
-  );
-
-const totalPrice =
-  document.getElementById(
-    "totalPrice"
-  );
-
-const summaryTitle =
-  document.getElementById(
-    "summaryTitle"
-  );
-
-const summaryDetails =
-  document.getElementById(
-    "summaryDetails"
-  );
-
-const discountMessage =
-  document.getElementById(
-    "discountMessage"
-  );
-
-const tankTypeInput =
-  document.getElementById(
-    "tankType"
-  );
-
-const capacityInput =
-  document.getElementById(
-    "capacity"
-  );
-
-const quantityInput =
-  document.getElementById(
-    "quantity"
-  );
-
-
-
-function getDiscount(qty) {
-
-  if (qty >= 5) {
-    return 15;
-  }
-
-  return (
-    QUANTITY_DISCOUNTS[qty] || 0
-  );
-
-}
-
-
-
-function renderCapacity() {
-
-  capacityGrid.innerHTML =
-    "";
-
-  capacityInput.innerHTML =
-    "";
-
-
-  const prices =
-    PRICES[selectedType];
-
-
-  Object.keys(prices)
-    .forEach(capacity => {
-
-      const item =
-        prices[capacity];
-
-
-      /* PRICE CARD */
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.type =
-        "button";
-
-      button.className =
-        "capacity";
-
-
-      if (
-        String(capacity) ===
-        String(selectedCapacity)
-      ) {
-
-        button.classList.add(
-          "active"
-        );
-
-      }
-
-
-      button.innerHTML = `
-
-        <div class="capacity-name">
-          ${item.name}
-        </div>
-
-        <div class="price-line">
-
-          <span class="current-price">
-            ₹${item.price.toLocaleString("en-IN")}
-          </span>
-
-          <span class="old-price">
-            ₹${item.old.toLocaleString("en-IN")}
-          </span>
-
-          <span class="save">
-            Save ₹${item.save}
-          </span>
-
-        </div>
-
-      `;
-
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          selectedCapacity =
-            String(capacity);
-
-          renderCapacity();
-
-          updateTotal();
-
-        }
-      );
-
-
-      capacityGrid.appendChild(
-        button
-      );
-
-
-      /* FORM SELECT */
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-      option.value =
-        capacity;
-
-      option.textContent =
-        item.name;
-
-      capacityInput.appendChild(
-        option
-      );
-
-    });
-
-
-  capacityInput.value =
-    selectedCapacity;
-
-
-  /* OTHER SIZE */
-
-  const other =
-    document.createElement(
-      "a"
-    );
-
-  other.className =
-    "other-size";
-
-  other.href =
-    "https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20have%20a%20different%20tank%20size.%20Please%20give%20me%20a%20quote.";
-
-  other.target =
-    "_blank";
-
-  other.rel =
-    "noopener";
-
-
-  other.innerHTML = `
-
-    <div class="whatsapp-circle">
-      ♡
-    </div>
-
-    <div>
-
-      <strong>
-        Other size?
-      </strong>
-
-      <span>
-        Chat on WhatsApp
-      </span>
-
-    </div>
-
-  `;
-
-
-  capacityGrid.appendChild(
-    other
-  );
-
-}
-
-
-
-function updateTotal() {
-
-  const item =
-    PRICES[selectedType]
-      [selectedCapacity];
-
-
-  const subtotal =
-    item.price *
-    quantity;
-
-
-  const discountPercent =
-    getDiscount(quantity);
-
-
-  const discount =
-    Math.round(
-      subtotal *
-      discountPercent /
-      100
-    );
-
-
-  const total =
-    subtotal -
-    discount;
-
-
-  totalPrice.textContent =
-    "₹" +
-    total.toLocaleString(
-      "en-IN"
-    );
-
-
-  summaryTitle.textContent =
-    (
-      selectedType ===
-      "overhead"
-        ? "Overhead tank"
-        : "Underground tank"
-    )
-    +
-    " · "
-    +
-    item.name;
-
-
-  summaryDetails.textContent =
-    "₹" +
-    item.price.toLocaleString(
-      "en-IN"
-    )
-    +
-    " × "
-    +
-    quantity
-    +
-    " tank"
-    +
-    (
-      quantity === 1
-        ? ""
-        : "s"
-    );
-
-
-  if (
-    discountPercent > 0
-  ) {
-
-    discountMessage.textContent =
-      "You save ₹" +
-      discount.toLocaleString(
-        "en-IN"
-      )
-      +
-      " (" +
-      discountPercent +
-      "%)";
-
-  } else {
-
-    discountMessage.textContent =
-      "";
-
-  }
-
-
-  quantityValue.textContent =
-    quantity;
-
-
-  quantityInput.value =
-    quantity;
-
-
-  tankTypeInput.value =
-    selectedType;
-
-}
-
-
-
-document
-  .querySelectorAll(
-    ".tank-type"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        document
-          .querySelectorAll(
-            ".tank-type"
-          )
-          .forEach(btn => {
-
-            btn.classList.remove(
-              "active"
-            );
-
-          });
-
-
-        button.classList.add(
-          "active"
-        );
-
-
-        selectedType =
-          button.dataset.type;
-
-
-        selectedCapacity =
-          Object.keys(
-            PRICES[
-              selectedType
-            ]
-          )[0];
-
-
-        renderCapacity();
-
-        updateTotal();
-
-      }
-    );
-
-  });
-
-
-
-document
-  .getElementById(
-    "minusBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      if (
-        quantity > 1
-      ) {
-
-        quantity--;
-
-        updateTotal();
-
-      }
-
-    }
-  );
-
-
-
-document
-  .getElementById(
-    "plusBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      if (
-        quantity < 20
-      ) {
-
-        quantity++;
-
-        updateTotal();
-
-      }
-
-    }
-  );
-
-
-
-capacityInput.addEventListener(
-  "change",
-  () => {
-
-    selectedCapacity =
-      capacityInput.value;
-
-    renderCapacity();
-
-    updateTotal();
-
-  }
-);
-
-
-
-quantityInput.addEventListener(
-  "change",
-  () => {
-
-    let value =
-      Number(
-        quantityInput.value
-      );
-
-
-    if (
-      !Number.isInteger(value)
-      ||
-      value < 1
-    ) {
-
-      value = 1;
-
-    }
-
-
-    if (
-      value > 20
-    ) {
-
-      value = 20;
-
-    }
-
-
-    quantity =
-      value;
-
-
-    updateTotal();
-
-  }
-);
-
-
-
-tankTypeInput.addEventListener(
-  "change",
-  () => {
-
-    selectedType =
-      tankTypeInput.value;
-
-
-    selectedCapacity =
-      Object.keys(
-        PRICES[
-          selectedType
-        ]
-      )[0];
-
-
-    renderCapacity();
-
-    updateTotal();
-
-  }
-);
-
-
-
-/* =========================================================
-   BOOKING
-========================================================= */
-
-const bookingForm =
-  document.getElementById(
-    "bookingForm"
-  );
-
-const payButton =
-  document.getElementById(
-    "payButton"
-  );
-
-const bookingError =
-  document.getElementById(
-    "bookingError"
-  );
-
-const success =
-  document.getElementById(
-    "success"
-  );
-
-
-
-bookingForm.addEventListener(
-  "submit",
-  async function(event) {
-
-    event.preventDefault();
-
-
-    bookingError.style.display =
-      "none";
-
-    success.style.display =
-      "none";
-
-
-    payButton.disabled =
-      true;
-
-    payButton.textContent =
-      "Creating secure order...";
-
-
-    try {
-
-      const formData =
-        new FormData(
-          bookingForm
-        );
-
-
-      const payload = {
-
-        name:
-          formData.get(
-            "name"
-          ),
-
-        phone:
-          formData.get(
-            "phone"
-          ),
-
-        email:
-          formData.get(
-            "email"
-          ),
-
-        address:
-          formData.get(
-            "address"
-          ),
-
-        pincode:
-          formData.get(
-            "pincode"
-          ),
-
-        tankType:
-          selectedType,
-
-        capacity:
-          selectedCapacity,
-
-        quantity:
-          quantity,
-
-        date:
-          formData.get(
-            "date"
-          ),
-
-        time:
-          formData.get(
-            "time"
-          )
-
-      };
-
-
-      const response =
-        await fetch(
-          "/api/create-order",
-          {
-
-            method:
-              "POST",
-
-            headers:
-              {
-                "Content-Type":
-                  "application/json"
-              },
-
-            body:
-              JSON.stringify(
-                payload
-              )
-
-          }
-        );
-
-
-      const data =
-        await response.json();
-
-
-      if (
-        !response.ok
-        ||
-        !data.success
-      ) {
-
-        throw new Error(
-          data.message
-          ||
-          "Unable to create payment order."
-        );
-
-      }
-
-
-      const options = {
-
-        key:
-          data.keyId,
-
-        amount:
-          data.amount,
-
-        currency:
-          data.currency,
-
-        name:
-          "VSH Tank Cleaning",
-
-        description:
-          "Water Tank Cleaning Booking",
-
-        order_id:
-          data.orderId,
-
-
-        prefill: {
-
-          name:
-            payload.name,
-
-          email:
-            payload.email,
-
-          contact:
-            payload.phone
-
-        },
-
-
-        notes: {
-
-          booking_id:
-            data.bookingId
-
-        },
-
-
-        theme: {
-
-          color:
-            "#0877f9"
-
-        },
-
-
-        handler:
-          async function(
-            paymentResponse
-          ) {
-
-            try {
-
-              payButton.textContent =
-                "Verifying payment...";
-
-
-              const verifyResponse =
-                await fetch(
-                  "/api/verify-payment",
-                  {
-
-                    method:
-                      "POST",
-
-                    headers:
-                      {
-                        "Content-Type":
-                          "application/json"
-                      },
-
-                    body:
-                      JSON.stringify({
-
-                        razorpay_order_id:
-                          paymentResponse
-                            .razorpay_order_id,
-
-                        razorpay_payment_id:
-                          paymentResponse
-                            .razorpay_payment_id,
-
-                        razorpay_signature:
-                          paymentResponse
-                            .razorpay_signature,
-
-                        booking:
-                          payload
-
-                      })
-
-                  }
-                );
-
-
-              const verifyData =
-                await verifyResponse.json();
-
-
-              if (
-                !verifyResponse.ok
-                ||
-                !verifyData.success
-              ) {
-
-                throw new Error(
-                  verifyData.message
-                  ||
-                  "Payment verification failed."
-                );
-
-              }
-
-
-              success.style.display =
-                "block";
-
-              bookingForm.reset();
-
-              window.scrollTo({
-                top:
-                  success.getBoundingClientRect().top
-                  +
-                  window.scrollY
-                  -
-                  120,
-
-                behavior:
-                  "smooth"
-              });
-
-
-              payButton.textContent =
-                "Payment completed ✓";
-
-
-            } catch (
-              verificationError
-            ) {
-
-              bookingError.textContent =
-                verificationError.message;
-
-              bookingError.style.display =
-                "block";
-
-              payButton.disabled =
-                false;
-
-              payButton.textContent =
-                "Continue to Secure Payment →";
-
-            }
-
-          },
-
-
-        modal: {
-
-          ondismiss:
-            function() {
-
-              payButton.disabled =
-                false;
-
-              payButton.textContent =
-                "Continue to Secure Payment →";
-
-            }
-
-        }
-
-      };
-
-
-      const razorpay =
-        new Razorpay(
-          options
-        );
-
-
-      razorpay.on(
-        "payment.failed",
-        function(response) {
-
-          bookingError.textContent =
-            response.error
-              ?.description
-            ||
-            "Payment failed. Please try again or use WhatsApp for assistance.";
-
-          bookingError.style.display =
-            "block";
-
-
-          payButton.disabled =
-            false;
-
-          payButton.textContent =
-            "Try Payment Again →";
-
-        }
-      );
-
-
-      razorpay.open();
-
-
-    } catch (
-      error
-    ) {
-
-      bookingError.textContent =
-        error.message
-        ||
-        "Something went wrong. Please try again.";
-
-      bookingError.style.display =
-        "block";
-
-
-      payButton.disabled =
-        false;
-
-      payButton.textContent =
-        "Continue to Secure Payment →";
-
-    }
-
-  }
-);
-
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-renderCapacity();
-
-updateTotal();
-
-</script>
-
+<script src="site.js"></script>
 
 </body>
+
 </html>
