@@ -1,20 +1,17 @@
 import {
   getPrice,
-  getDiscount
+  getDiscount,
+  ONLINE_PAYMENT_DISCOUNT
 } from "../pricing-config.js";
-
 
 export default async function handler(req, res) {
 
   if (req.method !== "POST") {
-
     return res.status(405).json({
       success: false,
       message: "Method not allowed"
     });
-
   }
-
 
   try {
 
@@ -28,13 +25,9 @@ export default async function handler(req, res) {
       capacity,
       quantity,
       date,
-      time
+      time,
+      paymentMethod = "online"
     } = req.body || {};
-
-
-    // ==================================================
-    // VALIDATION
-    // ==================================================
 
     if (
       !name ||
@@ -48,54 +41,45 @@ export default async function handler(req, res) {
       !date ||
       !time
     ) {
-
       return res.status(400).json({
         success: false,
         message:
           "Please fill in all booking details."
       });
-
     }
 
-
-    // Delhi only
-    if (
-      !/^\d{6}$/.test(String(pincode)) ||
-      !String(pincode).startsWith("110")
-    ) {
-
+    if (!/^110\d{3}$/.test(String(pincode))) {
       return res.status(400).json({
         success: false,
         message:
-          "Online booking is currently available only for Delhi PIN codes."
+          "Please enter a valid Delhi PIN code."
       });
-
     }
 
-
-    const keyId =
-      process.env.RAZORPAY_KEY_ID;
-
-    const keySecret =
-      process.env.RAZORPAY_KEY_SECRET;
-
-
-    if (!keyId || !keySecret) {
-
-      return res.status(500).json({
+    if (
+      paymentMethod !== "online" &&
+      paymentMethod !== "cash"
+    ) {
+      return res.status(400).json({
         success: false,
         message:
-          "Razorpay is not configured."
+          "Invalid payment method."
       });
-
     }
 
-
-    // ==================================================
-    // PRICING
-    // ==================================================
-
     const qty = Number(quantity);
+
+    if (
+      !Number.isInteger(qty) ||
+      qty < 1 ||
+      qty > 20
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Quantity must be between 1 and 20."
+      });
+    }
 
     const unitPrice =
       getPrice(
@@ -103,76 +87,46 @@ export default async function handler(req, res) {
         capacity
       );
 
-
     if (!unitPrice) {
-
       return res.status(400).json({
         success: false,
         message:
           "Invalid tank capacity."
       });
-
     }
-
-
-    if (
-      !Number.isInteger(qty) ||
-      qty < 1 ||
-      qty > 20
-    ) {
-
-      return res.status(400).json({
-        success: false,
-        message:
-          "Quantity must be between 1 and 20."
-      });
-
-    }
-
 
     const subtotal =
       unitPrice * qty;
 
-
-    const discountPercent =
+    const quantityDiscountPercent =
       getDiscount(qty);
 
-
-    const discount =
+    const quantityDiscount =
       Math.round(
         subtotal *
-        discountPercent /
+        quantityDiscountPercent /
         100
       );
 
+    const afterQuantityDiscount =
+      subtotal -
+      quantityDiscount;
 
-    const serviceTotal =
-      subtotal - discount;
+    const onlineDiscountPercent =
+      paymentMethod === "online"
+        ? ONLINE_PAYMENT_DISCOUNT
+        : 0;
 
+    const onlineDiscount =
+      Math.round(
+        afterQuantityDiscount *
+        onlineDiscountPercent /
+        100
+      );
 
-    // ==================================================
-    // TRANSPORT
-    //
-    // The exact road distance should be calculated
-    // using a distance/geocoding service before
-    // sending a transport amount here.
-    //
-    // For now the booking API accepts zero transport
-    // unless a verified transport amount is supplied.
-    // ==================================================
-
-    const transportCharge =
-      Number(req.body.transportCharge) || 0;
-
-
-    const totalAmount =
-      serviceTotal +
-      transportCharge;
-
-
-    // ==================================================
-    // BOOKING ID
-    // ==================================================
+    const total =
+      afterQuantityDiscount -
+      onlineDiscount;
 
     const bookingId =
       "VSH-" +
@@ -185,10 +139,37 @@ export default async function handler(req, res) {
         .substring(2, 6)
         .toUpperCase();
 
+    if (paymentMethod === "cash") {
 
-    // ==================================================
-    // RAZORPAY AUTH
-    // ==================================================
+      return res.status(200).json({
+        success: true,
+        paymentMethod: "cash",
+        bookingId,
+        amount: total,
+        currency: "INR",
+
+        summary: {
+          subtotal,
+          quantityDiscount,
+          onlineDiscount: 0,
+          total
+        }
+      });
+    }
+
+    const keyId =
+      process.env.RAZORPAY_KEY_ID;
+
+    const keySecret =
+      process.env.RAZORPAY_KEY_SECRET;
+
+    if (!keyId || !keySecret) {
+      return res.status(500).json({
+        success: false,
+        message:
+          "Razorpay is not configured."
+      });
+    }
 
     const auth =
       Buffer
@@ -197,36 +178,27 @@ export default async function handler(req, res) {
         )
         .toString("base64");
 
-
-    // ==================================================
-    // CREATE RAZORPAY ORDER
-    // ==================================================
-
     const razorpayResponse =
       await fetch(
         "https://api.razorpay.com/v1/orders",
         {
-
           method: "POST",
 
           headers: {
-
             Authorization:
               `Basic ${auth}`,
 
             "Content-Type":
               "application/json"
-
           },
 
           body: JSON.stringify({
 
             amount:
-              Math.round(
-                totalAmount * 100
-              ),
+              total * 100,
 
-            currency: "INR",
+            currency:
+              "INR",
 
             receipt:
               bookingId,
@@ -260,38 +232,28 @@ export default async function handler(req, res) {
               quantity:
                 String(qty),
 
-              subtotal:
-                String(subtotal),
+              quantity_discount_percent:
+                String(
+                  quantityDiscountPercent
+                ),
 
-              discount_percent:
-                String(discountPercent),
-
-              discount_amount:
-                String(discount),
-
-              service_total:
-                String(serviceTotal),
-
-              transport_charge:
-                String(transportCharge),
+              online_discount_percent:
+                String(
+                  onlineDiscountPercent
+                ),
 
               booking_date:
                 String(date),
 
               booking_time:
                 String(time)
-
             }
-
           })
-
         }
       );
 
-
     const data =
       await razorpayResponse.json();
-
 
     if (!razorpayResponse.ok) {
 
@@ -300,19 +262,18 @@ export default async function handler(req, res) {
         data
       );
 
-
       return res.status(500).json({
         success: false,
         message:
           "Unable to create Razorpay order."
       });
-
     }
-
 
     return res.status(200).json({
 
       success: true,
+
+      paymentMethod: "online",
 
       keyId,
 
@@ -325,10 +286,16 @@ export default async function handler(req, res) {
         data.amount,
 
       currency:
-        data.currency
+        data.currency,
+
+      summary: {
+        subtotal,
+        quantityDiscount,
+        onlineDiscount,
+        total
+      }
 
     });
-
 
   } catch (error) {
 
@@ -337,13 +304,10 @@ export default async function handler(req, res) {
       error
     );
 
-
     return res.status(500).json({
       success: false,
       message:
-        "Server error while creating order."
+        "Server error while creating booking."
     });
-
   }
-
 }
