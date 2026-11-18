@@ -10,13 +10,11 @@
   content="width=device-width, initial-scale=1"
 >
 
-<title>
-  Service Areas | VSH Tank Cleaning Delhi
-</title>
+<title>Service Areas | VSH Tank Cleaning</title>
 
 <meta
   name="description"
-  content="Check VSH Tank Cleaning service availability across Delhi by area name or PIN code."
+  content="Check VSH Tank Cleaning service areas across Delhi by PIN code and area name."
 >
 
 <link
@@ -30,32 +28,22 @@
 <body>
 
 
-<!-- =====================================================
-     TOP BAR
-====================================================== -->
-
 <div class="topbar">
 
   <div class="container topbar-inner">
 
     <span>
-      💧 Professional Water Tank Cleaning
+      📍 Delhi Service Areas
     </span>
 
     <span>
-      ✓ Delhi service &nbsp; • &nbsp;
-      ✓ Transparent pricing
+      ✓ Check by PIN code or area
     </span>
 
   </div>
 
 </div>
 
-
-
-<!-- =====================================================
-     HEADER
-====================================================== -->
 
 <header class="site-header">
 
@@ -87,13 +75,15 @@
         Services
       </a>
 
-      <a href="service-areas.html"
-         class="active">
+      <a
+        href="service-areas.html"
+        class="active"
+      >
         Service Areas
       </a>
 
       <a href="pricing.html">
-        Prices
+        Pricing
       </a>
 
       <a href="index.html#process">
@@ -110,7 +100,7 @@
     <div class="nav-actions">
 
       <a
-        href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20know%20if%20you%20serve%20my%20area."
+        href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20check%20service%20availability."
         target="_blank"
         class="nav-whatsapp"
       >
@@ -126,7 +116,7 @@
 
       <a
         href="pricing.html#book"
-        class="nav-book"
+        class="btn btn-primary nav-book"
       >
         Book Now →
       </a>
@@ -136,49 +126,91 @@
 
     <button
       class="mobile-menu"
+      type="button"
       aria-label="Open menu"
-      aria-expanded="false"
     >
       ☰
     </button>
 
   </div>
 
+
+  <div class="mobile-nav">
+
+    <a href="index.html">
+      Home
+    </a>
+
+    <a href="services.html">
+      Services
+    </a>
+
+    <a href="service-areas.html">
+      Service Areas
+    </a>
+
+    <a href="pricing.html">
+      Pricing
+    </a>
+
+    <a href="index.html#process">
+      Process
+    </a>
+
+    <a href="pricing.html#faq">
+      FAQs
+    </a>
+
+    <div class="mobile-nav-actions">
+
+      <a
+        href="https://wa.me/919599057079"
+        target="_blank"
+        class="btn btn-whatsapp"
+      >
+        WhatsApp
+      </a>
+
+      <a
+        href="tel:+919599057079"
+        class="btn btn-call"
+      >
+        ☎ Call
+      </a>
+
+      <a
+        href="pricing.html#book"
+        class="btn btn-primary"
+      >
+        Book Now →
+      </a>
+
+    </div>
+
+  </div>
+
 </header>
 
-
-
-<!-- =====================================================
-     HERO
-====================================================== -->
 
 <main>
 
 
-<section class="service-areas-hero">
+<section class="page-hero">
 
-  <div class="container">
+  <div class="container page-hero-inner">
 
     <span class="eyebrow">
-      📍 Delhi service areas
+      📍 Service Areas
     </span>
 
-
     <h1>
-
-      Tank cleaning
-      <span>
-        across Delhi.
-      </span>
-
+      Check if we serve
+      <span>your area.</span>
     </h1>
 
-
     <p>
-
-      Check whether VSH Tank Cleaning serves
-      your area using your PIN code or area name.
-
+      Search by Delhi PIN code or enter your area name
+      to find the relevant service zone.
     </p>
 
   </div>
@@ -186,59 +218,54 @@
 </section>
 
 
-
-<!-- =====================================================
-     SEARCH
-====================================================== -->
-
-<section class="area-search-section">
+<section class="area-search-section section">
 
   <div class="container">
 
     <div class="area-search-card">
 
-      <h2>
-        Check service availability
-      </h2>
+      <div>
 
-      <p>
-        Enter your Delhi PIN code or search
-        for your area.
-      </p>
+        <span class="eyebrow">
+          🔎 Area Search
+        </span>
+
+        <h2>
+          Check service availability
+        </h2>
+
+        <p>
+          Enter a 6-digit Delhi PIN code or search
+          for an area such as Rohini, Dwarka, Karol Bagh
+          or Lajpat Nagar.
+        </p>
+
+      </div>
 
 
-      <div class="area-search-form">
+      <div class="area-search-controls">
 
         <input
           type="text"
-          id="servicePin"
-          maxlength="6"
-          inputmode="numeric"
-          placeholder="Enter PIN code e.g. 110059"
+          id="areaSearch"
+          placeholder="PIN code or area name"
+          autocomplete="off"
         >
-
-
-        <input
-          type="text"
-          id="serviceArea"
-          placeholder="Enter area name e.g. Dwarka"
-        >
-
 
         <button
           type="button"
-          id="checkServiceArea"
-          class="btn btn-primary btn-large"
+          id="areaSearchButton"
+          class="btn btn-primary"
         >
-          Check Service →
+          Search
         </button>
 
       </div>
 
 
       <div
-        id="serviceAreaResult"
-        style="margin-top:18px"
+        id="areaSearchResult"
+        class="area-search-result"
       ></div>
 
     </div>
@@ -248,558 +275,372 @@
 </section>
 
 
-
-<!-- =====================================================
-     AREA BOXES
-====================================================== -->
-
-<section>
+<section class="district-section">
 
   <div class="container">
 
-    <div class="section-heading">
+    <div class="section-heading centered">
 
       <span class="eyebrow">
-        🗺️ Areas we serve
+        Delhi Coverage
       </span>
 
       <h2>
-        Find your Delhi area
+        Areas we serve
       </h2>
 
       <p>
-        Select your area to explore the locations
-        covered by VSH Tank Cleaning.
+        Browse service zones across Delhi.
       </p>
 
     </div>
 
 
-    <div class="service-area-grid">
+    <div
+      class="district-grid"
+      id="districtGrid"
+    >
 
 
-      <!-- CENTRAL DELHI -->
+      <div
+        class="district-card"
+        data-area="central delhi"
+        data-pins="110001 110002 110005 110006 110007 110008 110055"
+      >
 
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           01
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           Central Delhi
         </h3>
 
         <p>
-          Professional tank cleaning services
-          across central Delhi locations.
+          Connaught Place, Paharganj, Karol Bagh,
+          Rajinder Nagar and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Connaught Place
-          </span>
-
-          <span>
-            Karol Bagh
-          </span>
-
-          <span>
-            Paharganj
-          </span>
-
-          <span>
-            Rajinder Nagar
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="east delhi"
+        data-pins="110031 110032 110051 110053 110092 110093 110094"
+      >
 
-      <!-- EAST DELHI -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           02
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           East Delhi
         </h3>
 
         <p>
-          Tank cleaning for homes, apartments
-          and properties across East Delhi.
+          Laxmi Nagar, Preet Vihar, Patparganj,
+          Shakarpur and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Laxmi Nagar
-          </span>
-
-          <span>
-            Preet Vihar
-          </span>
-
-          <span>
-            Mayur Vihar
-          </span>
-
-          <span>
-            Patparganj
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="north delhi"
+        data-pins="110006 110007 110009 110033 110035 110054 110084"
+      >
 
-      <!-- NORTH DELHI -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           03
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           North Delhi
         </h3>
 
         <p>
-          Water tank cleaning services throughout
-          North Delhi residential areas.
+          Civil Lines, Model Town, Kamla Nagar,
+          Mukherjee Nagar and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Model Town
-          </span>
-
-          <span>
-            Civil Lines
-          </span>
-
-          <span>
-            Kamla Nagar
-          </span>
-
-          <span>
-            Rohini
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="north east delhi"
+        data-pins="110053 110094 110095 110096"
+      >
 
-      <!-- NORTH EAST -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           04
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           North East Delhi
         </h3>
 
         <p>
-          Reliable tank cleaning for properties
-          across North East Delhi.
+          Shahdara, Seelampur, Yamuna Vihar,
+          Bhajanpura and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Shahdara
-          </span>
-
-          <span>
-            Seelampur
-          </span>
-
-          <span>
-            Yamuna Vihar
-          </span>
-
-          <span>
-            Bhajanpura
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="north west delhi"
+        data-pins="110034 110035 110042 110052 110085 110086 110088"
+      >
 
-      <!-- NORTH WEST -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           05
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           North West Delhi
         </h3>
 
         <p>
-          Residential and commercial tank cleaning
-          across North West Delhi.
+          Rohini, Pitampura, Shalimar Bagh,
+          Ashok Vihar and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Pitampura
-          </span>
-
-          <span>
-            Shalimar Bagh
-          </span>
-
-          <span>
-            Ashok Vihar
-          </span>
-
-          <span>
-            Paschim Vihar
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="south delhi"
+        data-pins="110016 110017 110019 110020 110025 110030 110044 110049"
+      >
 
-      <!-- SOUTH DELHI -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           06
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           South Delhi
         </h3>
 
         <p>
-          Professional tank cleaning across
-          South Delhi residential areas.
+          Saket, Malviya Nagar, Greater Kailash,
+          Hauz Khas and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Saket
-          </span>
-
-          <span>
-            Malviya Nagar
-          </span>
-
-          <span>
-            Hauz Khas
-          </span>
-
-          <span>
-            Vasant Kunj
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="south east delhi"
+        data-pins="110014 110019 110020 110025 110029 110044"
+      >
 
-      <!-- SOUTH EAST -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           07
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           South East Delhi
         </h3>
 
         <p>
-          Tank cleaning services for South East
-          Delhi homes and properties.
+          Lajpat Nagar, Kalkaji, Jangpura,
+          Govindpuri and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Kalkaji
-          </span>
-
-          <span>
-            Govindpuri
-          </span>
-
-          <span>
-            Greater Kailash
-          </span>
-
-          <span>
-            Jangpura
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="south west delhi"
+        data-pins="110010 110021 110023 110037 110038 110043 110045 110046"
+      >
 
-      <!-- SOUTH WEST -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           08
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           South West Delhi
         </h3>
 
         <p>
-          Convenient tank cleaning across
-          South West Delhi.
+          Dwarka, Vasant Kunj, Palam, Najafgarh
+          and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Dwarka
-          </span>
-
-          <span>
-            Janakpuri
-          </span>
-
-          <span>
-            Palam
-          </span>
-
-          <span>
-            Najafgarh
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="west delhi"
+        data-pins="110015 110018 110026 110027 110028 110046 110058 110059"
+      >
 
-      <!-- WEST -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           09
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           West Delhi
         </h3>
 
         <p>
-          Tank cleaning for homes and buildings
-          throughout West Delhi.
+          Janakpuri, Rajouri Garden, Punjabi Bagh,
+          Tilak Nagar and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Uttam Nagar
-          </span>
-
-          <span>
-            Tilak Nagar
-          </span>
-
-          <span>
-            Rajouri Garden
-          </span>
-
-          <span>
-            Punjabi Bagh
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="new delhi"
+        data-pins="110001 110003 110011 110021 110023"
+      >
 
-      <!-- NEW DELHI -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           10
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           New Delhi
         </h3>
 
         <p>
-          Professional water tank cleaning
-          around New Delhi areas.
+          New Delhi district and surrounding
+          central administrative areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Chanakyapuri
-          </span>
-
-          <span>
-            India Gate
-          </span>
-
-          <span>
-            Jor Bagh
-          </span>
-
-          <span>
-            Lutyens Delhi
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
+      <div
+        class="district-card"
+        data-area="shahdara"
+        data-pins="110032 110053 110092 110093 110094 110095 110096"
+      >
 
-      <!-- SHAHDARA -->
-
-      <div class="service-area-card">
-
-        <span class="area-number">
+        <div class="district-number">
           11
-        </span>
+        </div>
+
+        <div class="district-icon">
+          📍
+        </div>
 
         <h3>
           Shahdara
         </h3>
 
         <p>
-          Water tank cleaning for homes and
-          properties around Shahdara.
+          Shahdara, Vivek Vihar, Krishna Nagar
+          and nearby areas.
         </p>
 
-        <div class="area-tags">
-
-          <span>
-            Vivek Vihar
-          </span>
-
-          <span>
-            Krishna Nagar
-          </span>
-
-          <span>
-            Jhilmil
-          </span>
-
-          <span>
-            Anand Vihar
-          </span>
-
-        </div>
+        <span>
+          Check area →
+        </span>
 
       </div>
 
 
     </div>
 
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CTA
-====================================================== -->
-
-<section
-  style="
-    padding:80px 0;
-    background:#f5f8fc;
-  "
->
-
-  <div
-    class="container"
-    style="
-      text-align:center;
-    "
-  >
-
-    <span class="eyebrow">
-      Ready to book?
-    </span>
-
-    <h2>
-      Get your tank cleaned professionally.
-    </h2>
-
-    <p>
-      Check the price, choose your preferred
-      payment method and book your service.
-    </p>
-
 
     <div
-      class="cta-trio"
-      style="
-        justify-content:center;
-        margin-top:25px;
-      "
+      id="noAreaResult"
+      class="no-area-result"
     >
-
-      <a
-        href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20book%20tank%20cleaning."
-        target="_blank"
-        class="cta-whatsapp"
-      >
-        WhatsApp
-      </a>
-
-
-      <a
-        href="tel:+919599057079"
-        class="cta-call"
-      >
-        ☎ Call
-      </a>
-
-
-      <a
-        href="pricing.html#book"
-        class="cta-book"
-      >
-        Book Now →
-      </a>
-
+      No matching area found. Please try another
+      PIN code or area name.
     </div>
 
   </div>
@@ -807,19 +648,70 @@
 </section>
 
 
+<section class="area-help-section section">
+
+  <div class="container">
+
+    <div class="area-help-card">
+
+      <div>
+
+        <span class="eyebrow">
+          Can't find your area?
+        </span>
+
+        <h2>
+          Ask us directly.
+        </h2>
+
+        <p>
+          Send us your location or PIN code and
+          our team can help you check availability.
+        </p>
+
+      </div>
+
+
+      <div class="area-cta-actions">
+
+        <a
+          href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20check%20if%20VSH%20Tank%20Cleaning%20is%20available%20in%20my%20area."
+          target="_blank"
+          class="btn btn-whatsapp"
+        >
+          WhatsApp
+        </a>
+
+        <a
+          href="tel:+919599057079"
+          class="btn btn-call"
+        >
+          ☎ Call
+        </a>
+
+        <a
+          href="pricing.html#book"
+          class="btn btn-primary"
+        >
+          Book Now →
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 </main>
 
-
-
-<!-- =====================================================
-     FOOTER
-====================================================== -->
 
 <footer class="site-footer">
 
   <div class="container footer-grid">
 
-    <div>
+    <div class="footer-brand">
 
       <a
         href="index.html"
@@ -837,30 +729,30 @@
 
       <p>
         Professional water tank cleaning with
-        transparent pricing and easy booking.
+        transparent pricing and easy online booking.
       </p>
 
 
-      <div class="cta-trio">
+      <div class="footer-actions">
 
         <a
           href="https://wa.me/919599057079"
           target="_blank"
-          class="cta-whatsapp"
+          class="footer-whatsapp"
         >
           WhatsApp
         </a>
 
         <a
           href="tel:+919599057079"
-          class="cta-call"
+          class="footer-call"
         >
-          Call
+          ☎ Call
         </a>
 
         <a
           href="pricing.html#book"
-          class="cta-book"
+          class="footer-book"
         >
           Book Now
         </a>
@@ -889,7 +781,7 @@
       </a>
 
       <a href="pricing.html">
-        Prices
+        Pricing
       </a>
 
     </div>
@@ -898,19 +790,23 @@
     <div>
 
       <h4>
-        Booking
+        Areas
       </h4>
 
-      <a href="pricing.html#book">
-        Book Now
+      <a href="#districtGrid">
+        Delhi
       </a>
 
-      <a href="pricing.html#faq">
-        FAQs
+      <a href="#districtGrid">
+        East Delhi
       </a>
 
-      <a href="pricing.html">
-        Check Price
+      <a href="#districtGrid">
+        West Delhi
+      </a>
+
+      <a href="#districtGrid">
+        South Delhi
       </a>
 
     </div>
@@ -930,7 +826,11 @@
         href="https://wa.me/919599057079"
         target="_blank"
       >
-        WhatsApp Us
+        WhatsApp us
+      </a>
+
+      <a href="pricing.html#book">
+        Book now
       </a>
 
     </div>
@@ -938,9 +838,7 @@
   </div>
 
 
-  <div
-    class="container copyright"
-  >
+  <div class="container copyright">
 
     © 2026 VSH Tank Cleaning.
     All rights reserved.
@@ -949,11 +847,6 @@
 
 </footer>
 
-
-
-<!-- =====================================================
-     MOBILE CTA BAR
-====================================================== -->
 
 <div class="mobile-bottom-bar">
 
@@ -969,11 +862,14 @@
 
 
   <a
-    href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20book%20tank%20cleaning."
+    href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20check%20service%20availability."
     target="_blank"
     class="bottom-whatsapp"
   >
-    WhatsApp
+    ◉
+    <span>
+      WhatsApp
+    </span>
   </a>
 
 
@@ -987,150 +883,161 @@
 </div>
 
 
+<script src="site.js"></script>
+
 
 <script>
 
 document.addEventListener(
   "DOMContentLoaded",
-  function () {
+  function(){
+
+    const input =
+      document.querySelector(
+        "#areaSearch"
+      );
 
     const button =
-      document.getElementById(
-        "checkServiceArea"
-      );
-
-    const pin =
-      document.getElementById(
-        "servicePin"
-      );
-
-    const area =
-      document.getElementById(
-        "serviceArea"
+      document.querySelector(
+        "#areaSearchButton"
       );
 
     const result =
-      document.getElementById(
-        "serviceAreaResult"
+      document.querySelector(
+        "#areaSearchResult"
       );
+
+    const cards =
+      Array.from(
+        document.querySelectorAll(
+          ".district-card"
+        )
+      );
+
+    const noResult =
+      document.querySelector(
+        "#noAreaResult"
+      );
+
+
+    function searchAreas(){
+
+      const query =
+        input.value
+          .trim()
+          .toLowerCase();
+
+
+      if(!query){
+
+        cards.forEach(
+          card =>
+            card.style.display = ""
+        );
+
+        noResult.style.display =
+          "none";
+
+        result.textContent =
+          "";
+
+        return;
+
+      }
+
+
+      let found = 0;
+
+
+      cards.forEach(
+        function(card){
+
+          const area =
+            card.dataset.area
+              .toLowerCase();
+
+          const pins =
+            card.dataset.pins
+              .toLowerCase();
+
+
+          const match =
+            area.includes(query) ||
+            pins.includes(query);
+
+
+          card.style.display =
+            match ? "" : "none";
+
+
+          if(match){
+            found++;
+          }
+
+        }
+      );
+
+
+      if(found){
+
+        noResult.style.display =
+          "none";
+
+        result.className =
+          "area-search-result success";
+
+        result.textContent =
+          "✓ " +
+          found +
+          " matching service area" +
+          (found > 1 ? "s" : "") +
+          " found.";
+
+      }else{
+
+        noResult.style.display =
+          "block";
+
+        result.className =
+          "area-search-result error";
+
+        result.textContent =
+          "No matching service area found.";
+
+      }
+
+    }
 
 
     button.addEventListener(
       "click",
-      function () {
-
-        const pinValue =
-          pin.value.trim();
-
-        const areaValue =
-          area.value.trim();
+      searchAreas
+    );
 
 
-        if (
-          !pinValue &&
-          !areaValue
-        ) {
+    input.addEventListener(
+      "keydown",
+      function(event){
 
-          result.innerHTML = `
+        if(
+          event.key ===
+          "Enter"
+        ){
 
-            <div
-              style="
-                background:#fff0f0;
-                color:#ffd6d6;
-                border:1px solid #ffb4b4;
-                padding:14px;
-                border-radius:12px;
-              "
-            >
-              ✕ Enter your PIN code or area name.
-            </div>
+          event.preventDefault();
 
-          `;
-
-          return;
+          searchAreas();
 
         }
-
-
-        if (
-          pinValue &&
-          !/^110\d{3}$/.test(
-            pinValue
-          )
-        ) {
-
-          result.innerHTML = `
-
-            <div
-              style="
-                background:#fff0f0;
-                color:#ffd6d6;
-                border:1px solid #ffb4b4;
-                padding:14px;
-                border-radius:12px;
-              "
-            >
-              ✕ Please enter a valid Delhi PIN code beginning with 110.
-            </div>
-
-          `;
-
-          return;
-
-        }
-
-
-        result.innerHTML = `
-
-          <div
-            style="
-              background:rgba(22,185,90,.15);
-              color:#baf5ce;
-              border:1px solid rgba(22,185,90,.35);
-              padding:16px;
-              border-radius:12px;
-            "
-          >
-
-            <strong>
-              ✓ Service available
-            </strong>
-
-            <br>
-
-            ${
-              areaValue
-                ? `We currently serve ${areaValue}`
-                : `PIN ${pinValue} is within our Delhi service zone`
-            }.
-
-            <br><br>
-
-            <a
-              href="pricing.html#book"
-              style="
-                color:#ffffff;
-                font-weight:800;
-              "
-            >
-              Book your tank cleaning →
-            </a>
-
-          </div>
-
-        `;
 
       }
     );
+
 
   }
 );
 
 </script>
 
-
-<script src="site.js"></script>
-
 </body>
-
 </html>
