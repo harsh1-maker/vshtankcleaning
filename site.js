@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---------------------------------------------------
 
   const PRICES = {
+
     overhead: {
       500: 499,
       1000: 599,
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
       3000: 1299,
       5000: 1999
     }
+
   };
 
 
@@ -42,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (quantity === 2) return 10;
 
     return 0;
+
   }
 
 
@@ -104,6 +107,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ---------------------------------------------------
+  // PAYMENT METHOD
+  // ---------------------------------------------------
+
+  const paymentOptions =
+    document.querySelectorAll(
+      'input[name="paymentMethod"]'
+    );
+
+
+  let paymentMethod =
+    document.querySelector(
+      'input[name="paymentMethod"]:checked'
+    )?.value || "online";
+
+
+  // ---------------------------------------------------
   // STATE
   // ---------------------------------------------------
 
@@ -124,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ---------------------------------------------------
-  // MONEY FORMAT
+  // MONEY
   // ---------------------------------------------------
 
   function money(value) {
@@ -138,46 +157,102 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ---------------------------------------------------
-  // SYNC HIDDEN INPUTS
+  // SYNC INPUTS
   // ---------------------------------------------------
 
   function syncInputs() {
 
     if (selectedTankType) {
+
       selectedTankType.value =
         tankType;
+
     }
 
     if (selectedCapacity) {
+
       selectedCapacity.value =
         capacity;
+
     }
 
     if (selectedQuantity) {
+
       selectedQuantity.value =
         quantity;
+
     }
 
   }
 
 
   // ---------------------------------------------------
-  // UPDATE TANK TYPE BUTTONS
+  // PAYMENT OPTION UI
+  // ---------------------------------------------------
+
+  function updatePaymentOptions() {
+
+    document
+      .querySelectorAll(".payment-option")
+      .forEach(function (option) {
+
+        const radio =
+          option.querySelector(
+            'input[name="paymentMethod"]'
+          );
+
+        option.classList.toggle(
+          "active",
+          radio &&
+          radio.checked
+        );
+
+      });
+
+  }
+
+
+  // ---------------------------------------------------
+  // PAYMENT METHOD CHANGE
+  // ---------------------------------------------------
+
+  paymentOptions.forEach(
+    function (radio) {
+
+      radio.addEventListener(
+        "change",
+        function () {
+
+          paymentMethod =
+            this.value;
+
+          updatePaymentOptions();
+
+          updatePrice();
+
+        }
+      );
+
+    }
+  );
+
+
+  // ---------------------------------------------------
+  // TANK TYPE BUTTONS
   // ---------------------------------------------------
 
   function updateTankTypeButtons() {
 
-    tankTypeButtons.forEach(function (button) {
+    tankTypeButtons.forEach(
+      function (button) {
 
-      const isActive =
-        button.dataset.tankType === tankType;
+        button.classList.toggle(
+          "active",
+          button.dataset.tankType === tankType
+        );
 
-      button.classList.toggle(
-        "active",
-        isActive
-      );
-
-    });
+      }
+    );
 
   }
 
@@ -195,16 +270,18 @@ document.addEventListener("DOMContentLoaded", function () {
         ".other-size-card"
       );
 
-    // Remove old generated capacity buttons
+
     capacityGrid
       .querySelectorAll(
         ".capacity-card"
       )
-      .forEach(function (button) {
+      .forEach(
+        function (button) {
 
-        button.remove();
+          button.remove();
 
-      });
+        }
+      );
 
 
     const availableCapacities =
@@ -223,7 +300,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let label;
 
 
-        if (Number(capacityValue) === 500) {
+        if (
+          Number(capacityValue) === 500
+        ) {
 
           label = "Up to 500 L";
 
@@ -272,46 +351,63 @@ document.addEventListener("DOMContentLoaded", function () {
         else {
 
           label =
-            `Up to ${Number(capacityValue).toLocaleString("en-IN")} L`;
+            `Up to ${Number(
+              capacityValue
+            ).toLocaleString("en-IN")} L`;
 
         }
 
 
-        // Original/reference price
+        // Reference/original price
         let originalPrice = 0;
 
 
         if (price === 499) {
+
           originalPrice = 599;
+
         }
 
         else if (price === 599) {
+
           originalPrice = 719;
+
         }
 
         else if (price === 799) {
+
           originalPrice = 934;
+
         }
 
         else if (price === 999) {
+
           originalPrice = 1199;
+
         }
 
         else if (price === 1099) {
+
           originalPrice = 1299;
+
         }
 
         else if (price === 1299) {
+
           originalPrice = 1499;
+
         }
 
         else if (price === 1999) {
+
           originalPrice = 2499;
+
         }
 
 
         const button =
           document.createElement("button");
+
 
         button.type = "button";
 
@@ -334,7 +430,9 @@ document.addEventListener("DOMContentLoaded", function () {
             </del>
 
             <small>
-              Save ${money(originalPrice - price)}
+              Save ${money(
+                originalPrice - price
+              )}
             </small>
 
           `;
@@ -391,10 +489,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
-      });
+      }
+    );
 
 
-    // Make sure selected capacity exists
     if (
       !availableCapacities.includes(
         String(capacity)
@@ -415,7 +513,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ---------------------------------------------------
-  // UPDATE CAPACITY ACTIVE STATE
+  // CAPACITY ACTIVE STATE
   // ---------------------------------------------------
 
   function updateCapacityButtons() {
@@ -427,20 +525,18 @@ document.addEventListener("DOMContentLoaded", function () {
       .querySelectorAll(
         ".capacity-card"
       )
-      .forEach(function (button) {
+      .forEach(
+        function (button) {
 
-        const buttonCapacity =
-          Number(
-            button.dataset.capacity
+          button.classList.toggle(
+            "active",
+            Number(
+              button.dataset.capacity
+            ) === capacity
           );
 
-
-        button.classList.toggle(
-          "active",
-          buttonCapacity === capacity
-        );
-
-      });
+        }
+      );
 
   }
 
@@ -535,11 +631,15 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateQuantity() {
 
     if (quantity < 1) {
+
       quantity = 1;
+
     }
 
     if (quantity > 20) {
+
       quantity = 20;
+
     }
 
 
@@ -593,16 +693,32 @@ document.addEventListener("DOMContentLoaded", function () {
       quantityDiscount;
 
 
-    // 5% online payment discount
-    const onlineDiscount =
-      Math.round(
-        afterQuantityDiscount *
-        5 /
-        100
-      );
+    // -----------------------------------------------
+    // ONLINE PAYMENT DISCOUNT
+    // -----------------------------------------------
+
+    let onlineDiscount = 0;
 
 
-    const onlineTotal =
+    if (
+      paymentMethod === "online"
+    ) {
+
+      onlineDiscount =
+        Math.round(
+          afterQuantityDiscount *
+          5 /
+          100
+        );
+
+    }
+
+
+    // -----------------------------------------------
+    // FINAL TOTAL
+    // -----------------------------------------------
+
+    const finalTotal =
       afterQuantityDiscount -
       onlineDiscount;
 
@@ -620,7 +736,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // -----------------------------------------------
-    // DISCOUNT DISPLAY
+    // QUANTITY DISCOUNT
     // -----------------------------------------------
 
     if (discountAmountDisplay) {
@@ -628,7 +744,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (quantityDiscount > 0) {
 
         discountAmountDisplay.textContent =
-          `− ${money(quantityDiscount)}`;
+          `− ${money(
+            quantityDiscount
+          )}`;
 
       }
 
@@ -643,13 +761,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // -----------------------------------------------
-    // TOTAL
+    // FINAL TOTAL
     // -----------------------------------------------
 
     if (totalDisplay) {
 
       totalDisplay.textContent =
-        money(onlineTotal);
+        money(finalTotal);
 
     }
 
@@ -660,32 +778,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (discountText) {
 
+      let message = "";
+
+
       if (
-        quantityDiscountPercent === 0
+        quantityDiscountPercent > 0
       ) {
 
-        discountText.innerHTML = `
-
-          <strong>
-            ${quantity} tank • No quantity discount
-          </strong>
-
-        `;
+        message =
+          `${quantity} tanks • ${quantityDiscountPercent}% OFF`;
 
       }
 
       else {
 
-        discountText.innerHTML = `
-
-          <strong>
-            ${quantity} tanks •
-            ${quantityDiscountPercent}% OFF
-          </strong>
-
-        `;
+        message =
+          `${quantity} tank • No quantity discount`;
 
       }
+
+
+      if (
+        paymentMethod === "online"
+      ) {
+
+        message +=
+          " + 5% ONLINE PAYMENT OFF";
+
+      }
+
+      else {
+
+        message +=
+          " • Pay After Service";
+
+      }
+
+
+      discountText.innerHTML = `
+
+        <strong>
+          ${message}
+        </strong>
+
+      `;
 
     }
 
@@ -740,24 +876,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (submitButton) {
 
-      submitButton.textContent =
-        `Pay Online & Save 5% — ${money(onlineTotal)}`;
+      if (
+        paymentMethod === "online"
+      ) {
+
+        submitButton.textContent =
+          `Pay Online & Save 5% — ${money(
+            finalTotal
+          )}`;
+
+      }
+
+      else {
+
+        submitButton.textContent =
+          `Book Now — Pay After Service — ${money(
+            finalTotal
+          )}`;
+
+      }
 
     }
 
 
-    // Store current calculation
+    // -----------------------------------------------
+    // STORE CALCULATION
+    // -----------------------------------------------
+
     window.vshPricing = {
 
       tankType,
       capacity,
       quantity,
+
       unitPrice,
+
       subtotal,
+
       quantityDiscountPercent,
+
       quantityDiscount,
+
       onlineDiscount,
-      onlineTotal
+
+      finalTotal,
+
+      paymentMethod
 
     };
 
@@ -799,7 +963,9 @@ document.addEventListener("DOMContentLoaded", function () {
             true;
 
           submitButton.textContent =
-            "Creating secure payment...";
+            paymentMethod === "online"
+              ? "Creating secure payment..."
+              : "Confirming booking...";
 
         }
 
@@ -824,7 +990,7 @@ document.addEventListener("DOMContentLoaded", function () {
           quantity;
 
         payload.paymentMethod =
-          "online";
+          paymentMethod;
 
 
         try {
@@ -869,6 +1035,29 @@ document.addEventListener("DOMContentLoaded", function () {
           }
 
 
+          // =================================================
+          // PAY AFTER SERVICE
+          // =================================================
+
+          if (
+            paymentMethod === "after_service"
+          ) {
+
+            showSuccess(
+              data.bookingId,
+              data.amount,
+              "Pay After Service"
+            );
+
+            return;
+
+          }
+
+
+          // =================================================
+          // ONLINE PAYMENT
+          // =================================================
+
           if (!window.Razorpay) {
 
             throw new Error(
@@ -898,6 +1087,7 @@ document.addEventListener("DOMContentLoaded", function () {
             order_id:
               data.orderId,
 
+
             prefill: {
 
               name:
@@ -910,6 +1100,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 payload.phone
 
             },
+
 
             theme: {
 
@@ -973,7 +1164,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   showSuccess(
                     data.bookingId,
-                    data.amount / 100
+                    data.amount / 100,
+                    "Paid Online"
                   );
 
                 }
@@ -1070,7 +1262,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ---------------------------------------------------
-  // SHOW ERROR
+  // ERROR
   // ---------------------------------------------------
 
   function showError(message) {
@@ -1089,12 +1281,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ---------------------------------------------------
-  // SHOW SUCCESS
+  // SUCCESS
   // ---------------------------------------------------
 
   function showSuccess(
     bookingId,
-    amount
+    amount,
+    paymentType
   ) {
 
     if (form) {
@@ -1108,22 +1301,33 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!bookingSuccess) return;
 
 
+    const isOnline =
+      paymentType === "Paid Online";
+
+
     bookingSuccess.innerHTML = `
 
       <div class="success-icon">
         ✓
       </div>
 
+
       <h2>
         Booking Confirmed!
       </h2>
 
+
       <p>
-        Your online payment has been
-        received successfully.
+        ${
+          isOnline
+            ? "Your online payment has been received successfully."
+            : "Your booking has been confirmed. Payment will be collected after the service."
+        }
       </p>
 
+
       <div class="booking-confirmation">
+
 
         <div>
 
@@ -1141,7 +1345,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div>
 
           <span>
-            Total Paid
+            Total Amount
           </span>
 
           <strong>
@@ -1158,17 +1362,28 @@ document.addEventListener("DOMContentLoaded", function () {
           </span>
 
           <strong>
-            Paid Online
+            ${paymentType}
           </strong>
 
         </div>
 
+
       </div>
 
 
-      <p class="success-note">
-        Keep your booking ID for reference.
-      </p>
+      ${
+        !isOnline
+          ? `
+            <p class="success-note">
+              Please pay ${money(amount)} to the VSH Tank Cleaning team after the service is completed.
+            </p>
+          `
+          : `
+            <p class="success-note">
+              Keep your booking ID for reference.
+            </p>
+          `
+      }
 
 
       <a
@@ -1198,6 +1413,8 @@ document.addEventListener("DOMContentLoaded", function () {
   updateTankTypeButtons();
 
   buildCapacityButtons();
+
+  updatePaymentOptions();
 
   updateQuantity();
 
