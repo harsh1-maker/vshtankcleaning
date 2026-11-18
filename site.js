@@ -1,837 +1,730 @@
-document.addEventListener("DOMContentLoaded", function () {
+// ======================================================
+// VSH TANK CLEANING — MAIN SITE JAVASCRIPT
+// ======================================================
 
-  console.log("VSH Tank Cleaning booking system loaded.");
+const VSH_PRICES = {
+  overhead: {
+    500: 499,
+    1000: 599,
+    1500: 799,
+    2000: 999,
+    5000: 1999
+  },
+
+  underground: {
+    500: 799,
+    1000: 899,
+    1500: 999,
+    2000: 1099,
+    3000: 1299,
+    5000: 1999
+  }
+};
 
 
+const VSH_DISCOUNTS = {
+  1: 0,
+  2: 10,
+  3: 12,
+  4: 14,
+  5: 15
+};
 
-  // ==================================================
-  // PRICES
-  // ==================================================
 
-  const PRICES = {
+function getQuantityDiscount(quantity) {
+  const qty = Number(quantity);
 
-    overhead: {
+  if (qty >= 5) {
+    return 15;
+  }
 
-      500: 1,
+  return VSH_DISCOUNTS[qty] || 0;
+}
 
-      1000: 599,
 
-      1500: 799,
+function getUnitPrice(tankType, capacity) {
+  return Number(
+    VSH_PRICES[tankType]?.[capacity] || 0
+  );
+}
 
-      2000: 999,
 
-      5000: 1999
+function calculatePricing(tankType, capacity, quantity) {
+  const unitPrice = getUnitPrice(tankType, capacity);
+  const qty = Number(quantity);
 
-    },
+  const subtotal = unitPrice * qty;
 
-    underground: {
+  const discountPercent = getQuantityDiscount(qty);
 
-      500: 799,
+  const discount = Math.round(
+    subtotal * discountPercent / 100
+  );
 
-      1000: 899,
+  const serviceTotal = subtotal - discount;
 
-      1500: 999,
+  return {
+    unitPrice,
+    quantity: qty,
+    subtotal,
+    discountPercent,
+    discount,
+    serviceTotal
+  };
+}
 
-      2000: 1099,
 
-      3000: 1299,
+// ======================================================
+// MOBILE MENU
+// ======================================================
 
-      5000: 1999
+document.addEventListener("DOMContentLoaded", () => {
 
+  const menuButton = document.querySelector(".mobile-menu");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (menuButton && navLinks) {
+
+    menuButton.addEventListener("click", () => {
+      navLinks.classList.toggle("mobile-open");
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("mobile-open");
+      });
+    });
+  }
+
+
+  // ====================================================
+  // PRICING CALCULATOR
+  // ====================================================
+
+  const tankTypeButtons =
+    document.querySelectorAll("[data-tank-type]");
+
+  const capacityButtons =
+    document.querySelectorAll("[data-capacity]");
+
+  const quantityMinus =
+    document.querySelector("[data-quantity-minus]");
+
+  const quantityPlus =
+    document.querySelector("[data-quantity-plus]");
+
+  const quantityDisplay =
+    document.querySelector("[data-quantity]");
+
+  const priceTotal =
+    document.querySelector("[data-price-total]");
+
+  const priceSubtotal =
+    document.querySelector("[data-price-subtotal]");
+
+  const discountText =
+    document.querySelector("[data-discount-text]");
+
+  const discountAmount =
+    document.querySelector("[data-discount-amount]");
+
+  const addMoreText =
+    document.querySelector("[data-add-more]");
+
+
+  let selectedTankType = "overhead";
+  let selectedCapacity = 500;
+  let quantity = 1;
+
+
+  function updatePricing() {
+
+    const pricing = calculatePricing(
+      selectedTankType,
+      selectedCapacity,
+      quantity
+    );
+
+
+    if (quantityDisplay) {
+      quantityDisplay.textContent = quantity;
     }
 
-  };
 
-
-
-  // ==================================================
-  // QUANTITY DISCOUNTS
-  // ==================================================
-
-  const DISCOUNTS = {
-
-    1: 0,
-
-    2: 10,
-
-    3: 12,
-
-    4: 14,
-
-    5: 15
-
-  };
-
-
-
-  // ==================================================
-  // HELPER FUNCTIONS
-  // ==================================================
-
-  function money(value) {
-
-    return (
-      "₹" +
-      Number(value).toLocaleString("en-IN")
-    );
-
-  }
-
-
-
-  function getDiscount(quantity) {
-
-    quantity = Number(quantity);
-
-    if (quantity >= 5) {
-
-      return 15;
-
+    if (priceSubtotal) {
+      priceSubtotal.textContent =
+        `₹${pricing.subtotal.toLocaleString("en-IN")}`;
     }
 
-    return DISCOUNTS[quantity] || 0;
 
+    if (priceTotal) {
+      priceTotal.textContent =
+        `₹${pricing.serviceTotal.toLocaleString("en-IN")}`;
+    }
+
+
+    if (discountAmount) {
+      discountAmount.textContent =
+        pricing.discount > 0
+          ? `Save ₹${pricing.discount.toLocaleString("en-IN")}`
+          : "";
+    }
+
+
+    if (discountText) {
+
+      if (pricing.discountPercent > 0) {
+
+        discountText.innerHTML =
+          `<strong>${quantity} tank${quantity > 1 ? "s" : ""} • ${pricing.discountPercent}% off</strong>`;
+
+      } else {
+
+        discountText.innerHTML =
+          `<strong>1 tank • No discount</strong>`;
+
+      }
+    }
+
+
+    if (addMoreText) {
+
+      if (quantity < 5) {
+
+        const nextQty = quantity + 1;
+        const nextDiscount =
+          getQuantityDiscount(nextQty);
+
+        if (nextDiscount > pricing.discountPercent) {
+
+          addMoreText.textContent =
+            `Add ${nextQty - quantity} more tank${nextQty - quantity > 1 ? "s" : ""} for ${nextDiscount}% off`;
+
+        } else {
+
+          addMoreText.textContent = "";
+        }
+
+      } else {
+
+        addMoreText.textContent =
+          "You're getting our maximum 15% quantity discount";
+      }
+    }
+
+
+    // Update hidden booking values
+    const hiddenTankType =
+      document.querySelector("#selectedTankType");
+
+    const hiddenCapacity =
+      document.querySelector("#selectedCapacity");
+
+    const hiddenQuantity =
+      document.querySelector("#selectedQuantity");
+
+
+    if (hiddenTankType) {
+      hiddenTankType.value = selectedTankType;
+    }
+
+    if (hiddenCapacity) {
+      hiddenCapacity.value = selectedCapacity;
+    }
+
+    if (hiddenQuantity) {
+      hiddenQuantity.value = quantity;
+    }
   }
 
 
+  tankTypeButtons.forEach(button => {
 
-  function calculateTotal(
-    tankType,
-    capacity,
-    quantity
-  ) {
+    button.addEventListener("click", () => {
 
-    const unitPrice =
-      Number(
-        PRICES[tankType]?.[capacity] || 0
+      tankTypeButtons.forEach(btn =>
+        btn.classList.remove("active")
       );
 
-    const qty =
-      Number(quantity);
+      button.classList.add("active");
 
-    const subtotal =
-      unitPrice * qty;
+      selectedTankType =
+        button.dataset.tankType;
 
-    const discountPercent =
-      getDiscount(qty);
+      updateCapacityAvailability();
 
-    const discount =
-      Math.round(
-        subtotal *
-        discountPercent /
-        100
+      updatePricing();
+    });
+  });
+
+
+  function updateCapacityAvailability() {
+
+    capacityButtons.forEach(button => {
+
+      const capacity =
+        Number(button.dataset.capacity);
+
+      const available =
+        VSH_PRICES[selectedTankType]?.[capacity];
+
+      button.style.display =
+        available ? "" : "none";
+    });
+  }
+
+
+  capacityButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      capacityButtons.forEach(btn =>
+        btn.classList.remove("active")
       );
 
-    const total =
-      subtotal - discount;
+      button.classList.add("active");
 
-    return {
+      selectedCapacity =
+        Number(button.dataset.capacity);
 
-      unitPrice,
-      quantity: qty,
-      subtotal,
-      discountPercent,
-      discount,
-      total
+      updatePricing();
+    });
+  });
 
-    };
 
+  if (quantityMinus) {
+
+    quantityMinus.addEventListener("click", () => {
+
+      if (quantity > 1) {
+        quantity--;
+        updatePricing();
+      }
+    });
   }
 
 
+  if (quantityPlus) {
 
-  // ==================================================
-  // BOOKING FORM
-  // ==================================================
+    quantityPlus.addEventListener("click", () => {
 
-  const form =
-    document.getElementById(
-      "bookingForm"
-    );
-
-
-
-  if (!form) {
-
-    console.log(
-      "Booking form not found."
-    );
-
-    return;
-
+      if (quantity < 20) {
+        quantity++;
+        updatePricing();
+      }
+    });
   }
 
 
-
-  // ==================================================
-  // BOOKING TOTAL
-  // ==================================================
-
-  const tankType =
-    document.getElementById(
-      "tankType"
-    );
+  updateCapacityAvailability();
+  updatePricing();
 
 
+  // ====================================================
+  // DELHI PIN CODE CHECKER
+  // ====================================================
 
-  const capacity =
-    document.getElementById(
-      "capacity"
-    );
+  const pinInput =
+    document.querySelector("#areaPin");
 
+  const pinCheckButton =
+    document.querySelector("#checkPin");
 
-
-  const quantity =
-    document.getElementById(
-      "quantity"
-    );
-
-
-
-  const bookingAmount =
-    document.getElementById(
-      "bookingAmount"
-    );
+  const pinResult =
+    document.querySelector("#pinResult");
 
 
+  function checkDelhiPin() {
 
-  function updateBookingAmount() {
+    if (!pinInput || !pinResult) {
+      return;
+    }
 
-    if (
-      !tankType ||
-      !capacity ||
-      !quantity ||
-      !bookingAmount
-    ) {
+    const pin =
+      pinInput.value.trim();
+
+
+    if (!/^\d{6}$/.test(pin)) {
+
+      pinResult.className =
+        "pin-result error";
+
+      pinResult.innerHTML =
+        "⚠️ Please enter a valid 6-digit PIN code.";
 
       return;
-
     }
 
 
+    // Delhi PIN codes are generally in the 110001–110099 range.
+    // We use the 110 prefix as the Delhi-area check.
+    if (!pin.startsWith("110")) {
 
-    const result =
-      calculateTotal(
-        tankType.value,
-        capacity.value,
-        quantity.value
-      );
+      pinResult.className =
+        "pin-result error";
+
+      pinResult.innerHTML =
+        "❌ Sorry, we currently provide this service only in Delhi.";
+
+      return;
+    }
 
 
+    pinResult.className =
+      "pin-result success";
 
-    bookingAmount.textContent =
-      money(result.total);
-
+    pinResult.innerHTML = `
+      <strong>✓ Great news!</strong>
+      <br>
+      Service is available in Delhi for PIN code ${pin}.
+      <br>
+      <span>Our team will confirm the exact date and time based on availability.</span>
+    `;
   }
 
 
+  if (pinCheckButton) {
 
-  if (tankType) {
-
-    tankType.addEventListener(
-      "change",
-      updateBookingAmount
+    pinCheckButton.addEventListener(
+      "click",
+      checkDelhiPin
     );
-
   }
 
 
+  if (pinInput) {
 
-  if (capacity) {
+    pinInput.addEventListener("keydown", event => {
 
-    capacity.addEventListener(
-      "change",
-      updateBookingAmount
-    );
+      if (event.key === "Enter") {
 
+        event.preventDefault();
+
+        checkDelhiPin();
+      }
+    });
   }
 
 
+  // ====================================================
+  // BOOKING FORM
+  // ====================================================
 
-  if (quantity) {
+  const bookingForm =
+    document.querySelector("#bookingForm");
 
-    quantity.addEventListener(
-      "input",
-      updateBookingAmount
-    );
+  if (bookingForm) {
 
-  }
+    bookingForm.addEventListener("submit", async event => {
 
-
-
-  updateBookingAmount();
-
-
-
-  // ==================================================
-  // FORM SUBMISSION
-  // ==================================================
-
-  form.addEventListener(
-    "submit",
-    async function (event) {
-
-      // THIS PREVENTS THE PAGE REFRESH
       event.preventDefault();
-      event.stopPropagation();
-
-      console.log(
-        "VSH booking form submitted."
-      );
 
 
-
-      const payButton =
-        document.getElementById(
-          "payButton"
+      const submitButton =
+        bookingForm.querySelector(
+          'button[type="submit"]'
         );
-
-
-
-      const successBox =
-        document.getElementById(
-          "success"
-        );
-
 
 
       const errorBox =
-        document.getElementById(
-          "bookingError"
-        );
-
-
-
-      // Hide previous messages
-
-      if (successBox) {
-
-        successBox.style.display =
-          "none";
-
-      }
-
+        document.querySelector("#bookingError");
 
 
       if (errorBox) {
-
-        errorBox.style.display =
-          "none";
-
+        errorBox.textContent = "";
+        errorBox.style.display = "none";
       }
 
 
+      const formData =
+        new FormData(bookingForm);
 
-      // Disable button
 
-      if (payButton) {
+      const bookingData = {
 
-        payButton.disabled =
-          true;
+        name: formData.get("name"),
+        phone: formData.get("phone"),
+        email: formData.get("email"),
+        address: formData.get("address"),
+        pincode: formData.get("pincode"),
 
-        payButton.textContent =
-          "Creating secure payment...";
+        tankType:
+          formData.get("tankType") ||
+          document.querySelector("#selectedTankType")?.value,
 
+        capacity:
+          formData.get("capacity") ||
+          document.querySelector("#selectedCapacity")?.value,
+
+        quantity:
+          formData.get("quantity") ||
+          document.querySelector("#selectedQuantity")?.value,
+
+        date: formData.get("date"),
+        time: formData.get("time")
+      };
+
+
+      if (!bookingData.name ||
+          !bookingData.phone ||
+          !bookingData.email ||
+          !bookingData.address ||
+          !bookingData.pincode ||
+          !bookingData.tankType ||
+          !bookingData.capacity ||
+          !bookingData.quantity ||
+          !bookingData.date ||
+          !bookingData.time) {
+
+        if (errorBox) {
+
+          errorBox.style.display = "block";
+
+          errorBox.textContent =
+            "Please fill in all booking details.";
+        }
+
+        return;
       }
 
+
+      if (
+        !/^\d{6}$/.test(
+          bookingData.pincode
+        )
+      ) {
+
+        if (errorBox) {
+
+          errorBox.style.display = "block";
+
+          errorBox.textContent =
+            "Please enter a valid 6-digit PIN code.";
+        }
+
+        return;
+      }
+
+
+      if (
+        !bookingData.pincode.startsWith("110")
+      ) {
+
+        if (errorBox) {
+
+          errorBox.style.display = "block";
+
+          errorBox.textContent =
+            "Sorry, our online booking is currently available only for Delhi PIN codes.";
+        }
+
+        return;
+      }
 
 
       try {
 
-        // ============================================
-        // GET FORM DATA
-        // ============================================
+        if (submitButton) {
 
-        const formData =
-          new FormData(form);
+          submitButton.disabled = true;
 
-
-
-        const bookingData = {
-
-          name:
-            String(
-              formData.get("name") || ""
-            ).trim(),
-
-          phone:
-            String(
-              formData.get("phone") || ""
-            ).trim(),
-
-          email:
-            String(
-              formData.get("email") || ""
-            ).trim(),
-
-          address:
-            String(
-              formData.get("address") || ""
-            ).trim(),
-
-          pincode:
-            String(
-              formData.get("pincode") || ""
-            ).trim(),
-
-          tankType:
-            String(
-              formData.get("tankType") || ""
-            ),
-
-          capacity:
-            String(
-              formData.get("capacity") || ""
-            ),
-
-          quantity:
-            Number(
-              formData.get("quantity") || 1
-            ),
-
-          date:
-            String(
-              formData.get("date") || ""
-            ),
-
-          time:
-            String(
-              formData.get("time") || ""
-            )
-
-        };
-
-
-
-        // ============================================
-        // BASIC VALIDATION
-        // ============================================
-
-        if (
-          !bookingData.name ||
-          !bookingData.phone ||
-          !bookingData.email ||
-          !bookingData.address ||
-          !bookingData.tankType ||
-          !bookingData.capacity ||
-          !bookingData.date ||
-          !bookingData.time
-        ) {
-
-          throw new Error(
-            "Please fill in all booking details."
-          );
-
+          submitButton.innerHTML =
+            "Creating secure payment...";
         }
-
-
-
-        if (
-          !Number.isInteger(
-            bookingData.quantity
-          ) ||
-          bookingData.quantity < 1 ||
-          bookingData.quantity > 20
-        ) {
-
-          throw new Error(
-            "Quantity must be between 1 and 20."
-          );
-
-        }
-
-
-
-        // ============================================
-        // CREATE RAZORPAY ORDER
-        // ============================================
-
-        console.log(
-          "Creating Razorpay order..."
-        );
-
 
 
         const response =
-          await fetch(
-            "/api/create-order",
-            {
+          await fetch("/api/create-order", {
 
-              method: "POST",
+            method: "POST",
 
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
+            headers: {
+              "Content-Type": "application/json"
+            },
 
-              body:
-                JSON.stringify(
-                  bookingData
-                )
-
-            }
-          );
+            body: JSON.stringify(
+              bookingData
+            )
+          });
 
 
-
-        // Read as TEXT first.
-        // This prevents JSON parsing errors
-        // from hiding the actual server response.
-
-        const responseText =
-          await response.text();
+        const result =
+          await response.json();
 
 
-
-        console.log(
-          "Create-order response:",
-          responseText
-        );
-
-
-
-        let order;
-
-
-
-        try {
-
-          order =
-            JSON.parse(
-              responseText
-            );
-
-        } catch (jsonError) {
+        if (!response.ok || !result.success) {
 
           throw new Error(
-            "The booking server returned an invalid response. Please check the Vercel API deployment."
+            result.message ||
+            "Unable to create booking."
           );
-
         }
 
-
-
-        if (
-          !response.ok ||
-          !order.success
-        ) {
-
-          throw new Error(
-            order.message ||
-            "Unable to create Razorpay order."
-          );
-
-        }
-
-
-
-        console.log(
-          "Razorpay order created:",
-          order
-        );
-
-
-
-        // ============================================
-        // CHECK RAZORPAY
-        // ============================================
-
-        if (
-          typeof window.Razorpay ===
-          "undefined"
-        ) {
-
-          throw new Error(
-            "Razorpay checkout has not loaded. Please refresh and try again."
-          );
-
-        }
-
-
-
-        // ============================================
-        // OPEN RAZORPAY
-        // ============================================
 
         const options = {
 
-          key:
-            order.keyId,
+          key: result.keyId,
 
-          amount:
-            order.amount,
+          amount: result.amount,
 
-          currency:
-            order.currency ||
-            "INR",
+          currency: result.currency,
 
-          order_id:
-            order.orderId,
-
-          name:
-            "VSH Tank Cleaning",
+          name: "VSH Tank Cleaning",
 
           description:
-            "Water Tank Cleaning Booking",
+            "Professional Water Tank Cleaning",
+
+          order_id:
+            result.orderId,
+
 
           prefill: {
 
-            name:
-              bookingData.name,
+            name: bookingData.name,
 
-            email:
-              bookingData.email,
+            email: bookingData.email,
 
-            contact:
-              bookingData.phone
-
+            contact: bookingData.phone
           },
+
+
+          notes: {
+
+            booking_id:
+              result.bookingId
+          },
+
 
           theme: {
 
-            color:
-              "#0877f9"
-
+            color: "#087cf0"
           },
 
 
+          handler: async function(payment) {
 
-          handler:
-            async function (
-              paymentResponse
-            ) {
+            try {
 
-              try {
+              const verifyResponse =
+                await fetch(
+                  "/api/verify-payment",
+                  {
 
-                console.log(
-                  "Razorpay payment successful:",
-                  paymentResponse
+                    method: "POST",
+
+                    headers: {
+                      "Content-Type":
+                        "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                      ...payment,
+
+                      bookingId:
+                        result.bookingId,
+
+                      booking:
+                        bookingData
+                    })
+                  }
                 );
 
 
-
-                if (payButton) {
-
-                  payButton.textContent =
-                    "Verifying payment...";
-
-                }
+              const verification =
+                await verifyResponse.json();
 
 
+              if (
+                !verifyResponse.ok ||
+                !verification.success
+              ) {
 
-                // ==================================
-                // VERIFY PAYMENT
-                // ==================================
-
-                const verifyResponse =
-                  await fetch(
-                    "/api/verify-payment",
-                    {
-
-                      method: "POST",
-
-                      headers: {
-                        "Content-Type":
-                          "application/json"
-                      },
-
-                      body:
-                        JSON.stringify(
-                          paymentResponse
-                        )
-
-                    }
-                  );
-
-
-
-                const verifyText =
-                  await verifyResponse.text();
-
-
-
-                console.log(
-                  "Verification response:",
-                  verifyText
+                throw new Error(
+                  verification.message ||
+                  "Payment verification failed."
                 );
-
-
-
-                let verification;
-
-
-
-                try {
-
-                  verification =
-                    JSON.parse(
-                      verifyText
-                    );
-
-                } catch (error) {
-
-                  throw new Error(
-                    "Payment verification returned an invalid server response."
-                  );
-
-                }
-
-
-
-                if (
-                  !verifyResponse.ok ||
-                  !verification.success
-                ) {
-
-                  throw new Error(
-                    verification.message ||
-                    "Payment verification failed."
-                  );
-
-                }
-
-
-
-                // ==================================
-                // SUCCESS
-                // ==================================
-
-                if (successBox) {
-
-                  successBox.style.display =
-                    "block";
-
-                  successBox.innerHTML = `
-                    <strong>
-                      Booking confirmed!
-                    </strong>
-                    <br>
-                    Your payment was successful.
-                    <br>
-                    Booking ID:
-                    <strong>
-                      ${
-                        verification.bookingId ||
-                        order.bookingId
-                      }
-                    </strong>
-                  `;
-
-                }
-
-
-
-                form.reset();
-
-                updateBookingAmount();
-
-
-
-                if (payButton) {
-
-                  payButton.disabled =
-                    false;
-
-                  payButton.textContent =
-                    "Pay & Book Cleaning";
-
-                }
-
-              } catch (error) {
-
-                console.error(
-                  "Payment verification error:",
-                  error
-                );
-
-
-
-                if (errorBox) {
-
-                  errorBox.style.display =
-                    "block";
-
-                  errorBox.textContent =
-                    error.message;
-
-                }
-
-
-
-                if (payButton) {
-
-                  payButton.disabled =
-                    false;
-
-                  payButton.textContent =
-                    "Pay & Book Cleaning";
-
-                }
-
               }
 
-            }
 
+              const successBox =
+                document.querySelector(
+                  "#bookingSuccess"
+                );
+
+
+              if (successBox) {
+
+                successBox.style.display =
+                  "block";
+
+                successBox.innerHTML = `
+                  <div class="success-icon">✓</div>
+
+                  <h2>Booking confirmed!</h2>
+
+                  <p>
+                    Your tank cleaning booking has been
+                    successfully received.
+                  </p>
+
+                  <strong>
+                    Booking ID:
+                    ${result.bookingId}
+                  </strong>
+                `;
+              }
+
+
+              bookingForm.style.display =
+                "none";
+
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+              });
+
+            } catch (error) {
+
+              if (errorBox) {
+
+                errorBox.style.display =
+                  "block";
+
+                errorBox.textContent =
+                  error.message ||
+                  "Payment verification failed.";
+              }
+            }
+          },
+
+
+          modal: {
+
+            ondismiss: function() {
+
+              if (submitButton) {
+
+                submitButton.disabled =
+                  false;
+
+                submitButton.innerHTML =
+                  "Pay & Book Now →";
+              }
+            }
+          }
         };
 
 
-
         const razorpay =
-          new window.Razorpay(
-            options
-          );
-
-
-
-        razorpay.on(
-          "payment.failed",
-          function (paymentError) {
-
-            console.error(
-              "Razorpay payment failed:",
-              paymentError
-            );
-
-
-
-            if (errorBox) {
-
-              errorBox.style.display =
-                "block";
-
-              errorBox.textContent =
-                "Payment failed. Please try again.";
-
-            }
-
-
-
-            if (payButton) {
-
-              payButton.disabled =
-                false;
-
-              payButton.textContent =
-                "Pay & Book Cleaning";
-
-            }
-
-          }
-        );
-
-
+          new Razorpay(options);
 
         razorpay.open();
 
 
-
       } catch (error) {
 
-        console.error(
-          "VSH booking error:",
-          error
-        );
-
+        console.error(error);
 
 
         if (errorBox) {
@@ -840,26 +733,53 @@ document.addEventListener("DOMContentLoaded", function () {
             "block";
 
           errorBox.textContent =
-            error.message;
-
+            error.message ||
+            "Something went wrong. Please try again.";
         }
 
 
+        if (submitButton) {
 
-        if (payButton) {
-
-          payButton.disabled =
+          submitButton.disabled =
             false;
 
-          payButton.textContent =
-            "Pay & Book Cleaning";
-
+          submitButton.innerHTML =
+            "Pay & Book Now →";
         }
-
       }
-
-    }
-
-  );
-
+    });
+  }
 });
+
+
+// ======================================================
+// GLOBAL WHATSAPP LINKS
+// ======================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    const whatsappLinks =
+      document.querySelectorAll(
+        '[data-whatsapp]'
+      );
+
+
+    whatsappLinks.forEach(link => {
+
+      link.addEventListener(
+        "click",
+        () => {
+
+          const message =
+            link.dataset.whatsapp ||
+            "Hi, I want to book tank cleaning service.";
+
+          link.href =
+            `https://wa.me/919599057079?text=${encodeURIComponent(message)}`;
+        }
+      );
+    });
+  }
+);
