@@ -6,6 +6,10 @@
 import Razorpay from "razorpay";
 
 
+/* =========================================================
+   PRICES
+========================================================= */
+
 const PRICES = {
 
   overhead: {
@@ -42,14 +46,57 @@ const QUANTITY_DISCOUNTS = {
 const ONLINE_PAYMENT_DISCOUNT = 5;
 
 
+/* =========================================================
+   DELHI NCR SERVICE AREA
+========================================================= */
+
+const SERVICE_PIN_PREFIXES = [
+  "110", // Delhi
+  "121", // Faridabad
+  "122", // Gurgaon / Gurugram
+  "201"  // Noida / Greater Noida / Ghaziabad
+];
+
+
+function isServiceablePin(pin) {
+
+  const cleanPin =
+    String(pin || "").trim();
+
+
+  if (
+    !/^\d{6}$/.test(
+      cleanPin
+    )
+  ) {
+
+    return false;
+  }
+
+
+  return SERVICE_PIN_PREFIXES.some(
+    prefix =>
+      cleanPin.startsWith(
+        prefix
+      )
+  );
+}
+
+
+/* =========================================================
+   PRICE FUNCTIONS
+========================================================= */
+
 function getDiscount(quantity) {
 
   const qty =
     Number(quantity);
 
+
   if (qty >= 5) {
     return 15;
   }
+
 
   return (
     QUANTITY_DISCOUNTS[qty] ||
@@ -82,14 +129,18 @@ function calculateTotal(
       capacity
     );
 
+
   const qty =
     Number(quantity);
+
 
   const subtotal =
     unitPrice * qty;
 
+
   const quantityDiscountPercent =
     getDiscount(qty);
+
 
   const quantityDiscount =
     Math.round(
@@ -98,9 +149,11 @@ function calculateTotal(
       100
     );
 
+
   const afterQuantityDiscount =
     subtotal -
     quantityDiscount;
+
 
   const onlineDiscount =
     Math.round(
@@ -108,6 +161,7 @@ function calculateTotal(
       ONLINE_PAYMENT_DISCOUNT /
       100
     );
+
 
   const total =
     afterQuantityDiscount -
@@ -118,7 +172,8 @@ function calculateTotal(
 
     unitPrice,
 
-    quantity: qty,
+    quantity:
+      qty,
 
     subtotal,
 
@@ -131,9 +186,12 @@ function calculateTotal(
     total
 
   };
-
 }
 
+
+/* =========================================================
+   RESPONSE HELPER
+========================================================= */
 
 function sendJson(
   res,
@@ -141,10 +199,15 @@ function sendJson(
   body
 ) {
 
-  res.status(status)
+  return res
+    .status(status)
     .json(body);
 }
 
+
+/* =========================================================
+   API HANDLER
+========================================================= */
 
 export default async function handler(
   req,
@@ -171,11 +234,12 @@ export default async function handler(
 
 
   /* -------------------------------------------------------
-     ENVIRONMENT
+     RAZORPAY ENV
   ------------------------------------------------------- */
 
   const keyId =
     process.env.RAZORPAY_KEY_ID;
+
 
   const keySecret =
     process.env.RAZORPAY_KEY_SECRET;
@@ -190,6 +254,7 @@ export default async function handler(
       "Missing Razorpay environment variables."
     );
 
+
     return sendJson(
       res,
       500,
@@ -202,7 +267,7 @@ export default async function handler(
 
 
   /* -------------------------------------------------------
-     BODY
+     REQUEST BODY
   ------------------------------------------------------- */
 
   let body =
@@ -237,7 +302,7 @@ export default async function handler(
 
 
   /* -------------------------------------------------------
-     FIELDS
+     GET BOOKING DATA
   ------------------------------------------------------- */
 
   const {
@@ -262,7 +327,7 @@ export default async function handler(
 
 
   /* -------------------------------------------------------
-     VALIDATION
+     REQUIRED FIELDS
   ------------------------------------------------------- */
 
   if (
@@ -289,6 +354,10 @@ export default async function handler(
   }
 
 
+  /* -------------------------------------------------------
+     PHONE
+  ------------------------------------------------------- */
+
   if (
     !/^[6-9]\d{9}$/.test(
       String(phone)
@@ -305,6 +374,10 @@ export default async function handler(
     );
   }
 
+
+  /* -------------------------------------------------------
+     EMAIL
+  ------------------------------------------------------- */
 
   if (
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
@@ -323,9 +396,13 @@ export default async function handler(
   }
 
 
+  /* -------------------------------------------------------
+     DELHI NCR PIN
+  ------------------------------------------------------- */
+
   if (
-    !/^110\d{3}$/.test(
-      String(pincode)
+    !isServiceablePin(
+      pincode
     )
   ) {
 
@@ -334,11 +411,15 @@ export default async function handler(
       400,
       {
         error:
-          "Online booking is currently available only for Delhi PIN codes beginning with 110."
+          "This PIN code is outside our current Delhi NCR service area. We currently serve Delhi, Gurgaon, Faridabad, Noida, Greater Noida and Ghaziabad."
       }
     );
   }
 
+
+  /* -------------------------------------------------------
+     TANK TYPE
+  ------------------------------------------------------- */
 
   if (
     ![
@@ -360,8 +441,13 @@ export default async function handler(
   }
 
 
+  /* -------------------------------------------------------
+     CAPACITY / QUANTITY
+  ------------------------------------------------------- */
+
   const numericCapacity =
     Number(capacity);
+
 
   const numericQuantity =
     Number(quantity);
@@ -402,6 +488,10 @@ export default async function handler(
     );
   }
 
+
+  /* -------------------------------------------------------
+     CHECK PRICE
+  ------------------------------------------------------- */
 
   const unitPrice =
     getPrice(
@@ -450,7 +540,7 @@ export default async function handler(
 
 
   /* -------------------------------------------------------
-     PRICE
+     CALCULATE FINAL AMOUNT
   ------------------------------------------------------- */
 
   const pricing =
@@ -462,7 +552,7 @@ export default async function handler(
 
 
   /* -------------------------------------------------------
-     RAZORPAY
+     CREATE RAZORPAY ORDER
   ------------------------------------------------------- */
 
   try {
@@ -484,7 +574,8 @@ export default async function handler(
 
         amount:
           Math.round(
-            pricing.total * 100
+            pricing.total *
+            100
           ),
 
         currency:
@@ -496,28 +587,31 @@ export default async function handler(
         notes: {
 
           name:
-            String(name).slice(
-              0,
-              100
-            ),
+            String(name)
+              .slice(
+                0,
+                100
+              ),
 
           phone:
             String(phone),
 
           email:
-            String(email).slice(
-              0,
-              100
-            ),
+            String(email)
+              .slice(
+                0,
+                100
+              ),
 
           pincode:
             String(pincode),
 
           address:
-            String(address).slice(
-              0,
-              250
-            ),
+            String(address)
+              .slice(
+                0,
+                250
+              ),
 
           date:
             String(date),
@@ -529,13 +623,19 @@ export default async function handler(
             String(tankType),
 
           capacity:
-            String(numericCapacity),
+            String(
+              numericCapacity
+            ),
 
           quantity:
-            String(numericQuantity),
+            String(
+              numericQuantity
+            ),
 
           subtotal:
-            String(pricing.subtotal),
+            String(
+              pricing.subtotal
+            ),
 
           quantityDiscount:
             String(
@@ -551,13 +651,14 @@ export default async function handler(
             String(
               pricing.total
             )
+
         }
 
       });
 
 
     /* -----------------------------------------------------
-       RESPONSE
+       SUCCESS
     ----------------------------------------------------- */
 
     return sendJson(
@@ -583,6 +684,7 @@ export default async function handler(
 
       }
     );
+
 
   } catch (error) {
 
