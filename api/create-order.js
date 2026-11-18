@@ -1,17 +1,6 @@
-/* =========================================================
-   VSH TANK CLEANING
-   /api/create-order.js
-========================================================= */
-
 import Razorpay from "razorpay";
 
-
-/* =========================================================
-   PRICES
-========================================================= */
-
 const PRICES = {
-
   overhead: {
     500: 499,
     1000: 599,
@@ -28,92 +17,63 @@ const PRICES = {
     3000: 1299,
     5000: 1999
   }
-
 };
 
-
 const QUANTITY_DISCOUNTS = {
-
   1: 0,
   2: 10,
   3: 12,
   4: 14,
   5: 15
-
 };
-
 
 const ONLINE_PAYMENT_DISCOUNT = 5;
 
 
-/* =========================================================
-   DELHI NCR SERVICE AREA
-========================================================= */
+/*
+=========================================================
+DELHI NCR PIN CODES
 
-const SERVICE_PIN_PREFIXES = [
-  "110", // Delhi
-  "121", // Faridabad
-  "122", // Gurgaon / Gurugram
-  "201"  // Noida / Greater Noida / Ghaziabad
-];
-
+110xxx  = Delhi
+121xxx  = Faridabad
+122xxx  = Gurgaon / Gurugram
+201xxx  = Noida / Greater Noida / Ghaziabad
+=========================================================
+*/
 
 function isServiceablePin(pin) {
+  const value = String(pin || "").trim();
 
-  const cleanPin =
-    String(pin || "").trim();
-
-
-  if (
-    !/^\d{6}$/.test(
-      cleanPin
-    )
-  ) {
-
+  if (!/^\d{6}$/.test(value)) {
     return false;
   }
 
+  const prefix = value.substring(0, 3);
 
-  return SERVICE_PIN_PREFIXES.some(
-    prefix =>
-      cleanPin.startsWith(
-        prefix
-      )
+  return [
+    "110",
+    "121",
+    "122",
+    "201"
+  ].includes(prefix);
+}
+
+
+function getPrice(tankType, capacity) {
+  return Number(
+    PRICES[tankType]?.[capacity] || 0
   );
 }
 
 
-/* =========================================================
-   PRICE FUNCTIONS
-========================================================= */
-
-function getDiscount(quantity) {
-
-  const qty =
-    Number(quantity);
-
+function getQuantityDiscount(quantity) {
+  const qty = Number(quantity);
 
   if (qty >= 5) {
     return 15;
   }
 
-
-  return (
-    QUANTITY_DISCOUNTS[qty] ||
-    0
-  );
-}
-
-
-function getPrice(
-  tankType,
-  capacity
-) {
-
-  return Number(
-    PRICES[tankType]?.[capacity] ||
-    0
-  );
+  return QUANTITY_DISCOUNTS[qty] || 0;
 }
 
 
@@ -122,25 +82,17 @@ function calculateTotal(
   capacity,
   quantity
 ) {
-
   const unitPrice =
-    getPrice(
-      tankType,
-      capacity
-    );
-
+    getPrice(tankType, capacity);
 
   const qty =
     Number(quantity);
 
-
   const subtotal =
     unitPrice * qty;
 
-
   const quantityDiscountPercent =
-    getDiscount(qty);
-
+    getQuantityDiscount(qty);
 
   const quantityDiscount =
     Math.round(
@@ -149,11 +101,8 @@ function calculateTotal(
       100
     );
 
-
   const afterQuantityDiscount =
-    subtotal -
-    quantityDiscount;
-
+    subtotal - quantityDiscount;
 
   const onlineDiscount =
     Math.round(
@@ -162,173 +111,104 @@ function calculateTotal(
       100
     );
 
-
   const total =
     afterQuantityDiscount -
     onlineDiscount;
 
-
   return {
-
     unitPrice,
-
-    quantity:
-      qty,
-
+    quantity: qty,
     subtotal,
-
     quantityDiscountPercent,
-
     quantityDiscount,
-
     onlineDiscount,
-
     total
-
   };
 }
 
 
-/* =========================================================
-   RESPONSE HELPER
-========================================================= */
+export default async function handler(req, res) {
 
-function sendJson(
-  res,
-  status,
-  body
-) {
+  /*
+  ========================================================
+  METHOD
+  ========================================================
+  */
 
-  return res
-    .status(status)
-    .json(body);
-}
-
-
-/* =========================================================
-   API HANDLER
-========================================================= */
-
-export default async function handler(
-  req,
-  res
-) {
-
-  /* -------------------------------------------------------
-     METHOD
-  ------------------------------------------------------- */
-
-  if (
-    req.method !== "POST"
-  ) {
-
-    return sendJson(
-      res,
-      405,
-      {
-        error:
-          "Method not allowed."
-      }
-    );
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      error: "Method not allowed."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     RAZORPAY ENV
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  RAZORPAY CONFIG
+  ========================================================
+  */
 
   const keyId =
     process.env.RAZORPAY_KEY_ID;
-
 
   const keySecret =
     process.env.RAZORPAY_KEY_SECRET;
 
 
-  if (
-    !keyId ||
-    !keySecret
-  ) {
+  if (!keyId || !keySecret) {
 
     console.error(
-      "Missing Razorpay environment variables."
+      "Razorpay environment variables are missing."
     );
 
-
-    return sendJson(
-      res,
-      500,
-      {
-        error:
-          "Payment system is not configured. Please contact VSH."
-      }
-    );
+    return res.status(500).json({
+      error:
+        "Payment system is not configured. Please contact VSH Tank Cleaning."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     REQUEST BODY
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  BODY
+  ========================================================
+  */
 
-  let body =
-    req.body;
+  let body = req.body;
 
-
-  if (
-    typeof body === "string"
-  ) {
-
+  if (typeof body === "string") {
     try {
-
-      body =
-        JSON.parse(body);
-
-    } catch (_) {
-
-      return sendJson(
-        res,
-        400,
-        {
-          error:
-            "Invalid request body."
-        }
-      );
+      body = JSON.parse(body);
+    } catch (error) {
+      return res.status(400).json({
+        error: "Invalid JSON request."
+      });
     }
   }
 
+  body = body || {};
 
-  body =
-    body || {};
-
-
-  /* -------------------------------------------------------
-     GET BOOKING DATA
-  ------------------------------------------------------- */
 
   const {
-
     name,
     phone,
     email,
-
     pincode,
     address,
-
     date,
     time,
-
     tankType,
     capacity,
     quantity,
-
     paymentMethod
-
   } = body;
 
 
-  /* -------------------------------------------------------
-     REQUIRED FIELDS
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  BASIC VALIDATION
+  ========================================================
+  */
 
   if (
     !name ||
@@ -342,134 +222,110 @@ export default async function handler(
     !capacity ||
     !quantity
   ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "Please complete all booking fields."
-      }
-    );
+    return res.status(400).json({
+      error:
+        "Please complete all required booking fields."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     PHONE
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  PHONE
+  ========================================================
+  */
 
   if (
     !/^[6-9]\d{9}$/.test(
-      String(phone)
+      String(phone).trim()
     )
   ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "Please enter a valid 10-digit Indian mobile number."
-      }
-    );
+    return res.status(400).json({
+      error:
+        "Please enter a valid 10-digit Indian mobile number."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     EMAIL
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  EMAIL
+  ========================================================
+  */
 
   if (
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-      String(email)
+      String(email).trim()
     )
   ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "Please enter a valid email address."
-      }
-    );
+    return res.status(400).json({
+      error:
+        "Please enter a valid email address."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     DELHI NCR PIN
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  PIN CODE
+  ========================================================
+  */
 
-  if (
-    !isServiceablePin(
-      pincode
-    )
-  ) {
+  const cleanPin =
+    String(pincode).trim();
 
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "This PIN code is outside our current Delhi NCR service area. We currently serve Delhi, Gurgaon, Faridabad, Noida, Greater Noida and Ghaziabad."
-      }
-    );
+
+  if (!/^\d{6}$/.test(cleanPin)) {
+    return res.status(400).json({
+      error:
+        "Please enter a valid 6-digit PIN code."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     TANK TYPE
-  ------------------------------------------------------- */
+  if (!isServiceablePin(cleanPin)) {
+
+    return res.status(400).json({
+      error:
+        "This PIN code is outside our current Delhi NCR service area. We currently serve Delhi, Gurgaon, Faridabad, Noida, Greater Noida and Ghaziabad."
+    });
+  }
+
+
+  /*
+  ========================================================
+  TANK VALIDATION
+  ========================================================
+  */
 
   if (
     ![
       "overhead",
       "underground"
-    ].includes(
-      tankType
-    )
+    ].includes(tankType)
   ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "Invalid tank type."
-      }
-    );
+    return res.status(400).json({
+      error:
+        "Invalid tank type selected."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     CAPACITY / QUANTITY
-  ------------------------------------------------------- */
-
   const numericCapacity =
     Number(capacity);
-
 
   const numericQuantity =
     Number(quantity);
 
 
   if (
-    !Number.isFinite(
-      numericCapacity
-    ) ||
-    !Number.isFinite(
-      numericQuantity
-    )
+    !Number.isFinite(numericCapacity) ||
+    !Number.isFinite(numericQuantity)
   ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "Invalid tank capacity or quantity."
-      }
-    );
+    return res.status(400).json({
+      error:
+        "Invalid tank capacity or quantity."
+    });
   }
 
 
@@ -477,21 +333,18 @@ export default async function handler(
     numericQuantity < 1 ||
     numericQuantity > 20
   ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "Quantity must be between 1 and 20 tanks."
-      }
-    );
+    return res.status(400).json({
+      error:
+        "Quantity must be between 1 and 20."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     CHECK PRICE
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  PRICE
+  ========================================================
+  */
 
   const unitPrice =
     getPrice(
@@ -500,48 +353,30 @@ export default async function handler(
     );
 
 
-  if (
-    unitPrice <= 0
-  ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "The selected tank size is not available."
-      }
-    );
+  if (unitPrice <= 0) {
+    return res.status(400).json({
+      error:
+        "The selected tank size is not available."
+    });
   }
 
 
-  /* -------------------------------------------------------
-     PAYMENT METHOD
-  ------------------------------------------------------- */
-
-  const method =
-    paymentMethod ||
-    "online";
-
+  /*
+  ========================================================
+  PAYMENT
+  ========================================================
+  */
 
   if (
-    method !== "online"
+    paymentMethod &&
+    paymentMethod !== "online"
   ) {
-
-    return sendJson(
-      res,
-      400,
-      {
-        error:
-          "Invalid payment method."
-      }
-    );
+    return res.status(400).json({
+      error:
+        "Invalid payment method."
+    });
   }
 
-
-  /* -------------------------------------------------------
-     CALCULATE FINAL AMOUNT
-  ------------------------------------------------------- */
 
   const pricing =
     calculateTotal(
@@ -551,21 +386,18 @@ export default async function handler(
     );
 
 
-  /* -------------------------------------------------------
-     CREATE RAZORPAY ORDER
-  ------------------------------------------------------- */
+  /*
+  ========================================================
+  RAZORPAY
+  ========================================================
+  */
 
   try {
 
     const razorpay =
       new Razorpay({
-
-        key_id:
-          keyId,
-
-        key_secret:
-          keySecret
-
+        key_id: keyId,
+        key_secret: keySecret
       });
 
 
@@ -574,12 +406,10 @@ export default async function handler(
 
         amount:
           Math.round(
-            pricing.total *
-            100
+            pricing.total * 100
           ),
 
-        currency:
-          "INR",
+        currency: "INR",
 
         receipt:
           `vsh_${Date.now()}`,
@@ -587,31 +417,28 @@ export default async function handler(
         notes: {
 
           name:
-            String(name)
-              .slice(
-                0,
-                100
-              ),
+            String(name).substring(
+              0,
+              100
+            ),
 
           phone:
             String(phone),
 
           email:
-            String(email)
-              .slice(
-                0,
-                100
-              ),
+            String(email).substring(
+              0,
+              100
+            ),
 
           pincode:
-            String(pincode),
+            cleanPin,
 
           address:
-            String(address)
-              .slice(
-                0,
-                250
-              ),
+            String(address).substring(
+              0,
+              250
+            ),
 
           date:
             String(date),
@@ -623,88 +450,57 @@ export default async function handler(
             String(tankType),
 
           capacity:
-            String(
-              numericCapacity
-            ),
+            String(numericCapacity),
 
           quantity:
-            String(
-              numericQuantity
-            ),
-
-          subtotal:
-            String(
-              pricing.subtotal
-            ),
-
-          quantityDiscount:
-            String(
-              pricing.quantityDiscount
-            ),
-
-          onlineDiscount:
-            String(
-              pricing.onlineDiscount
-            ),
-
-          total:
-            String(
-              pricing.total
-            )
+            String(numericQuantity)
 
         }
-
       });
 
 
-    /* -----------------------------------------------------
-       SUCCESS
-    ----------------------------------------------------- */
+    /*
+    ======================================================
+    SUCCESS
+    ======================================================
+    */
 
-    return sendJson(
-      res,
-      200,
-      {
+    return res.status(200).json({
 
-        success:
-          true,
+      success: true,
 
-        orderId:
-          order.id,
+      orderId:
+        order.id,
 
+      keyId:
         keyId,
 
-        amount:
-          order.amount,
+      amount:
+        order.amount,
 
-        currency:
-          order.currency,
+      currency:
+        order.currency,
 
+      pricing:
         pricing
 
-      }
-    );
+    });
 
 
   } catch (error) {
 
     console.error(
-      "Razorpay order creation failed:",
+      "RAZORPAY ERROR:",
       error
     );
 
 
-    return sendJson(
-      res,
-      500,
-      {
-        error:
-          error?.description ||
-          error?.error?.description ||
-          error?.message ||
-          "Unable to create Razorpay order."
-      }
-    );
+    return res.status(500).json({
+      error:
+        error?.error?.description ||
+        error?.description ||
+        error?.message ||
+        "Unable to create Razorpay order."
+    });
   }
-
 }
