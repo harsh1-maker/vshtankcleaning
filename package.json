@@ -1,10 +1,8 @@
 {
   "name": "vsh-tank-cleaning",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "private": true,
-  "type": "module"
-}
-{
+  "type": "module",
   "dependencies": {
     "razorpay": "^2.9.6"
   }
