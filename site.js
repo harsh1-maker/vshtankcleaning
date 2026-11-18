@@ -1,18 +1,56 @@
-import {
-  PRICES,
-  calculateTotal,
-  getDiscount
-} from "./pricing-config.js";
+// =====================================================
+// VSH TANK CLEANING — PRICING + BOOKING
+// =====================================================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-  const form = document.getElementById("bookingForm");
+  // ---------------------------------------------------
+  // PRICES
+  // ---------------------------------------------------
 
-  if (!form) return;
+  const PRICES = {
+    overhead: {
+      500: 499,
+      1000: 599,
+      1500: 799,
+      2000: 999,
+      5000: 1999
+    },
 
-  // =====================================================
+    underground: {
+      500: 799,
+      1000: 899,
+      1500: 999,
+      2000: 1099,
+      3000: 1299,
+      5000: 1999
+    }
+  };
+
+
+  // ---------------------------------------------------
+  // QUANTITY DISCOUNTS
+  // ---------------------------------------------------
+
+  function getQuantityDiscount(quantity) {
+
+    quantity = Number(quantity);
+
+    if (quantity >= 5) return 15;
+    if (quantity === 4) return 14;
+    if (quantity === 3) return 12;
+    if (quantity === 2) return 10;
+
+    return 0;
+  }
+
+
+  // ---------------------------------------------------
   // ELEMENTS
-  // =====================================================
+  // ---------------------------------------------------
+
+  const form =
+    document.getElementById("bookingForm");
 
   const tankTypeButtons =
     document.querySelectorAll("[data-tank-type]");
@@ -29,11 +67,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const quantityDisplay =
     document.querySelector("[data-quantity]");
 
-  const discountText =
-    document.querySelector("[data-discount-text]");
+  const selectedTankType =
+    document.getElementById("selectedTankType");
 
-  const addMoreText =
-    document.querySelector("[data-add-more]");
+  const selectedCapacity =
+    document.getElementById("selectedCapacity");
+
+  const selectedQuantity =
+    document.getElementById("selectedQuantity");
 
   const subtotalDisplay =
     document.querySelector("[data-price-subtotal]");
@@ -44,14 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalDisplay =
     document.querySelector("[data-price-total]");
 
-  const selectedTankType =
-    document.getElementById("selectedTankType");
+  const discountText =
+    document.querySelector("[data-discount-text]");
 
-  const selectedCapacity =
-    document.getElementById("selectedCapacity");
-
-  const selectedQuantity =
-    document.getElementById("selectedQuantity");
+  const addMoreText =
+    document.querySelector("[data-add-more]");
 
   const bookingError =
     document.getElementById("bookingError");
@@ -60,213 +98,313 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("bookingSuccess");
 
   const submitButton =
-    form.querySelector('button[type="submit"]');
+    form
+      ? form.querySelector('button[type="submit"]')
+      : null;
 
 
-  // =====================================================
+  // ---------------------------------------------------
   // STATE
-  // =====================================================
+  // ---------------------------------------------------
 
-  let currentTankType =
-    selectedTankType?.value || "overhead";
+  let tankType =
+    selectedTankType
+      ? selectedTankType.value
+      : "overhead";
 
-  let currentCapacity =
-    Number(selectedCapacity?.value || 500);
+  let capacity =
+    selectedCapacity
+      ? Number(selectedCapacity.value)
+      : 500;
 
-  let currentQuantity =
-    Number(selectedQuantity?.value || 1);
+  let quantity =
+    selectedQuantity
+      ? Number(selectedQuantity.value)
+      : 1;
 
 
-  // =====================================================
-  // HELPERS
-  // =====================================================
+  // ---------------------------------------------------
+  // MONEY FORMAT
+  // ---------------------------------------------------
 
-  function money(amount) {
-    return `₹${Number(amount).toLocaleString("en-IN")}`;
+  function money(value) {
+
+    return (
+      "₹" +
+      Number(value).toLocaleString("en-IN")
+    );
+
   }
 
 
-  function syncHiddenFields() {
+  // ---------------------------------------------------
+  // SYNC HIDDEN INPUTS
+  // ---------------------------------------------------
+
+  function syncInputs() {
 
     if (selectedTankType) {
       selectedTankType.value =
-        currentTankType;
+        tankType;
     }
 
     if (selectedCapacity) {
       selectedCapacity.value =
-        currentCapacity;
+        capacity;
     }
 
     if (selectedQuantity) {
       selectedQuantity.value =
-        currentQuantity;
+        quantity;
     }
 
   }
 
 
-  // =====================================================
+  // ---------------------------------------------------
+  // UPDATE TANK TYPE BUTTONS
+  // ---------------------------------------------------
+
+  function updateTankTypeButtons() {
+
+    tankTypeButtons.forEach(function (button) {
+
+      const isActive =
+        button.dataset.tankType === tankType;
+
+      button.classList.toggle(
+        "active",
+        isActive
+      );
+
+    });
+
+  }
+
+
+  // ---------------------------------------------------
   // BUILD CAPACITY BUTTONS
-  // =====================================================
+  // ---------------------------------------------------
 
   function buildCapacityButtons() {
 
     if (!capacityGrid) return;
 
-    const otherSizeCard =
+    const otherSize =
       capacityGrid.querySelector(
         ".other-size-card"
       );
 
+    // Remove old generated capacity buttons
     capacityGrid
       .querySelectorAll(
         ".capacity-card"
       )
-      .forEach(card => card.remove());
+      .forEach(function (button) {
+
+        button.remove();
+
+      });
 
 
-    const capacities =
+    const availableCapacities =
       Object.keys(
-        PRICES[currentTankType] || {}
+        PRICES[tankType]
       );
 
 
-    capacities.forEach(capacity => {
+    availableCapacities.forEach(
+      function (capacityValue) {
 
-      const price =
-        Number(
-          PRICES[currentTankType][capacity]
+        const price =
+          PRICES[tankType][capacityValue];
+
+
+        let label;
+
+
+        if (Number(capacityValue) === 500) {
+
+          label = "Up to 500 L";
+
+        }
+
+        else if (
+          Number(capacityValue) === 1000
+        ) {
+
+          label = "501–1,000 L";
+
+        }
+
+        else if (
+          Number(capacityValue) === 1500
+        ) {
+
+          label = "1,001–1,500 L";
+
+        }
+
+        else if (
+          Number(capacityValue) === 2000
+        ) {
+
+          label = "1,501–2,000 L";
+
+        }
+
+        else if (
+          Number(capacityValue) === 3000
+        ) {
+
+          label = "2,001–3,000 L";
+
+        }
+
+        else if (
+          Number(capacityValue) === 5000
+        ) {
+
+          label = "3,001–5,000 L";
+
+        }
+
+        else {
+
+          label =
+            `Up to ${Number(capacityValue).toLocaleString("en-IN")} L`;
+
+        }
+
+
+        // Original/reference price
+        let originalPrice = 0;
+
+
+        if (price === 499) {
+          originalPrice = 599;
+        }
+
+        else if (price === 599) {
+          originalPrice = 719;
+        }
+
+        else if (price === 799) {
+          originalPrice = 934;
+        }
+
+        else if (price === 999) {
+          originalPrice = 1199;
+        }
+
+        else if (price === 1099) {
+          originalPrice = 1299;
+        }
+
+        else if (price === 1299) {
+          originalPrice = 1499;
+        }
+
+        else if (price === 1999) {
+          originalPrice = 2499;
+        }
+
+
+        const button =
+          document.createElement("button");
+
+        button.type = "button";
+
+        button.className =
+          "capacity-card";
+
+        button.dataset.capacity =
+          capacityValue;
+
+
+        let savingHTML = "";
+
+
+        if (originalPrice > price) {
+
+          savingHTML = `
+
+            <del>
+              ${money(originalPrice)}
+            </del>
+
+            <small>
+              Save ${money(originalPrice - price)}
+            </small>
+
+          `;
+
+        }
+
+
+        button.innerHTML = `
+
+          <span>
+            ${label}
+          </span>
+
+          <strong>
+            ${money(price)}
+          </strong>
+
+          ${savingHTML}
+
+        `;
+
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            capacity =
+              Number(capacityValue);
+
+            updateCapacityButtons();
+
+            syncInputs();
+
+            updatePrice();
+
+          }
         );
 
 
-      const card =
-        document.createElement("button");
+        if (otherSize) {
 
-      card.type = "button";
-
-      card.className =
-        "capacity-card";
-
-      card.dataset.capacity =
-        capacity;
-
-
-      let label = "";
-
-      const litres =
-        Number(capacity);
-
-
-      if (litres === 500) {
-
-        label = "Up to 500 L";
-
-      } else if (litres === 1000) {
-
-        label = "501–1,000 L";
-
-      } else if (litres === 1500) {
-
-        label = "1,001–1,500 L";
-
-      } else if (litres === 2000) {
-
-        label = "1,501–2,000 L";
-
-      } else if (litres === 3000) {
-
-        label = "2,001–3,000 L";
-
-      } else if (litres === 5000) {
-
-        label = "3,001–5,000 L";
-
-      } else {
-
-        label =
-          `Up to ${litres.toLocaleString("en-IN")} L`;
-
-      }
-
-
-      // Keep the old displayed MRP style
-      // where possible.
-
-      let mrp = 0;
-
-      if (price === 499) mrp = 599;
-      else if (price === 599) mrp = 719;
-      else if (price === 799) mrp = 934;
-      else if (price === 999) mrp = 1199;
-      else if (price === 1099) mrp = 1299;
-      else if (price === 1299) mrp = 1499;
-      else if (price === 1999) mrp = 2499;
-
-
-      let savingHTML = "";
-
-      if (mrp > price) {
-
-        savingHTML = `
-          <del>${money(mrp)}</del>
-          <small>Save ${money(mrp - price)}</small>
-        `;
-
-      }
-
-
-      card.innerHTML = `
-        <span>
-          ${label}
-        </span>
-
-        <strong>
-          ${money(price)}
-        </strong>
-
-        ${savingHTML}
-      `;
-
-
-      card.addEventListener(
-        "click",
-        () => {
-
-          currentCapacity =
-            Number(capacity);
-
-          updateCapacityButtons();
-
-          syncHiddenFields();
-
-          updatePrice();
+          capacityGrid.insertBefore(
+            button,
+            otherSize
+          );
 
         }
-      );
 
+        else {
 
-      capacityGrid.insertBefore(
-        card,
-        otherSizeCard
-      );
+          capacityGrid.appendChild(
+            button
+          );
 
-    });
+        }
+
+      });
 
 
     // Make sure selected capacity exists
-    // for the selected tank type.
+    if (
+      !availableCapacities.includes(
+        String(capacity)
+      )
+    ) {
 
-    const validCapacity =
-      capacities.includes(
-        String(currentCapacity)
-      );
-
-
-    if (!validCapacity) {
-
-      currentCapacity =
-        Number(capacities[0]);
+      capacity =
+        Number(
+          availableCapacities[0]
+        );
 
     }
 
@@ -276,24 +414,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // =====================================================
-  // CAPACITY ACTIVE STATE
-  // =====================================================
+  // ---------------------------------------------------
+  // UPDATE CAPACITY ACTIVE STATE
+  // ---------------------------------------------------
 
   function updateCapacityButtons() {
 
     if (!capacityGrid) return;
 
+
     capacityGrid
       .querySelectorAll(
         ".capacity-card"
       )
-      .forEach(card => {
+      .forEach(function (button) {
 
-        card.classList.toggle(
+        const buttonCapacity =
+          Number(
+            button.dataset.capacity
+          );
+
+
+        button.classList.toggle(
           "active",
-          Number(card.dataset.capacity) ===
-          currentCapacity
+          buttonCapacity === capacity
         );
 
       });
@@ -301,57 +445,52 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // =====================================================
-  // TANK TYPE
-  // =====================================================
+  // ---------------------------------------------------
+  // TANK TYPE CLICK
+  // ---------------------------------------------------
 
-  tankTypeButtons.forEach(button => {
+  tankTypeButtons.forEach(
+    function (button) {
 
-    button.addEventListener(
-      "click",
-      () => {
+      button.addEventListener(
+        "click",
+        function (event) {
 
-        currentTankType =
-          button.dataset.tankType;
+          event.preventDefault();
 
+          tankType =
+            button.dataset.tankType;
 
-        tankTypeButtons.forEach(
-          item => {
+          updateTankTypeButtons();
 
-            item.classList.toggle(
-              "active",
-              item === button
-            );
+          buildCapacityButtons();
 
-          }
-        );
+          syncInputs();
 
+          updatePrice();
 
-        buildCapacityButtons();
+        }
+      );
 
-        syncHiddenFields();
-
-        updatePrice();
-
-      }
-    );
-
-  });
+    }
+  );
 
 
-  // =====================================================
+  // ---------------------------------------------------
   // QUANTITY MINUS
-  // =====================================================
+  // ---------------------------------------------------
 
   if (quantityMinus) {
 
     quantityMinus.addEventListener(
       "click",
-      () => {
+      function (event) {
 
-        if (currentQuantity > 1) {
+        event.preventDefault();
 
-          currentQuantity--;
+        if (quantity > 1) {
+
+          quantity--;
 
           updateQuantity();
 
@@ -363,19 +502,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // =====================================================
+  // ---------------------------------------------------
   // QUANTITY PLUS
-  // =====================================================
+  // ---------------------------------------------------
 
   if (quantityPlus) {
 
     quantityPlus.addEventListener(
       "click",
-      () => {
+      function (event) {
 
-        if (currentQuantity < 20) {
+        event.preventDefault();
 
-          currentQuantity++;
+        if (quantity < 20) {
+
+          quantity++;
 
           updateQuantity();
 
@@ -387,75 +528,111 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // =====================================================
-  // QUANTITY UPDATE
-  // =====================================================
+  // ---------------------------------------------------
+  // UPDATE QUANTITY
+  // ---------------------------------------------------
 
   function updateQuantity() {
 
-    if (currentQuantity < 1) {
-      currentQuantity = 1;
+    if (quantity < 1) {
+      quantity = 1;
     }
 
-    if (currentQuantity > 20) {
-      currentQuantity = 20;
+    if (quantity > 20) {
+      quantity = 20;
     }
 
 
     if (quantityDisplay) {
 
       quantityDisplay.textContent =
-        currentQuantity;
+        quantity;
 
     }
 
 
-    syncHiddenFields();
+    syncInputs();
 
     updatePrice();
 
   }
 
 
-  // =====================================================
-  // PRICE UPDATE
-  // =====================================================
+  // ---------------------------------------------------
+  // UPDATE PRICE
+  // ---------------------------------------------------
 
   function updatePrice() {
 
-    const result =
-      calculateTotal(
-        currentTankType,
-        currentCapacity,
-        currentQuantity,
-        "online"
+    const unitPrice =
+      Number(
+        PRICES[tankType]?.[capacity] || 0
       );
 
 
-    // Subtotal
+    const subtotal =
+      unitPrice * quantity;
+
+
+    const quantityDiscountPercent =
+      getQuantityDiscount(
+        quantity
+      );
+
+
+    const quantityDiscount =
+      Math.round(
+        subtotal *
+        quantityDiscountPercent /
+        100
+      );
+
+
+    const afterQuantityDiscount =
+      subtotal -
+      quantityDiscount;
+
+
+    // 5% online payment discount
+    const onlineDiscount =
+      Math.round(
+        afterQuantityDiscount *
+        5 /
+        100
+      );
+
+
+    const onlineTotal =
+      afterQuantityDiscount -
+      onlineDiscount;
+
+
+    // -----------------------------------------------
+    // SUBTOTAL
+    // -----------------------------------------------
 
     if (subtotalDisplay) {
 
       subtotalDisplay.textContent =
-        money(result.subtotal);
+        money(subtotal);
 
     }
 
 
-    // Quantity discount
+    // -----------------------------------------------
+    // DISCOUNT DISPLAY
+    // -----------------------------------------------
 
     if (discountAmountDisplay) {
 
-      if (
-        result.quantityDiscount > 0
-      ) {
+      if (quantityDiscount > 0) {
 
         discountAmountDisplay.textContent =
-          `− ${money(
-            result.quantityDiscount
-          )}`;
+          `− ${money(quantityDiscount)}`;
 
-      } else {
+      }
+
+      else {
 
         discountAmountDisplay.textContent =
           "₹0";
@@ -465,40 +642,47 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Total
+    // -----------------------------------------------
+    // TOTAL
+    // -----------------------------------------------
 
     if (totalDisplay) {
 
       totalDisplay.textContent =
-        money(result.total);
+        money(onlineTotal);
 
     }
 
 
-    // Discount text
-
-    const discountPercent =
-      getDiscount(
-        currentQuantity
-      );
-
+    // -----------------------------------------------
+    // DISCOUNT MESSAGE
+    // -----------------------------------------------
 
     if (discountText) {
 
-      if (discountPercent === 0) {
+      if (
+        quantityDiscountPercent === 0
+      ) {
 
         discountText.innerHTML = `
+
           <strong>
-            ${currentQuantity} tank • No discount
+            ${quantity} tank • No quantity discount
           </strong>
+
         `;
 
-      } else {
+      }
+
+      else {
 
         discountText.innerHTML = `
+
           <strong>
-            ${currentQuantity} tanks • ${discountPercent}% OFF
+            ${quantity} tanks •
+            ${quantityDiscountPercent}% OFF
           </strong>
+
         `;
 
       }
@@ -506,31 +690,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Next discount
+    // -----------------------------------------------
+    // ADD MORE MESSAGE
+    // -----------------------------------------------
 
     if (addMoreText) {
 
-      if (currentQuantity === 1) {
+      if (quantity === 1) {
 
         addMoreText.textContent =
           "Add 1 more tank → unlock 10% OFF";
 
-      } else if (currentQuantity === 2) {
+      }
+
+      else if (quantity === 2) {
 
         addMoreText.textContent =
           "Add 1 more tank → unlock 12% OFF";
 
-      } else if (currentQuantity === 3) {
+      }
+
+      else if (quantity === 3) {
 
         addMoreText.textContent =
           "Add 1 more tank → unlock 14% OFF";
 
-      } else if (currentQuantity === 4) {
+      }
+
+      else if (quantity === 4) {
 
         addMoreText.textContent =
           "Add 1 more tank → unlock 15% OFF";
 
-      } else {
+      }
+
+      else {
 
         addMoreText.textContent =
           "Maximum quantity discount unlocked ✓";
@@ -540,335 +734,375 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Button
+    // -----------------------------------------------
+    // BOOKING BUTTON
+    // -----------------------------------------------
 
     if (submitButton) {
 
       submitButton.textContent =
-        `Pay Online & Save 5% — ${money(
-          result.total
-        )}`;
+        `Pay Online & Save 5% — ${money(onlineTotal)}`;
 
     }
+
+
+    // Store current calculation
+    window.vshPricing = {
+
+      tankType,
+      capacity,
+      quantity,
+      unitPrice,
+      subtotal,
+      quantityDiscountPercent,
+      quantityDiscount,
+      onlineDiscount,
+      onlineTotal
+
+    };
 
   }
 
 
-  // =====================================================
+  // ---------------------------------------------------
   // FORM SUBMIT
-  // =====================================================
+  // ---------------------------------------------------
 
-  form.addEventListener(
-    "submit",
-    async event => {
+  if (form) {
 
-      event.preventDefault();
+    form.addEventListener(
+      "submit",
+      async function (event) {
 
-      syncHiddenFields();
-
-      updatePrice();
+        event.preventDefault();
 
 
-      if (bookingError) {
+        syncInputs();
 
-        bookingError.style.display =
-          "none";
-
-        bookingError.textContent =
-          "";
-
-      }
+        updatePrice();
 
 
-      if (submitButton) {
+        if (bookingError) {
 
-        submitButton.disabled =
-          true;
+          bookingError.style.display =
+            "none";
 
-        submitButton.textContent =
-          "Creating secure payment...";
-
-      }
-
-
-      const formData =
-        new FormData(form);
-
-      const payload =
-        Object.fromEntries(
-          formData.entries()
-        );
-
-
-      payload.tankType =
-        currentTankType;
-
-      payload.capacity =
-        currentCapacity;
-
-      payload.quantity =
-        currentQuantity;
-
-      payload.paymentMethod =
-        "online";
-
-
-      try {
-
-        const response =
-          await fetch(
-            "/api/create-order",
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body:
-                JSON.stringify(payload)
-
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          !response.ok ||
-          !data.success
-        ) {
-
-          throw new Error(
-            data.message ||
-            "Unable to create booking."
-          );
+          bookingError.textContent =
+            "";
 
         }
-
-
-        if (!window.Razorpay) {
-
-          throw new Error(
-            "Razorpay checkout could not be loaded."
-          );
-
-        }
-
-
-        const options = {
-
-          key:
-            data.keyId,
-
-          amount:
-            data.amount,
-
-          currency:
-            data.currency,
-
-          name:
-            "VSH Tank Cleaning",
-
-          description:
-            "Professional Water Tank Cleaning",
-
-          order_id:
-            data.orderId,
-
-
-          prefill: {
-
-            name:
-              payload.name,
-
-            email:
-              payload.email,
-
-            contact:
-              payload.phone
-
-          },
-
-
-          theme: {
-
-            color:
-              "#0867ff"
-
-          },
-
-
-          handler:
-            async function(
-              paymentResponse
-            ) {
-
-              try {
-
-                const verifyResponse =
-                  await fetch(
-                    "/api/verify-payment",
-                    {
-                      method: "POST",
-
-                      headers: {
-                        "Content-Type":
-                          "application/json"
-                      },
-
-                      body:
-                        JSON.stringify({
-                          ...paymentResponse,
-                          bookingId:
-                            data.bookingId
-                        })
-
-                    }
-                  );
-
-
-                const verifyData =
-                  await verifyResponse.json();
-
-
-                if (
-                  !verifyResponse.ok ||
-                  !verifyData.success
-                ) {
-
-                  throw new Error(
-                    verifyData.message ||
-                    "Payment verification failed."
-                  );
-
-                }
-
-
-                showSuccess(
-                  data.bookingId,
-                  data.amount / 100
-                );
-
-
-              } catch (error) {
-
-                showError(
-                  error.message
-                );
-
-              }
-
-            },
-
-
-          modal: {
-
-            ondismiss:
-              function() {
-
-                if (submitButton) {
-
-                  submitButton.disabled =
-                    false;
-
-                  updatePrice();
-
-                }
-
-              }
-
-          }
-
-        };
-
-
-        const razorpay =
-          new window.Razorpay(
-            options
-          );
-
-
-        razorpay.on(
-          "payment.failed",
-          function(response) {
-
-            showError(
-              response.error?.description ||
-              "Payment failed. Please try again."
-            );
-
-
-            if (submitButton) {
-
-              submitButton.disabled =
-                false;
-
-              updatePrice();
-
-            }
-
-          }
-        );
-
-
-        razorpay.open();
-
-
-      } catch (error) {
-
-        showError(
-          error.message ||
-          "Something went wrong."
-        );
 
 
         if (submitButton) {
 
           submitButton.disabled =
-            false;
+            true;
 
-          updatePrice();
+          submitButton.textContent =
+            "Creating secure payment...";
+
+        }
+
+
+        const formData =
+          new FormData(form);
+
+
+        const payload =
+          Object.fromEntries(
+            formData.entries()
+          );
+
+
+        payload.tankType =
+          tankType;
+
+        payload.capacity =
+          capacity;
+
+        payload.quantity =
+          quantity;
+
+        payload.paymentMethod =
+          "online";
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/create-order",
+              {
+
+                method: "POST",
+
+                headers: {
+
+                  "Content-Type":
+                    "application/json"
+
+                },
+
+                body:
+                  JSON.stringify(
+                    payload
+                  )
+
+              }
+            );
+
+
+          const data =
+            await response.json();
+
+
+          if (
+            !response.ok ||
+            !data.success
+          ) {
+
+            throw new Error(
+              data.message ||
+              "Unable to create booking."
+            );
+
+          }
+
+
+          if (!window.Razorpay) {
+
+            throw new Error(
+              "Razorpay checkout could not be loaded."
+            );
+
+          }
+
+
+          const options = {
+
+            key:
+              data.keyId,
+
+            amount:
+              data.amount,
+
+            currency:
+              data.currency,
+
+            name:
+              "VSH Tank Cleaning",
+
+            description:
+              "Professional Water Tank Cleaning",
+
+            order_id:
+              data.orderId,
+
+            prefill: {
+
+              name:
+                payload.name,
+
+              email:
+                payload.email,
+
+              contact:
+                payload.phone
+
+            },
+
+            theme: {
+
+              color:
+                "#0867ff"
+
+            },
+
+
+            handler:
+              async function (
+                paymentResponse
+              ) {
+
+                try {
+
+                  const verifyResponse =
+                    await fetch(
+                      "/api/verify-payment",
+                      {
+
+                        method: "POST",
+
+                        headers: {
+
+                          "Content-Type":
+                            "application/json"
+
+                        },
+
+                        body:
+                          JSON.stringify({
+
+                            ...paymentResponse,
+
+                            bookingId:
+                              data.bookingId
+
+                          })
+
+                      }
+                    );
+
+
+                  const verifyData =
+                    await verifyResponse.json();
+
+
+                  if (
+                    !verifyResponse.ok ||
+                    !verifyData.success
+                  ) {
+
+                    throw new Error(
+                      verifyData.message ||
+                      "Payment verification failed."
+                    );
+
+                  }
+
+
+                  showSuccess(
+                    data.bookingId,
+                    data.amount / 100
+                  );
+
+                }
+
+                catch (error) {
+
+                  showError(
+                    error.message
+                  );
+
+                }
+
+              },
+
+
+            modal: {
+
+              ondismiss:
+                function () {
+
+                  if (submitButton) {
+
+                    submitButton.disabled =
+                      false;
+
+                    updatePrice();
+
+                  }
+
+                }
+
+            }
+
+          };
+
+
+          const razorpay =
+            new window.Razorpay(
+              options
+            );
+
+
+          razorpay.on(
+            "payment.failed",
+            function (response) {
+
+              showError(
+                response.error?.description ||
+                "Payment failed. Please try again."
+              );
+
+
+              if (submitButton) {
+
+                submitButton.disabled =
+                  false;
+
+                updatePrice();
+
+              }
+
+            }
+          );
+
+
+          razorpay.open();
+
+        }
+
+
+        catch (error) {
+
+          showError(
+            error.message ||
+            "Something went wrong. Please try again."
+          );
+
+
+          if (submitButton) {
+
+            submitButton.disabled =
+              false;
+
+            updatePrice();
+
+          }
 
         }
 
       }
+    );
 
-    }
-  );
+  }
 
 
-  // =====================================================
-  // ERROR
-  // =====================================================
+  // ---------------------------------------------------
+  // SHOW ERROR
+  // ---------------------------------------------------
 
   function showError(message) {
 
     if (!bookingError) return;
 
+
     bookingError.style.display =
       "block";
 
+
     bookingError.textContent =
-      `✕ ${message}`;
+      "✕ " + message;
 
   }
 
 
-  // =====================================================
-  // SUCCESS
-  // =====================================================
+  // ---------------------------------------------------
+  // SHOW SUCCESS
+  // ---------------------------------------------------
 
   function showSuccess(
     bookingId,
     amount
   ) {
 
-    form.style.display =
-      "none";
+    if (form) {
+
+      form.style.display =
+        "none";
+
+    }
 
 
     if (!bookingSuccess) return;
@@ -957,15 +1191,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // =====================================================
-  // INITIAL LOAD
-  // =====================================================
+  // ---------------------------------------------------
+  // INITIALIZE
+  // ---------------------------------------------------
+
+  updateTankTypeButtons();
 
   buildCapacityButtons();
 
   updateQuantity();
 
-  syncHiddenFields();
+  syncInputs();
 
   updatePrice();
 
