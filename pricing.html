@@ -26,6 +26,860 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+<style>
+
+/* =========================================================
+   CLEAN PRICING PAGE
+   Keeps existing JS hooks intact.
+========================================================= */
+
+.pricing-hero {
+  padding: 72px 0 80px;
+}
+
+.pricing-hero-copy {
+  max-width: 720px;
+  margin-bottom: 42px;
+}
+
+.pricing-hero-copy h1 {
+  max-width: 650px;
+  margin-bottom: 16px;
+}
+
+.pricing-hero-copy p {
+  max-width: 600px;
+}
+
+.pricing-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+.pricing-card {
+  background: #fff;
+  border: 1px solid #e6edf5;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 18px 50px rgba(20, 55, 90, 0.08);
+}
+
+.pricing-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.pricing-card-top h2 {
+  margin: 6px 0 0;
+}
+
+.live-pill {
+  white-space: nowrap;
+  background: #eef7ff;
+  color: #0878f9;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tank-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.tank-type {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  background: #f8fafc;
+  border: 1px solid #e5ebf2;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.tank-type:hover {
+  border-color: #b9d9f8;
+}
+
+.tank-type.active {
+  background: #f1f8ff;
+  border-color: #0878f9;
+  box-shadow: 0 0 0 3px rgba(8, 120, 249, 0.08);
+}
+
+.tank-thumb {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 19px;
+}
+
+.tank-type strong,
+.tank-type span {
+  display: block;
+}
+
+.tank-type strong {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.tank-type span {
+  color: #718096;
+  font-size: 12px;
+}
+
+.calculator-section {
+  margin-top: 30px;
+}
+
+.calculator-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #26384a;
+  margin-bottom: 12px;
+}
+
+.capacity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.capacity-card {
+  min-height: 108px;
+  padding: 14px;
+  border: 1px solid #e5ebf2;
+  background: #fff;
+  border-radius: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.capacity-card:hover {
+  border-color: #b9d9f8;
+}
+
+.capacity-card.active {
+  border-color: #0878f9;
+  background: #f5faff;
+  box-shadow: 0 0 0 3px rgba(8, 120, 249, 0.07);
+}
+
+.capacity-card span,
+.capacity-card strong,
+.capacity-card del,
+.capacity-card small {
+  display: block;
+}
+
+.capacity-card span {
+  color: #68788a;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.capacity-card strong {
+  color: #102a43;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.capacity-card del {
+  color: #9aa6b2;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.capacity-card small {
+  color: #15803d;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.other-size-card {
+  min-height: 108px;
+  padding: 14px;
+  border: 1px dashed #b9d9f8;
+  background: #f7fbff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.other-size-card strong,
+.other-size-card span {
+  display: block;
+}
+
+.other-size-card strong {
+  color: #102a43;
+  font-size: 13px;
+}
+
+.other-size-card span {
+  color: #0878f9;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.whatsapp-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 800;
+}
+
+.quantity-row {
+  margin-top: 26px;
+  padding: 18px 0;
+  border-top: 1px solid #edf2f7;
+  border-bottom: 1px solid #edf2f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.quantity-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: #26384a;
+}
+
+.quantity-sub {
+  font-size: 12px;
+  color: #7b8794;
+  margin-top: 3px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dce5ee;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.quantity-control button {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background: #f7f9fb;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.quantity-control strong {
+  min-width: 42px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.discount-box {
+  margin-top: 18px;
+  padding: 15px 17px;
+  background: #f7fafc;
+  border-radius: 12px;
+}
+
+.discount-main {
+  font-size: 13px;
+  color: #26384a;
+}
+
+.add-more {
+  color: #718096;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.discount-box > a {
+  display: none;
+}
+
+.price-summary {
+  margin-top: 22px;
+  padding-top: 4px;
+}
+
+.price-summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 7px 0;
+}
+
+.price-summary span {
+  color: #718096;
+  font-size: 13px;
+}
+
+.price-summary strong {
+  color: #26384a;
+  font-size: 13px;
+}
+
+.price-summary .green {
+  color: #15803d;
+}
+
+.price-summary .total-row {
+  margin-top: 10px;
+  padding-top: 17px;
+  border-top: 1px solid #e7edf3;
+}
+
+.price-summary .total-row span {
+  color: #102a43;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.price-summary .total-row strong {
+  color: #0878f9;
+  font-size: 24px;
+}
+
+.pricing-card .full-btn {
+  margin-top: 20px;
+}
+
+.pricing-side {
+  display: grid;
+  gap: 12px;
+}
+
+.side-card {
+  background: #fff;
+  border: 1px solid #e6edf5;
+  border-radius: 18px;
+  padding: 21px;
+}
+
+.side-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #eef6ff;
+  color: #0878f9;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.side-card h3 {
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+
+.side-card p {
+  margin: 0;
+  color: #718096;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.green-side {
+  background: #f5fbf7;
+  border-color: #d9f0df;
+}
+
+.green-side .side-number {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.area-section {
+  padding: 0 0 78px;
+}
+
+.area-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 28px;
+  background: #f5f9fd;
+  border: 1px solid #e2ebf4;
+  border-radius: 22px;
+  padding: 28px 32px;
+}
+
+.area-copy h2 {
+  margin: 6px 0 7px;
+}
+
+.area-copy p {
+  margin: 0;
+}
+
+.pin-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pin-input-wrap {
+  display: flex;
+  align-items: center;
+  min-width: 245px;
+  height: 46px;
+  background: #fff;
+  border: 1px solid #dbe5ee;
+  border-radius: 10px;
+  padding: 0 12px;
+}
+
+.pin-input-wrap span {
+  color: #0878f9;
+  margin-right: 8px;
+}
+
+.pin-input-wrap input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+.pin-check .btn {
+  height: 46px;
+}
+
+.pin-result {
+  grid-column: 2;
+}
+
+.pin-success,
+.pin-error {
+  font-size: 12px;
+  padding-top: 4px;
+}
+
+.transport-section {
+  padding: 78px 0;
+}
+
+.section-heading {
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+.transport-note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 17px 20px;
+  background: #f7fafc;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.office-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.office-badges span {
+  padding: 7px 10px;
+  background: #fff;
+  border: 1px solid #e4ebf2;
+  border-radius: 999px;
+  font-size: 11px;
+}
+
+.transport-note p {
+  margin: 0;
+  font-size: 12px;
+  color: #68788a;
+}
+
+.transport-table-wrap {
+  overflow-x: auto;
+}
+
+.transport-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e5ebf2;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.transport-table th,
+.transport-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.transport-table th {
+  font-size: 11px;
+  color: #68788a;
+  background: #f8fafc;
+}
+
+.transport-table td {
+  font-size: 13px;
+}
+
+.transport-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.transport-table .free {
+  color: #15803d;
+  font-weight: 800;
+}
+
+.transport-footnote {
+  font-size: 11px;
+  color: #8a96a3;
+  margin-top: 12px;
+}
+
+.booking-section {
+  padding: 78px 0;
+  background: #f7fafd;
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.booking-intro {
+  padding-top: 10px;
+}
+
+.booking-intro h2 {
+  margin: 8px 0 12px;
+}
+
+.booking-intro > p {
+  max-width: 480px;
+  color: #68788a;
+  line-height: 1.7;
+}
+
+.booking-benefit {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.booking-benefit > span {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e9f5ff;
+  color: #0878f9;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.booking-benefit strong {
+  font-size: 13px;
+}
+
+.booking-benefit p {
+  margin: 3px 0 0;
+  color: #7b8794;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.booking-card {
+  background: #fff;
+  border: 1px solid #e5ebf2;
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: 0 18px 50px rgba(20, 55, 90, 0.07);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #26384a;
+  margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dce5ee;
+  border-radius: 10px;
+  background: #fff;
+  padding: 12px 13px;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.form-group input,
+.form-group select {
+  height: 46px;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #0878f9;
+  box-shadow: 0 0 0 3px rgba(8, 120, 249, 0.07);
+}
+
+.booking-error {
+  display: none;
+  margin-top: 18px;
+  padding: 13px 15px;
+  border-radius: 10px;
+  background: #fff4f4;
+  border: 1px solid #ffd8d8;
+  color: #b42318;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.booking-card .full-btn {
+  margin-top: 22px;
+}
+
+.secure-note {
+  text-align: center;
+  color: #8a96a3;
+  font-size: 11px;
+  margin: 10px 0 0;
+}
+
+.booking-success {
+  padding: 25px;
+  text-align: center;
+}
+
+.faq-section {
+  padding: 78px 0;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.faq-grid details {
+  background: #fff;
+  border: 1px solid #e5ebf2;
+  border-radius: 12px;
+  padding: 17px 19px;
+}
+
+.faq-grid summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  color: #26384a;
+}
+
+.faq-grid p {
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.65;
+  margin: 12px 0 0;
+}
+
+@media (max-width: 900px) {
+
+  .pricing-layout,
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-side {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .area-card {
+    grid-template-columns: 1fr;
+  }
+
+  .pin-result {
+    grid-column: 1;
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .pricing-hero {
+    padding: 48px 0 58px;
+  }
+
+  .pricing-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .pricing-card-top {
+    padding-bottom: 20px;
+  }
+
+  .pricing-card-top h2 {
+    font-size: 20px;
+  }
+
+  .live-pill {
+    display: none;
+  }
+
+  .tank-type-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .capacity-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .capacity-card,
+  .other-size-card {
+    min-height: 98px;
+  }
+
+  .pricing-side {
+    grid-template-columns: 1fr;
+  }
+
+  .area-card {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .pin-check {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pin-input-wrap {
+    min-width: 0;
+  }
+
+  .pin-check .btn {
+    width: 100%;
+  }
+
+  .transport-note {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .booking-layout {
+    gap: 28px;
+  }
+
+  .booking-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full {
+    grid-column: auto;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .capacity-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .capacity-card {
+    padding: 11px;
+  }
+
+  .capacity-card strong {
+    font-size: 18px;
+  }
+
+  .quantity-row {
+    align-items: flex-start;
+  }
+
+  .quantity-control button {
+    width: 38px;
+  }
+
+  .quantity-control strong {
+    min-width: 38px;
+  }
+
+}
+
+</style>
+
 </head>
 
 
@@ -46,7 +900,7 @@
 
     <span>
       ✓ Transparent pricing &nbsp; • &nbsp;
-      ✓ Easy booking
+      ✓ Easy online booking
     </span>
 
   </div>
@@ -117,15 +971,15 @@
       </a>
 
       <a
-        href="https://wa.me/919599057079?text=Hi%20VSH%20Tank%20Cleaning%2C%20I%20want%20to%20book%20tank%20cleaning."
+        href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
         target="_blank"
-        class="nav-whatsapp"
+        class="nav-call"
       >
         WhatsApp
       </a>
 
       <a
-        href="#book"
+        href="pricing.html#book"
         class="btn btn-primary nav-book"
       >
         Book Now →
@@ -148,15 +1002,11 @@
 
 
 
-<!-- =====================================================
-     MAIN
-====================================================== -->
-
 <main>
 
 
 <!-- =====================================================
-     PRICING HERO
+     PRICING
 ====================================================== -->
 
 <section class="pricing-hero">
@@ -176,7 +1026,7 @@
 
       <p>
         Choose your tank type, capacity and quantity.
-        Your discount updates automatically.
+        Your price and quantity discount update automatically.
       </p>
 
     </div>
@@ -186,11 +1036,10 @@
 
 
       <!-- =================================================
-           PRICING CARD
+           MAIN CALCULATOR
       ================================================== -->
 
       <div class="pricing-card">
-
 
         <div class="pricing-card-top">
 
@@ -211,7 +1060,6 @@
           </div>
 
         </div>
-
 
 
         <!-- TANK TYPE -->
@@ -268,7 +1116,6 @@
           </button>
 
         </div>
-
 
 
         <!-- CAPACITY -->
@@ -414,7 +1261,7 @@
             >
 
               <div class="whatsapp-icon">
-                ⌕
+                WA
               </div>
 
               <div>
@@ -436,7 +1283,6 @@
         </div>
 
 
-
         <!-- QUANTITY -->
 
         <div class="quantity-row">
@@ -444,7 +1290,7 @@
           <div>
 
             <div class="quantity-label">
-              Tanks of this size
+              Number of tanks
             </div>
 
             <div class="quantity-sub">
@@ -479,8 +1325,7 @@
         </div>
 
 
-
-        <!-- DISCOUNT BOX -->
+        <!-- DISCOUNT -->
 
         <div class="discount-box">
 
@@ -497,17 +1342,13 @@
             class="add-more"
             data-add-more
           >
+            Add 4 more tanks to unlock up to 15% quantity savings.
           </div>
-
-          <a href="#faq">
-            Have a promo code?
-          </a>
 
         </div>
 
 
-
-        <!-- TOTAL -->
+        <!-- PRICE -->
 
         <div class="price-summary">
 
@@ -543,11 +1384,11 @@
           <div class="total-row">
 
             <span>
-              Online booking total
+              Total
             </span>
 
             <strong data-price-total>
-              ₹474
+              ₹499
             </strong>
 
           </div>
@@ -567,11 +1408,10 @@
 
 
       <!-- =================================================
-           RIGHT INFORMATION CARD
+           SIMPLE INFO
       ================================================== -->
 
       <aside class="pricing-side">
-
 
         <div class="side-card">
 
@@ -584,7 +1424,7 @@
           </h3>
 
           <p>
-            Select overhead or underground and choose
+            Select overhead or underground, then choose
             the closest capacity.
           </p>
 
@@ -598,12 +1438,12 @@
           </span>
 
           <h3>
-            Add multiple tanks
+            Save on multiple tanks
           </h3>
 
           <p>
-            The more tanks you book together,
-            the larger your automatic discount.
+            Quantity discounts are applied automatically
+            when you book multiple tanks together.
           </p>
 
         </div>
@@ -616,12 +1456,11 @@
           </span>
 
           <h3>
-            Delhi NCR service area
+            Delhi NCR service
           </h3>
 
           <p>
-            We currently serve Delhi, Gurgaon,
-            Faridabad, Noida, Greater Noida and Ghaziabad.
+            Check your PIN code below before booking.
           </p>
 
         </div>
@@ -697,8 +1536,7 @@
       <div
         id="pinResult"
         class="pin-result"
-      >
-      </div>
+      ></div>
 
     </div>
 
@@ -727,8 +1565,7 @@
       </h2>
 
       <p>
-        Transportation is charged
-        <strong>once per booking</strong>,
+        Transportation is charged <strong>once per booking</strong>,
         not per tank.
       </p>
 
@@ -863,8 +1700,6 @@
     <div class="booking-layout">
 
 
-      <!-- LEFT -->
-
       <div class="booking-intro">
 
         <span class="eyebrow">
@@ -876,8 +1711,9 @@
         </h2>
 
         <p>
-          Fill in your details, choose your preferred
-          date and time, then select how you want to pay.
+          Fill in your details and choose your preferred
+          date and time. Your selected tank and quantity
+          are carried into the booking automatically.
         </p>
 
 
@@ -911,7 +1747,7 @@
           <div>
 
             <strong>
-              Quantity discount
+              Quantity savings
             </strong>
 
             <p>
@@ -936,8 +1772,7 @@
             </strong>
 
             <p>
-              We currently serve Delhi, Gurgaon, Faridabad,
-              Noida, Greater Noida and Ghaziabad.
+              Enter your PIN code to confirm availability.
             </p>
 
           </div>
@@ -948,14 +1783,10 @@
 
 
 
-      <!-- RIGHT -->
-
       <div class="booking-card">
 
         <form id="bookingForm">
 
-
-          <!-- HIDDEN BOOKING VALUES -->
 
           <input
             type="hidden"
@@ -981,18 +1812,7 @@
           >
 
 
-          <input
-            type="hidden"
-            name="paymentMethod"
-            id="paymentMethod"
-            value="online"
-          >
-
-
-          <!-- CUSTOMER DETAILS -->
-
           <div class="form-grid">
-
 
             <div class="form-group">
 
@@ -1020,8 +1840,6 @@
                 type="tel"
                 name="phone"
                 required
-                maxlength="10"
-                inputmode="numeric"
                 placeholder="10-digit mobile number"
               >
 
@@ -1056,7 +1874,7 @@
                 maxlength="6"
                 required
                 inputmode="numeric"
-                placeholder="1100XX / 1210XX / 1220XX / 2013XX"
+                placeholder="1100XX"
               >
 
             </div>
@@ -1065,7 +1883,7 @@
             <div class="form-group full">
 
               <label>
-                Address
+                Service address
               </label>
 
               <textarea
@@ -1134,134 +1952,11 @@
           </div>
 
 
-
-          <!-- =================================================
-               PAYMENT METHOD
-          ================================================== -->
-
-          <div class="payment-section">
-
-            <div class="calculator-title">
-              Choose payment method
-            </div>
-
-
-            <div
-              class="payment-options"
-              style="
-                display:grid;
-                grid-template-columns:repeat(2,minmax(0,1fr));
-                gap:14px;
-                margin-top:12px;
-              "
-            >
-
-
-              <!-- ONLINE -->
-
-              <button
-                type="button"
-                class="payment-option active"
-                data-payment-method="online"
-                style="
-                  text-align:left;
-                  border:2px solid #0878f9;
-                  border-radius:16px;
-                  padding:18px;
-                  background:#eef6ff;
-                  cursor:pointer;
-                  color:inherit;
-                "
-              >
-
-                <strong
-                  style="display:block;font-size:16px;"
-                >
-                  💳 Pay Online
-                </strong>
-
-                <span
-                  style="display:block;margin-top:6px;font-size:13px;"
-                >
-                  Get an additional
-                  <strong>5% discount</strong>
-                </span>
-
-                <small
-                  style="display:block;margin-top:8px;"
-                >
-                  Secure Razorpay payment
-                </small>
-
-              </button>
-
-
-
-              <!-- AFTER SERVICE -->
-
-              <button
-                type="button"
-                class="payment-option"
-                data-payment-method="after_service"
-                style="
-                  text-align:left;
-                  border:2px solid #dbe3ec;
-                  border-radius:16px;
-                  padding:18px;
-                  background:#fff;
-                  cursor:pointer;
-                  color:inherit;
-                "
-              >
-
-                <strong
-                  style="display:block;font-size:16px;"
-                >
-                  💵 Pay After Service
-                </strong>
-
-                <span
-                  style="display:block;margin-top:6px;font-size:13px;"
-                >
-                  Pay after the cleaning is completed
-                </span>
-
-                <small
-                  style="display:block;margin-top:8px;"
-                >
-                  No 5% online discount
-                </small>
-
-              </button>
-
-            </div>
-
-
-            <p
-              data-payment-note
-              style="
-                margin:12px 0 0;
-                font-size:14px;
-              "
-            >
-              🔒 Pay securely online and get an additional
-              <strong>5% discount</strong>.
-            </p>
-
-          </div>
-
-
-
-          <!-- ERROR -->
-
           <div
             id="bookingError"
             class="booking-error"
           ></div>
 
-
-
-          <!-- SUBMIT -->
 
           <button
             type="submit"
@@ -1272,13 +1967,11 @@
 
 
           <p class="secure-note">
-            🔒 Secure payment powered by Razorpay for online payments.
+            🔒 Secure payment powered by Razorpay
           </p>
 
         </form>
 
-
-        <!-- SUCCESS -->
 
         <div
           id="bookingSuccess"
@@ -1321,7 +2014,6 @@
 
 
     <div class="faq-grid">
-
 
       <details>
 
@@ -1401,28 +2093,11 @@
         </summary>
 
         <p>
-          VSH currently accepts online bookings
-          from Delhi, Gurgaon/Gurugram, Faridabad,
-          Noida, Greater Noida and Ghaziabad.
+          VSH currently supports Delhi NCR PIN codes
+          beginning with 110, 121, 122 and 201.
         </p>
 
       </details>
-
-
-      <details>
-
-        <summary>
-          Can I pay after the service?
-        </summary>
-
-        <p>
-          Yes. Select Pay After Service while booking.
-          The 5% online payment discount does not apply
-          to this option.
-        </p>
-
-      </details>
-
 
     </div>
 
@@ -1443,7 +2118,6 @@
 
   <div class="container footer-grid">
 
-
     <div>
 
       <a
@@ -1459,17 +2133,16 @@
 
       </a>
 
-
       <p>
         Professional water tank cleaning with
-        transparent pricing and easy booking.
+        transparent pricing and easy online booking.
       </p>
 
 
       <div class="footer-social">
 
         <a
-          href="https://wa.me/919599057079"
+          href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
           target="_blank"
         >
           WhatsApp
@@ -1479,7 +2152,7 @@
           Call
         </a>
 
-        <a href="#book">
+        <a href="pricing.html#book">
           Book Now
         </a>
 
@@ -1515,11 +2188,11 @@
         Booking
       </h4>
 
-      <a href="#book">
+      <a href="pricing.html#book">
         Book now
       </a>
 
-      <a href="#faq">
+      <a href="pricing.html#faq">
         FAQs
       </a>
 
@@ -1541,14 +2214,14 @@
       </a>
 
       <a
-        href="https://wa.me/919599057079"
+        href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
         target="_blank"
       >
         WhatsApp us
       </a>
 
-      <a href="#book">
-        Book a cleaning
+      <a href="pricing.html#book">
+        Book Now
       </a>
 
     </div>
@@ -1577,10 +2250,13 @@
     href="tel:+919599057079"
     class="bottom-call"
   >
+
     ☎
+
     <span>
       Call
     </span>
+
   </a>
 
 
@@ -1589,10 +2265,13 @@
     target="_blank"
     class="bottom-whatsapp"
   >
+
     ◉
+
     <span>
       WhatsApp
     </span>
+
   </a>
 
 
@@ -1600,10 +2279,13 @@
     href="#book"
     class="bottom-book"
   >
+
     Book tank cleaning
+
     <span>
       →
     </span>
+
   </a>
 
 </div>
