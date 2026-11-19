@@ -1,1551 +1,2051 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>VSH Tank Cleaning | Professional Water Tank Cleaning</title>
+  <title>VSH Tank Cleaning | Professional Water Tank Cleaning in Delhi NCR</title>
 
   <meta
     name="description"
-    content="Professional water tank cleaning in Delhi NCR. Hygienic cleaning, transparent pricing and easy booking."
-  >
+    content="Professional overhead and underground water tank cleaning services in Delhi NCR. Hygienic cleaning, sludge removal, high pressure cleaning and UV treatment."
+  />
 
-  <link rel="icon" href="assets/vsh-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    :root {
+      --vsh-blue: #087df5;
+      --vsh-dark: #09284f;
+      --vsh-light: #eef7ff;
+      --vsh-green: #18a957;
+      --text: #102c50;
+      --muted: #6c7d92;
+      --border: #e3edf7;
+      --white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* TOP BAR */
+
+    .topbar {
+      background: #08284f;
+      color: #fff;
+      padding: 9px 0;
+      font-size: 13px;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .topbar a {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* HEADER */
+
+    .header {
+      background: #fff;
+      border-bottom: 1px solid #edf2f7;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      font-size: 23px;
+      color: #09284f;
+    }
+
+    .logo img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .logo-text span {
+      display: block;
+      color: #087df5;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-weight: 600;
+      color: #425a76;
+    }
+
+    .nav-links a {
+      transition: .2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--vsh-blue);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 45px;
+      padding: 0 20px;
+      border-radius: 9px;
+      font-weight: 800;
+      border: 0;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn-primary {
+      background: var(--vsh-blue);
+      color: white;
+      box-shadow: 0 12px 30px rgba(8,125,245,.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(8,125,245,.3);
+    }
+
+    .btn-whatsapp {
+      background: #20b858;
+      color: #fff;
+    }
+
+    .btn-call {
+      background: #fff;
+      color: #09284f;
+      border: 1px solid #dce8f3;
+    }
+
+    .mobile-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      font-size: 28px;
+      color: #09284f;
+      cursor: pointer;
+    }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(8,125,245,.13), transparent 32%),
+        linear-gradient(180deg, #f6fbff 0%, #fff 100%);
+      padding: 78px 0 88px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--vsh-blue);
+      background: #eaf5ff;
+      border: 1px solid #d5eaff;
+      padding: 9px 15px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(40px, 5vw, 66px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+      margin: 0 0 20px;
+      color: #09284f;
+    }
+
+    .hero h1 span {
+      color: var(--vsh-blue);
+    }
+
+    .hero-text {
+      color: #63768e;
+      font-size: 18px;
+      line-height: 1.75;
+      max-width: 590px;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-top: 30px;
+      color: #5d7189;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero-trust span {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* HERO GRAPHIC */
+
+    .tank-graphic {
+      position: relative;
+      min-height: 490px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .graphic-circle {
+      width: 430px;
+      height: 430px;
+      border-radius: 50%;
+      background:
+        linear-gradient(145deg, #e8f5ff, #ffffff 55%, #d8edff);
+      border: 9px solid #087df5;
+      box-shadow:
+        0 30px 70px rgba(8,125,245,.16),
+        inset 0 0 0 9px #fff;
+      position: relative;
+    }
+
+    .graphic-circle::before {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border-radius: 50%;
+      border: 3px dashed #70b9fa;
+    }
+
+    .tank-body {
+      position: absolute;
+      width: 190px;
+      height: 145px;
+      background: linear-gradient(180deg, #fff, #dcecff);
+      border: 7px solid #0a315d;
+      border-radius: 35px 35px 45px 45px;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%);
+      box-shadow: inset 0 -20px 30px rgba(8,125,245,.08);
+    }
+
+    .tank-top {
+      position: absolute;
+      width: 88px;
+      height: 35px;
+      border: 7px solid #0a315d;
+      background: #fff;
+      border-radius: 50%;
+      top: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .tank-cap {
+      position: absolute;
+      width: 48px;
+      height: 20px;
+      border: 5px solid #0a315d;
+      background: #fff;
+      border-radius: 8px;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .water {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      height: 52px;
+      background: linear-gradient(180deg, #57b9ff, #087df5);
+      border-radius: 0 0 28px 28px;
+      opacity: .85;
+    }
+
+    .drop {
+      position: absolute;
+      width: 32px;
+      height: 42px;
+      background: linear-gradient(160deg, #8bd4ff, #087df5);
+      border-radius: 60% 60% 65% 0;
+      transform: rotate(-45deg);
+    }
+
+    .drop.one {
+      top: 80px;
+      left: 75px;
+    }
+
+    .drop.two {
+      right: 70px;
+      bottom: 100px;
+      width: 23px;
+      height: 31px;
+    }
+
+    .spark {
+      position: absolute;
+      color: #087df5;
+      font-size: 26px;
+    }
+
+    .spark.one {
+      left: 55px;
+      top: 155px;
+    }
+
+    .spark.two {
+      right: 48px;
+      top: 165px;
+    }
+
+    .graphic-label {
+      position: absolute;
+      background: #fff;
+      padding: 14px 18px;
+      border-radius: 12px;
+      box-shadow: 0 14px 40px rgba(20,60,100,.13);
+      font-weight: 800;
+      color: #09284f;
+    }
+
+    .label-clean {
+      left: 0;
+      bottom: 82px;
+    }
+
+    .label-safe {
+      right: -8px;
+      top: 72px;
+    }
+
+    /* ABOUT */
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-soft {
+      background: #f6fbff;
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin-bottom: 55px;
+    }
+
+    .section-heading.center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-kicker {
+      color: var(--vsh-blue);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -1.2px;
+      margin: 0 0 17px;
+      color: #09284f;
+    }
+
+    .section-heading p {
+      color: #6c7d92;
+      font-size: 16px;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .about-visual {
+      min-height: 420px;
+      border-radius: 28px;
+      background:
+        linear-gradient(145deg, #087df5, #034d9d);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-visual::before,
+    .about-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    .about-visual::before {
+      width: 360px;
+      height: 360px;
+    }
+
+    .about-visual::after {
+      width: 260px;
+      height: 260px;
+    }
+
+    .worker-illustration {
+      position: relative;
+      width: 190px;
+      height: 260px;
+      z-index: 2;
+    }
+
+    .worker-head {
+      position: absolute;
+      width: 55px;
+      height: 55px;
+      background: #f4c6a7;
+      border-radius: 50%;
+      top: 10px;
+      left: 68px;
+    }
+
+    .worker-helmet {
+      position: absolute;
+      width: 72px;
+      height: 30px;
+      background: #fff;
+      border-radius: 50px 50px 10px 10px;
+      top: 0;
+      left: 59px;
+    }
+
+    .worker-body {
+      position: absolute;
+      width: 105px;
+      height: 130px;
+      background: #fff;
+      border-radius: 25px 25px 15px 15px;
+      top: 65px;
+      left: 43px;
+    }
+
+    .worker-leg.left {
+      position: absolute;
+      width: 37px;
+      height: 75px;
+      background: #09284f;
+      top: 185px;
+      left: 55px;
+      border-radius: 0 0 15px 15px;
+    }
+
+    .worker-leg.right {
+      position: absolute;
+      width: 37px;
+      height: 75px;
+      background: #09284f;
+      top: 185px;
+      left: 99px;
+      border-radius: 0 0 15px 15px;
+    }
+
+    .worker-hose {
+      position: absolute;
+      width: 125px;
+      height: 90px;
+      border: 9px solid #53c8ff;
+      border-left-color: transparent;
+      border-radius: 50%;
+      right: -70px;
+      bottom: 15px;
+      transform: rotate(-18deg);
+    }
+
+    .about-content p {
+      color: #6c7d92;
+      line-height: 1.85;
+      margin: 0 0 25px;
+    }
+
+    .check-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .check-list div {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 700;
+      color: #173a63;
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e8f6ef;
+      color: #18a957;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    /* WHAT WE DO */
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .service-card {
+      padding: 30px 24px;
+      border: 1px solid #e3edf7;
+      border-radius: 18px;
+      background: #fff;
+      transition: .25s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: #b8dcfb;
+      box-shadow: 0 20px 50px rgba(21,76,125,.09);
+    }
+
+    .service-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: #eaf5ff;
+      color: #087df5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      margin-bottom: 22px;
+    }
+
+    .service-card h3 {
+      margin: 0 0 10px;
+      color: #09284f;
+    }
+
+    .service-card p {
+      color: #72839a;
+      line-height: 1.6;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* PROCESS */
+
+    .process {
+      background: #f6fbff;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .process-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      border: 1px solid #e2edf7;
+      position: relative;
+    }
+
+    .process-number {
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #087df5;
+      color: #fff;
+      font-weight: 900;
+      margin-bottom: 24px;
+    }
+
+    .process-icon {
+      height: 100px;
+      border-radius: 15px;
+      background:
+        linear-gradient(145deg, #eef8ff, #d9eeff);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+    }
+
+    .process-card h3 {
+      margin: 0 0 9px;
+      color: #09284f;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+
+    .process-card p {
+      color: #72839a;
+      font-size: 14px;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* CTA STRIP */
+
+    .cta {
+      padding: 70px 0;
+    }
+
+    .cta-box {
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.2), transparent 30%),
+        linear-gradient(120deg, #087df5, #0351a5);
+      color: white;
+      border-radius: 25px;
+      padding: 55px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      overflow: hidden;
+    }
+
+    .cta-box h2 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: rgba(255,255,255,.85);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cta-buttons .btn {
+      background: #fff;
+      color: #087df5;
+    }
+
+    /* PRICING */
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .price-card {
+      border: 1px solid #e0ebf6;
+      border-radius: 18px;
+      padding: 30px 25px;
+      background: #fff;
+      position: relative;
+      transition: .25s ease;
+    }
+
+    .price-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(21,76,125,.1);
+    }
+
+    .price-card.featured {
+      border: 2px solid #087df5;
+      box-shadow: 0 18px 50px rgba(8,125,245,.12);
+    }
+
+    .price-card .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      background: #eaf5ff;
+      color: #087df5;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+
+    .price-card h3 {
+      font-size: 19px;
+      margin: 0 0 7px;
+      color: #09284f;
+    }
+
+    .price-card .capacity {
+      color: #7a8b9f;
+      font-size: 13px;
+    }
+
+    .price {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: #087df5;
+      font-size: 32px;
+      font-weight: 800;
+      margin: 22px 0 4px;
+    }
+
+    .duration {
+      color: #7a8b9f;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .price-card .btn {
+      width: 100%;
+    }
+
+    /* BENEFITS */
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .benefit {
+      text-align: center;
+      padding: 25px;
+    }
+
+    .benefit-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      background: #eaf5ff;
+      color: #087df5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+    }
+
+    .benefit h3 {
+      color: #09284f;
+      margin: 0 0 10px;
+    }
+
+    .benefit p {
+      color: #72839a;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* REVIEWS */
+
+    .reviews {
+      background: #f6fbff;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .review {
+      background: #fff;
+      border: 1px solid #e4edf6;
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .stars {
+      color: #087df5;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .review p {
+      color: #60748c;
+      line-height: 1.7;
+      margin: 0 0 20px;
+    }
+
+    .review-name {
+      font-weight: 800;
+      color: #09284f;
+    }
+
+    /* CONTACT */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .contact-card {
+      border: 1px solid #e2edf7;
+      border-radius: 22px;
+      padding: 38px;
+    }
+
+    .contact-card h3 {
+      margin-top: 0;
+      color: #09284f;
+      font-size: 24px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .contact-row:last-child {
+      border-bottom: 0;
+    }
+
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #eaf5ff;
+      color: #087df5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-row small {
+      display: block;
+      color: #8998aa;
+      margin-bottom: 4px;
+    }
+
+    .contact-row strong {
+      color: #09284f;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #08284f;
+      color: #fff;
+      padding: 50px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .8fr .8fr;
+      gap: 50px;
+    }
+
+    footer .logo {
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    footer .logo-text span {
+      color: #65b5ff;
+    }
+
+    .footer-about {
+      color: rgba(255,255,255,.68);
+      line-height: 1.7;
+      max-width: 400px;
+    }
+
+    footer h4 {
+      margin-top: 0;
+    }
+
+    footer a {
+      display: block;
+      color: rgba(255,255,255,.72);
+      margin: 10px 0;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,.12);
+      margin-top: 40px;
+      padding-top: 20px;
+      color: rgba(255,255,255,.5);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    /* FLOATING WHATSAPP */
+
+    .floating-whatsapp {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #20b858;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      box-shadow: 0 12px 30px rgba(32,184,88,.35);
+      z-index: 999;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 900px) {
+      .nav-links,
+      .header-actions {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .hero-grid,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 55px 0 65px;
+      }
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .tank-graphic {
+        min-height: 410px;
+      }
+
+      .services-grid,
+      .process-grid,
+      .pricing-grid,
+      .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-box {
+        padding: 40px 30px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .topbar-inner {
+        justify-content: center;
+      }
+
+      .topbar-left {
+        gap: 10px;
+      }
+
+      .topbar-right {
+        display: none;
+      }
+
+      .nav {
+        height: 70px;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .logo img {
+        width: 48px;
+        height: 48px;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .hero-text {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      .tank-graphic {
+        min-height: 350px;
+      }
+
+      .graphic-circle {
+        width: 315px;
+        height: 315px;
+      }
+
+      .tank-body {
+        width: 145px;
+        height: 110px;
+      }
+
+      .label-clean {
+        left: 0;
+        bottom: 40px;
+      }
+
+      .label-safe {
+        right: 0;
+        top: 35px;
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .section h2 {
+        font-size: 34px;
+      }
+
+      .services-grid,
+      .process-grid,
+      .pricing-grid,
+      .benefits-grid,
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .check-list {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-box {
+        padding: 32px 24px;
+      }
+
+      .cta-buttons {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .cta-buttons .btn {
+        width: 100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .copyright {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================================
-     TOP STRIP
-================================ -->
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="container topbar-inner">
 
-<div class="top-strip">
-  <div class="container top-strip-inner">
+    <div class="topbar-left">
+      <a href="tel:+919599057079">☎ CALL NOW</a>
+      <span>Professional Tank Cleaning • Delhi NCR</span>
+    </div>
 
-    <span>
-      💧 Professional Water Tank Cleaning
-    </span>
-
-    <span class="top-right">
-      ✓ Hygienic &nbsp; • &nbsp; ✓ Transparent pricing &nbsp; • &nbsp; ✓ Delhi NCR
-    </span>
+    <div class="topbar-right">
+      <a href="https://wa.me/919599057079" target="_blank">WhatsApp</a>
+      <a href="pricing.html" class="btn btn-primary" style="min-height:34px;padding:0 15px;">
+        BOOK NOW
+      </a>
+    </div>
 
   </div>
 </div>
 
-
-<!-- ================================
-     HEADER
-================================ -->
-
+<!-- HEADER -->
 <header class="header">
-
   <div class="container nav">
 
-    <a href="index.html" class="brand">
-      <img
-        src="assets/vsh-logo.png"
-        alt="VSH Tank Cleaning"
-      >
+    <a href="index.html" class="logo">
+      <!-- Put your supplied VSH logo file here -->
+      <img src="vsh-logo.png" alt="VSH Tank Cleaning Logo">
+
+      <div class="logo-text">
+        VSH Tank Cleaning
+        <span>HYGIENIC • SAFE • PROFESSIONAL</span>
+      </div>
     </a>
 
-
-    <nav class="desktop-nav">
-
-      <a href="#home">Home</a>
-
-      <a href="#about">About</a>
-
-      <a href="#services">Services</a>
-
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="service-areas.html">Service Areas</a>
       <a href="#process">Process</a>
-
-      <a href="pricing.html">Prices</a>
-
-      <a href="#faq">FAQs</a>
-
+      <a href="#reviews">Reviews</a>
     </nav>
 
-
-    <div class="nav-actions">
-
-      <a
-        href="tel:+919599057079"
-        class="call-link"
-      >
-        ☎ Call
-      </a>
+    <div class="header-actions">
+      <a href="tel:+919599057079" class="btn btn-call">☎ Call</a>
 
       <a
-        href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
-        target="_blank"
-        class="whatsapp-link"
-      >
-        WhatsApp
-      </a>
-
-      <a
-        href="#book"
-        class="btn btn-primary"
-      >
-        Book Now →
-      </a>
-
-    </div>
-
-
-    <button
-      class="menu-toggle"
-      aria-label="Open menu"
-      aria-expanded="false"
-    >
-      ☰
-    </button>
-
-  </div>
-
-
-  <!-- MOBILE MENU -->
-
-  <div class="mobile-nav">
-
-    <a href="#home">Home</a>
-
-    <a href="#about">About</a>
-
-    <a href="#services">Services</a>
-
-    <a href="#process">Process</a>
-
-    <a href="pricing.html">Prices</a>
-
-    <a href="#faq">FAQs</a>
-
-    <div class="mobile-actions">
-
-      <a
-        href="tel:+919599057079"
-        class="btn btn-outline"
-      >
-        ☎ Call
-      </a>
-
-      <a
-        href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
+        href="https://wa.me/919599057079"
         target="_blank"
         class="btn btn-whatsapp"
       >
         WhatsApp
       </a>
 
-      <a
-        href="#book"
-        class="btn btn-primary"
-      >
+      <a href="pricing.html" class="btn btn-primary">
         Book Now →
       </a>
-
     </div>
 
-  </div>
+    <button class="mobile-toggle" id="mobileMenuBtn">
+      ☰
+    </button>
 
+  </div>
 </header>
 
-
-<main>
-
-
-<!-- ================================
-     HERO
-================================ -->
-
-<section
-  id="home"
-  class="hero"
->
-
+<!-- HERO -->
+<section class="hero">
   <div class="container hero-grid">
 
-    <div class="hero-copy">
+    <div>
 
       <div class="eyebrow">
-        ✦ PROFESSIONAL TANK CLEANING
+        ✦ PROFESSIONAL WATER TANK CLEANING
       </div>
 
       <h1>
-        Clean Water Starts
-        <span>With a Clean Tank.</span>
+        Get Your Water Tank
+        <span>Clean & Hygienic.</span>
       </h1>
 
       <p class="hero-text">
-        Professional water tank cleaning for homes,
-        apartments, offices and businesses across
+        Professional water tank cleaning for homes, offices,
+        apartments, hotels, hospitals and businesses across
         Delhi NCR.
       </p>
 
-
       <div class="hero-buttons">
 
-        <a
-          href="#book"
-          class="btn btn-primary btn-big"
-        >
+        <a href="pricing.html" class="btn btn-primary">
           Book Tank Cleaning →
         </a>
 
         <a
-          href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20know%20about%20tank%20cleaning."
+          href="https://wa.me/919599057079"
           target="_blank"
-          class="btn btn-whatsapp btn-big"
+          class="btn btn-whatsapp"
         >
           WhatsApp Us
         </a>
 
-      </div>
+        <a href="tel:+919599057079" class="btn btn-call">
+          ☎ Call Now
+        </a>
 
+      </div>
 
       <div class="hero-trust">
-
-        <div>
-          <strong>✓</strong>
-          Hygienic cleaning
-        </div>
-
-        <div>
-          <strong>✓</strong>
-          Transparent pricing
-        </div>
-
-        <div>
-          <strong>✓</strong>
-          Easy booking
-        </div>
-
+        <span>✓ Hygienic Cleaning</span>
+        <span>✓ Trained Professionals</span>
+        <span>✓ Safe Water</span>
       </div>
 
     </div>
 
+    <!-- ORIGINAL VSH GRAPHIC -->
+    <div class="tank-graphic">
 
-    <!-- HERO GRAPHIC -->
+      <div class="graphic-circle">
 
-    <div class="hero-visual">
+        <div class="spark one">✦</div>
+        <div class="spark two">✦</div>
 
-      <div class="hero-circle">
+        <div class="drop one"></div>
+        <div class="drop two"></div>
 
-        <div class="water-drop">
-          💧
-        </div>
-
-        <div class="tank-illustration">
+        <div class="tank-body">
           <div class="tank-top"></div>
-          <div class="tank-body"></div>
-          <div class="tank-bottom"></div>
+          <div class="tank-cap"></div>
+          <div class="water"></div>
         </div>
 
-        <div class="clean-badge">
-          ✓ CLEAN
-        </div>
+      </div>
 
-        <div class="safe-badge">
-          SAFE WATER
-        </div>
+      <div class="graphic-label label-clean">
+        💧 Deep Cleaning
+      </div>
 
+      <div class="graphic-label label-safe">
+        ✓ Safe Water
       </div>
 
     </div>
 
   </div>
-
 </section>
 
-
-<!-- ================================
-     ABOUT
-================================ -->
-
-<section
-  id="about"
-  class="section about"
->
-
+<!-- ABOUT -->
+<section class="section">
   <div class="container about-grid">
 
-    <div class="about-graphic">
+    <div class="about-visual">
 
-      <div class="graphic-card">
-
-        <div class="mini-tank">
-          <span></span>
-        </div>
-
-        <div class="graphic-water">
-          ~ ~ ~
-        </div>
-
-        <div class="shield">
-          ✓
-        </div>
-
+      <div class="worker-illustration">
+        <div class="worker-helmet"></div>
+        <div class="worker-head"></div>
+        <div class="worker-body"></div>
+        <div class="worker-leg left"></div>
+        <div class="worker-leg right"></div>
+        <div class="worker-hose"></div>
       </div>
 
     </div>
 
+    <div class="about-content">
 
-    <div class="section-copy">
-
-      <div class="eyebrow">
-        ✦ WHY TANK CLEANING MATTERS
-      </div>
+      <div class="section-kicker">ABOUT VSH</div>
 
       <h2>
-        Your tank stores your water.
-        <span>Keep it clean.</span>
+        Professional Cleaning
+        With a Personal Touch.
       </h2>
 
       <p>
-        Over time, water tanks can collect dirt, sludge,
-        algae and other unwanted buildup. Regular cleaning
-        helps maintain a cleaner water storage environment
-        for your home or business.
+        VSH Tank Cleaning provides professional water tank cleaning
+        services for residential and commercial properties across
+        Delhi NCR.
       </p>
-
-      <div class="feature-list">
-
-        <div class="feature">
-          <div class="feature-icon">💧</div>
-          <div>
-            <strong>Cleaner water storage</strong>
-            <p>Remove accumulated dirt and sludge.</p>
-          </div>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">🛡️</div>
-          <div>
-            <strong>Hygienic cleaning</strong>
-            <p>Thorough cleaning of tank surfaces.</p>
-          </div>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">🏠</div>
-          <div>
-            <strong>For homes & businesses</strong>
-            <p>Suitable for residential and commercial tanks.</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================================
-     WHAT WE DO
-================================ -->
-
-<section
-  id="services"
-  class="section services-section"
->
-
-  <div class="container">
-
-    <div class="section-heading centered">
-
-      <div class="eyebrow">
-        ✦ WHAT WE DO
-      </div>
-
-      <h2>
-        Complete tank cleaning,
-        <span>done properly.</span>
-      </h2>
 
       <p>
-        Our cleaning process focuses on removing
-        dirt, sludge and buildup from your water tank.
+        We clean overhead and underground tanks using a systematic
+        process designed to remove dirt, sludge, algae, fungus and
+        other unwanted buildup.
       </p>
 
-    </div>
+      <div class="check-list">
 
-
-    <div class="service-grid">
-
-
-      <article class="service-card">
-
-        <div class="service-art blue-art">
-          💦
+        <div>
+          <span class="check">✓</span>
+          Overhead Tank Cleaning
         </div>
 
-        <div class="service-content">
-
-          <span class="service-number">
-            01
-          </span>
-
-          <h3>
-            Water & sludge removal
-          </h3>
-
-          <p>
-            Remove standing water, sludge and
-            accumulated sediment before cleaning.
-          </p>
-
+        <div>
+          <span class="check">✓</span>
+          Underground Tank Cleaning
         </div>
 
-      </article>
-
-
-      <article class="service-card">
-
-        <div class="service-art cyan-art">
-          🧽
+        <div>
+          <span class="check">✓</span>
+          Sludge Removal
         </div>
 
-        <div class="service-content">
-
-          <span class="service-number">
-            02
-          </span>
-
-          <h3>
-            Deep scrubbing
-          </h3>
-
-          <p>
-            Tank surfaces are scrubbed to help
-            remove dirt and stubborn buildup.
-          </p>
-
+        <div>
+          <span class="check">✓</span>
+          High Pressure Cleaning
         </div>
 
-      </article>
-
-
-      <article class="service-card">
-
-        <div class="service-art navy-art">
-          🚿
+        <div>
+          <span class="check">✓</span>
+          Anti-Bacterial Treatment
         </div>
 
-        <div class="service-content">
-
-          <span class="service-number">
-            03
-          </span>
-
-          <h3>
-            High-pressure cleaning
-          </h3>
-
-          <p>
-            Water pressure is used to rinse the
-            cleaned surfaces thoroughly.
-          </p>
-
+        <div>
+          <span class="check">✓</span>
+          UV Treatment
         </div>
-
-      </article>
-
-
-      <article class="service-card">
-
-        <div class="service-art green-art">
-          ✓
-        </div>
-
-        <div class="service-content">
-
-          <span class="service-number">
-            04
-          </span>
-
-          <h3>
-            Final inspection
-          </h3>
-
-          <p>
-            The tank is checked after cleaning
-            before the service is completed.
-          </p>
-
-        </div>
-
-      </article>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================================
-     CHECK YOUR TANK
-================================ -->
-
-<section class="question-section">
-
-  <div class="container">
-
-    <div class="question-box">
-
-      <div>
-
-        <div class="eyebrow light">
-          💧 WATER TANK CLEANING
-        </div>
-
-        <h2>
-          Is your water tank really clean?
-        </h2>
-
-        <p>
-          Dirt at the bottom, algae on the walls or
-          years of buildup can go unnoticed.
-        </p>
 
       </div>
 
-
-      <a
-        href="#book"
-        class="btn btn-white"
-      >
-        Get It Cleaned →
+      <a href="services.html" class="btn btn-primary">
+        Explore Our Services →
       </a>
 
     </div>
 
   </div>
-
 </section>
 
-
-<!-- ================================
-     PROCESS
-================================ -->
-
-<section
-  id="process"
-  class="section process-section"
->
-
+<!-- WHAT WE DO -->
+<section class="section section-soft">
   <div class="container">
 
-    <div class="section-heading centered">
+    <div class="section-heading center">
 
-      <div class="eyebrow">
-        ✦ OUR PROCESS
-      </div>
+      <div class="section-kicker">WHAT WE DO</div>
 
       <h2>
-        From dirty to clean
-        <span>in four simple steps.</span>
-      </h2>
-
-    </div>
-
-
-    <div class="process">
-
-      <div class="process-step">
-
-        <div class="process-graphic">
-          <div class="process-number">01</div>
-          💧
-        </div>
-
-        <h3>
-          Drain
-        </h3>
-
-        <p>
-          Remove the water and accumulated sludge.
-        </p>
-
-      </div>
-
-
-      <div class="process-line"></div>
-
-
-      <div class="process-step">
-
-        <div class="process-graphic">
-          <div class="process-number">02</div>
-          🧽
-        </div>
-
-        <h3>
-          Scrub
-        </h3>
-
-        <p>
-          Clean the tank walls and floor thoroughly.
-        </p>
-
-      </div>
-
-
-      <div class="process-line"></div>
-
-
-      <div class="process-step">
-
-        <div class="process-graphic">
-          <div class="process-number">03</div>
-          🚿
-        </div>
-
-        <h3>
-          Wash
-        </h3>
-
-        <p>
-          Rinse away remaining dirt and residue.
-        </p>
-
-      </div>
-
-
-      <div class="process-line"></div>
-
-
-      <div class="process-step">
-
-        <div class="process-graphic">
-          <div class="process-number">04</div>
-          ✨
-        </div>
-
-        <h3>
-          Finish
-        </h3>
-
-        <p>
-          Final inspection before the tank is ready.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================================
-     BEFORE / AFTER GRAPHIC
-================================ -->
-
-<section class="before-after-section">
-
-  <div class="container">
-
-    <div class="before-after">
-
-      <div class="before-panel">
-
-        <div class="ba-label red">
-          BEFORE CLEANING
-        </div>
-
-        <div class="dirty-tank">
-          <div class="dirty-water"></div>
-          <div class="dirt"></div>
-        </div>
-
-        <p>
-          Dirt • Sludge • Buildup
-        </p>
-
-      </div>
-
-
-      <div class="ba-arrow">
-        →
-      </div>
-
-
-      <div class="after-panel">
-
-        <div class="ba-label green">
-          AFTER CLEANING
-        </div>
-
-        <div class="clean-tank">
-          <div class="clean-water"></div>
-        </div>
-
-        <p>
-          Clean • Fresh • Hygienic
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================================
-     PRICING
-================================ -->
-
-<section
-  id="pricing"
-  class="section pricing-section"
->
-
-  <div class="container">
-
-    <div class="section-heading centered">
-
-      <div class="eyebrow">
-        ✦ SIMPLE PRICING
-      </div>
-
-      <h2>
-        Choose your tank.
-        <span>Know your price.</span>
+        Tank Cleaning For Every Space
       </h2>
 
       <p>
-        Select your tank type and capacity.
-        Multiple tanks get automatic quantity discounts.
+        From homes to large commercial properties,
+        we provide professional tank cleaning solutions.
       </p>
 
     </div>
 
+    <div class="services-grid">
 
-    <div class="price-preview">
-
-
-      <div class="price-preview-card">
-
-        <div class="price-icon">
-          💧
-        </div>
-
-        <h3>
-          Overhead Tank
-        </h3>
-
+      <div class="service-card">
+        <div class="service-icon">🏠</div>
+        <h3>Residential</h3>
         <p>
-          Starting from
+          Hygienic water tank cleaning for homes,
+          apartments and residential buildings.
         </p>
-
-        <strong>
-          ₹499
-        </strong>
-
-        <span>
-          per tank
-        </span>
-
       </div>
 
-
-      <div class="price-preview-card featured">
-
-        <div class="popular">
-          POPULAR
-        </div>
-
-        <div class="price-icon">
-          🛁
-        </div>
-
-        <h3>
-          Underground Tank
-        </h3>
-
+      <div class="service-card">
+        <div class="service-icon">🏢</div>
+        <h3>Office & Commercial</h3>
         <p>
-          Starting from
+          Reliable tank cleaning for offices,
+          commercial buildings and workplaces.
         </p>
-
-        <strong>
-          ₹799
-        </strong>
-
-        <span>
-          per tank
-        </span>
-
       </div>
 
-
-      <div class="price-preview-info">
-
-        <h3>
-          Get your exact price
-        </h3>
-
+      <div class="service-card">
+        <div class="service-icon">🏨</div>
+        <h3>Hotels & Restaurants</h3>
         <p>
-          Tank capacity, quantity and payment method
-          determine your final price.
+          Professional cleaning designed for
+          hospitality and food-service properties.
         </p>
+      </div>
 
-        <div class="discount-line">
-          <span>Multiple tanks</span>
-          <strong>Up to 15% OFF</strong>
-        </div>
-
-        <div class="discount-line">
-          <span>Online payment</span>
-          <strong>Extra 5% OFF</strong>
-        </div>
-
-        <a
-          href="pricing.html"
-          class="btn btn-primary"
-        >
-          Check Exact Price →
-        </a>
-
+      <div class="service-card">
+        <div class="service-icon">🏥</div>
+        <h3>Hospitals & Clinics</h3>
+        <p>
+          Thorough tank cleaning for healthcare
+          and sensitive environments.
+        </p>
       </div>
 
     </div>
 
   </div>
-
 </section>
 
-
-<!-- ================================
-     WHY VSH
-================================ -->
-
-<section class="section why-section">
-
+<!-- PROCESS -->
+<section class="section process" id="process">
   <div class="container">
 
-    <div class="section-heading centered">
+    <div class="section-heading center">
 
-      <div class="eyebrow">
-        ✦ WHY VSH
-      </div>
+      <div class="section-kicker">HOW WE CLEAN</div>
 
       <h2>
-        A cleaner way to
-        <span>care for your tank.</span>
-      </h2>
-
-    </div>
-
-
-    <div class="why-grid">
-
-      <div class="why-card">
-        <div class="why-icon">🛡️</div>
-        <h3>Hygienic</h3>
-        <p>
-          A systematic cleaning process focused
-          on cleaner water storage.
-        </p>
-      </div>
-
-
-      <div class="why-card">
-        <div class="why-icon">💙</div>
-        <h3>Transparent</h3>
-        <p>
-          Clear pricing before you book,
-          without confusing packages.
-        </p>
-      </div>
-
-
-      <div class="why-card">
-        <div class="why-icon">⚡</div>
-        <h3>Convenient</h3>
-        <p>
-          Book online, choose your time and
-          get your cleaning scheduled.
-        </p>
-      </div>
-
-
-      <div class="why-card">
-        <div class="why-icon">🏠</div>
-        <h3>Home & Business</h3>
-        <p>
-          Suitable for homes, offices,
-          apartments and commercial spaces.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================================
-     SERVICE AREA
-================================ -->
-
-<section class="area-section">
-
-  <div class="container">
-
-    <div class="area-box">
-
-      <div class="area-copy">
-
-        <div class="eyebrow">
-          📍 SERVICE AREA
-        </div>
-
-        <h2>
-          Check if we serve your area.
-        </h2>
-
-        <p>
-          Enter your PIN code to check Delhi NCR
-          service availability.
-        </p>
-
-      </div>
-
-
-      <div class="area-form">
-
-        <input
-          type="text"
-          id="homePin"
-          maxlength="6"
-          inputmode="numeric"
-          placeholder="Enter 6-digit PIN"
-        >
-
-        <button
-          type="button"
-          id="homePinCheck"
-          class="btn btn-primary"
-        >
-          Check
-        </button>
-
-        <div
-          id="homePinResult"
-          class="pin-result"
-        ></div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================================
-     BOOKING
-================================ -->
-
-<section
-  id="book"
-  class="section booking-section"
->
-
-  <div class="container booking-grid">
-
-    <div class="booking-copy">
-
-      <div class="eyebrow">
-        ✦ BOOK YOUR CLEANING
-      </div>
-
-      <h2>
-        Ready for a
-        <span>cleaner tank?</span>
+        Our Water Tank Cleaning Process
       </h2>
 
       <p>
-        Book your tank cleaning online. Choose your
-        preferred date, time and payment option.
+        A systematic multi-step cleaning process
+        for a cleaner and safer tank.
       </p>
 
-
-      <div class="booking-points">
-
-        <div>
-          <span>✓</span>
-          Transparent pricing
-        </div>
-
-        <div>
-          <span>✓</span>
-          Online payment gets 5% OFF
-        </div>
-
-        <div>
-          <span>✓</span>
-          Pay after service available
-        </div>
-
-        <div>
-          <span>✓</span>
-          Delhi NCR service
-        </div>
-
-      </div>
-
-
-      <div class="contact-cta">
-
-        <p>
-          Prefer WhatsApp?
-        </p>
-
-        <a
-          href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
-          target="_blank"
-          class="btn btn-whatsapp"
-        >
-          WhatsApp VSH
-        </a>
-
-        <a
-          href="tel:+919599057079"
-          class="btn btn-outline"
-        >
-          ☎ Call
-        </a>
-
-      </div>
-
     </div>
 
+    <div class="process-grid">
 
-    <div class="booking-card">
+      <div class="process-card">
+        <div class="process-number">01</div>
+        <div class="process-icon">🧹</div>
 
-      <form id="bookingForm">
+        <h3>Surroundings Cleaning</h3>
 
-        <input
-          type="hidden"
-          name="tankType"
-          id="selectedTankType"
-          value="overhead"
-        >
-
-        <input
-          type="hidden"
-          name="capacity"
-          id="selectedCapacity"
-          value="500"
-        >
-
-        <input
-          type="hidden"
-          name="quantity"
-          id="selectedQuantity"
-          value="1"
-        >
-
-
-        <div class="form-grid">
-
-          <div class="form-group">
-
-            <label>
-              Full name
-            </label>
-
-            <input
-              type="text"
-              name="name"
-              required
-              placeholder="Your name"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Phone
-            </label>
-
-            <input
-              type="tel"
-              name="phone"
-              required
-              maxlength="10"
-              placeholder="10-digit mobile number"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Email
-            </label>
-
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="you@example.com"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              PIN code
-            </label>
-
-            <input
-              type="text"
-              name="pincode"
-              required
-              maxlength="6"
-              inputmode="numeric"
-              placeholder="1100XX"
-            >
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              Service address
-            </label>
-
-            <textarea
-              name="address"
-              required
-              placeholder="Full address"
-            ></textarea>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Preferred date
-            </label>
-
-            <input
-              type="date"
-              name="date"
-              required
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Preferred time
-            </label>
-
-            <select
-              name="time"
-              required
-            >
-
-              <option value="">
-                Select time
-              </option>
-
-              <option>
-                08:00 AM - 10:00 AM
-              </option>
-
-              <option>
-                10:00 AM - 12:00 PM
-              </option>
-
-              <option>
-                12:00 PM - 02:00 PM
-              </option>
-
-              <option>
-                02:00 PM - 04:00 PM
-              </option>
-
-              <option>
-                04:00 PM - 06:00 PM
-              </option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-
-        <!-- PAYMENT -->
-
-        <div class="payment-section">
-
-          <div class="payment-heading">
-
-            <strong>
-              Choose payment method
-            </strong>
-
-            <span>
-              Secure & flexible
-            </span>
-
-          </div>
-
-
-          <div class="payment-options">
-
-
-            <label class="payment-option">
-
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="online"
-                data-payment-method="online"
-                checked
-              >
-
-              <div class="payment-inner">
-
-                <div class="payment-title">
-
-                  <strong>
-                    Online Payment
-                  </strong>
-
-                  <span class="discount-tag">
-                    5% OFF
-                  </span>
-
-                </div>
-
-                <p>
-                  Pay securely online and receive
-                  an additional 5% discount.
-                </p>
-
-              </div>
-
-            </label>
-
-
-            <label class="payment-option">
-
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="after_service"
-                data-payment-method="after_service"
-              >
-
-              <div class="payment-inner">
-
-                <div class="payment-title">
-
-                  <strong>
-                    Pay After Service
-                  </strong>
-
-                </div>
-
-                <p>
-                  No online payment required.
-                  Pay after cleaning is completed.
-                </p>
-
-              </div>
-
-            </label>
-
-          </div>
-
-
-          <div
-            class="payment-note"
-            data-payment-note
-          >
-            Online payment includes a 5% discount.
-          </div>
-
-        </div>
-
-
-        <div
-          id="bookingError"
-          class="booking-error"
-        ></div>
-
-
-        <button
-          type="submit"
-          id="bookingSubmit"
-          class="btn btn-primary submit-btn"
-        >
-          Pay & Book Now →
-        </button>
-
-
-        <p class="secure-text">
-          🔒 Secure booking • Razorpay protected
+        <p>
+          We clean the manhole and surrounding area
+          before starting the tank cleaning process.
         </p>
+      </div>
 
-      </form>
+      <div class="process-card">
+        <div class="process-number">02</div>
+        <div class="process-icon">💧</div>
 
+        <h3>Dewatering</h3>
 
-      <div
-        id="bookingSuccess"
-        class="booking-success"
-        style="display:none"
-      ></div>
+        <p>
+          Existing water is removed from the tank
+          so the tank can be properly cleaned.
+        </p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-number">03</div>
+        <div class="process-icon">🪣</div>
+
+        <h3>Sludge Removal</h3>
+
+        <p>
+          Dirt, sludge and contaminated water
+          are removed from the tank.
+        </p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-number">04</div>
+        <div class="process-icon">🧽</div>
+
+        <h3>Scrubbing</h3>
+
+        <p>
+          Walls and surfaces are manually scrubbed
+          to remove dirt, fungus and stains.
+        </p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-number">05</div>
+        <div class="process-icon">💦</div>
+
+        <h3>High Pressure Cleaning</h3>
+
+        <p>
+          High-pressure water jets are used to
+          thoroughly clean the tank surfaces.
+        </p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-number">06</div>
+        <div class="process-icon">🧹</div>
+
+        <h3>Vacuum Cleaning</h3>
+
+        <p>
+          Remaining water and residue are removed
+          for a cleaner tank interior.
+        </p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-number">07</div>
+        <div class="process-icon">🛡️</div>
+
+        <h3>Anti-Bacterial Spray</h3>
+
+        <p>
+          Anti-bacterial treatment is applied
+          to the internal surfaces.
+        </p>
+      </div>
+
+      <div class="process-card">
+        <div class="process-number">08</div>
+        <div class="process-icon">✨</div>
+
+        <h3>UV Treatment</h3>
+
+        <p>
+          Final treatment helps provide an
+          additional level of hygiene.
+        </p>
+      </div>
 
     </div>
 
   </div>
-
 </section>
 
-
-<!-- ================================
-     FAQ
-================================ -->
-
-<section
-  id="faq"
-  class="section faq-section"
->
-
+<!-- CTA -->
+<section class="cta">
   <div class="container">
 
-    <div class="section-heading centered">
-
-      <div class="eyebrow">
-        ✦ FAQ
-      </div>
-
-      <h2>
-        Frequently asked
-        <span>questions.</span>
-      </h2>
-
-    </div>
-
-
-    <div class="faq-grid">
-
-      <details>
-        <summary>
-          What tanks do you clean?
-        </summary>
-
-        <p>
-          We clean overhead and underground water
-          storage tanks for homes and businesses.
-        </p>
-      </details>
-
-
-      <details>
-        <summary>
-          How much does tank cleaning cost?
-        </summary>
-
-        <p>
-          Pricing depends on tank type, capacity and
-          number of tanks. Use our pricing page for
-          the exact amount.
-        </p>
-      </details>
-
-
-      <details>
-        <summary>
-          Do I get a discount for multiple tanks?
-        </summary>
-
-        <p>
-          Yes. Quantity discounts can go up to 15%
-          depending on the number of tanks booked.
-        </p>
-      </details>
-
-
-      <details>
-        <summary>
-          Is there a discount for online payment?
-        </summary>
-
-        <p>
-          Yes. Online full payment receives an
-          additional 5% discount.
-        </p>
-      </details>
-
-
-      <details>
-        <summary>
-          Can I pay after the service?
-        </summary>
-
-        <p>
-          Yes. Select Pay After Service while
-          booking. The 5% online-payment discount
-          does not apply to this option.
-        </p>
-      </details>
-
-
-      <details>
-        <summary>
-          How can I check service availability?
-        </summary>
-
-        <p>
-          Enter your 6-digit PIN code in the
-          service-area checker or during booking.
-        </p>
-      </details>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================================
-     FINAL CTA
-================================ -->
-
-<section class="final-cta">
-
-  <div class="container">
-
-    <div class="final-cta-box">
+    <div class="cta-box">
 
       <div>
-
-        <div class="eyebrow light">
-          💧 VSH TANK CLEANING
+        <div class="section-kicker" style="color:#bde3ff;">
+          READY TO CLEAN?
         </div>
 
         <h2>
-          Give your water tank
-          a proper clean.
+          Is Your Water Tank Clean?
         </h2>
 
         <p>
-          Book online or talk to us on WhatsApp.
+          Book a professional VSH tank cleaning service today.
         </p>
-
       </div>
 
+      <div class="cta-buttons">
 
-      <div class="final-actions">
-
-        <a
-          href="tel:+919599057079"
-          class="btn btn-white"
-        >
-          ☎ Call
-        </a>
-
-        <a
-          href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
-          target="_blank"
-          class="btn btn-whatsapp"
-        >
-          WhatsApp
-        </a>
-
-        <a
-          href="#book"
-          class="btn btn-white"
-        >
+        <a href="pricing.html" class="btn">
           Book Now →
         </a>
 
+        <a
+          href="https://wa.me/919599057079"
+          target="_blank"
+          class="btn"
+        >
+          WhatsApp
+        </a>
+
+        <a href="tel:+919599057079" class="btn">
+          ☎ Call
+        </a>
+
       </div>
 
     </div>
 
   </div>
-
 </section>
 
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
 
-</main>
+    <div class="section-heading center">
 
+      <div class="section-kicker">OUR PRICING</div>
 
-<!-- ================================
-     FOOTER
-================================ -->
-
-<footer class="footer">
-
-  <div class="container footer-grid">
-
-    <div class="footer-brand">
-
-      <img
-        src="assets/vsh-logo.png"
-        alt="VSH Tank Cleaning"
-      >
+      <h2>
+        Simple & Transparent Pricing
+      </h2>
 
       <p>
-        Professional water tank cleaning with
-        transparent pricing and easy booking.
+        Choose your tank capacity and book your cleaning service.
       </p>
 
+    </div>
 
-      <div class="footer-buttons">
+    <div class="pricing-grid">
 
-        <a
-          href="tel:+919599057079"
-        >
-          ☎ Call
+      <div class="price-card">
+        <span class="tag">POPULAR</span>
+
+        <h3>Up to 500 Ltrs</h3>
+
+        <div class="capacity">
+          Overhead Tank
+        </div>
+
+        <div class="price">
+          ₹499
+        </div>
+
+        <div class="duration">
+          Approx. 1 hour
+        </div>
+
+        <a href="pricing.html" class="btn btn-primary">
+          Book Now
+        </a>
+      </div>
+
+      <div class="price-card featured">
+
+        <span class="tag">BEST VALUE</span>
+
+        <h3>Up to 1000 Ltrs</h3>
+
+        <div class="capacity">
+          Overhead Tank
+        </div>
+
+        <div class="price">
+          ₹599
+        </div>
+
+        <div class="duration">
+          Approx. 1 hour
+        </div>
+
+        <a href="pricing.html" class="btn btn-primary">
+          Book Now
+        </a>
+      </div>
+
+      <div class="price-card">
+
+        <span class="tag">POPULAR</span>
+
+        <h3>Up to 1500 Ltrs</h3>
+
+        <div class="capacity">
+          Overhead Tank
+        </div>
+
+        <div class="price">
+          ₹799
+        </div>
+
+        <div class="duration">
+          Approx. 1 hour
+        </div>
+
+        <a href="pricing.html" class="btn btn-primary">
+          Book Now
+        </a>
+      </div>
+
+      <div class="price-card">
+
+        <span class="tag">LARGE TANK</span>
+
+        <h3>Up to 2000 Ltrs</h3>
+
+        <div class="capacity">
+          Overhead Tank
+        </div>
+
+        <div class="price">
+          ₹999
+        </div>
+
+        <div class="duration">
+          Approx. 1 hour
+        </div>
+
+        <a href="pricing.html" class="btn btn-primary">
+          Book Now
+        </a>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:30px;">
+      <a href="pricing.html" class="btn btn-primary">
+        See All Pricing & Book Online →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section section-soft">
+  <div class="container">
+
+    <div class="section-heading center">
+
+      <div class="section-kicker">WHY VSH</div>
+
+      <h2>
+        Cleaner Tanks. Safer Water.
+      </h2>
+
+    </div>
+
+    <div class="benefits-grid">
+
+      <div class="benefit">
+        <div class="benefit-icon">🛡️</div>
+        <h3>Safe & Hygienic</h3>
+        <p>
+          Thorough cleaning focused on better
+          tank hygiene and water cleanliness.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-icon">👨‍🔧</div>
+        <h3>Trained Professionals</h3>
+        <p>
+          Professional cleaning process handled
+          by trained service personnel.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-icon">💧</div>
+        <h3>Deep Cleaning</h3>
+        <p>
+          Sludge removal, scrubbing and
+          high-pressure cleaning.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="benefit-icon">🏠</div>
+        <h3>Home & Business</h3>
+        <p>
+          Cleaning solutions for residential
+          and commercial properties.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section reviews" id="reviews">
+  <div class="container">
+
+    <div class="section-heading center">
+
+      <div class="section-kicker">CUSTOMER REVIEWS</div>
+
+      <h2>
+        Trusted By Our Customers
+      </h2>
+
+      <p>
+        Professional service, clean tanks and a better experience.
+      </p>
+
+    </div>
+
+    <div class="reviews-grid">
+
+      <div class="review">
+        <div class="stars">★★★★★</div>
+
+        <p>
+          Very professional service. The team cleaned
+          the tank properly and removed all the sludge.
+        </p>
+
+        <div class="review-name">
+          — VSH Customer
+        </div>
+      </div>
+
+      <div class="review">
+        <div class="stars">★★★★★</div>
+
+        <p>
+          Booking was easy and the cleaning team
+          arrived on time. Good overall experience.
+        </p>
+
+        <div class="review-name">
+          — VSH Customer
+        </div>
+      </div>
+
+      <div class="review">
+        <div class="stars">★★★★★</div>
+
+        <p>
+          Professional and hygienic work. Would
+          definitely recommend VSH for tank cleaning.
+        </p>
+
+        <div class="review-name">
+          — VSH Customer
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="container">
+
+    <div class="section-heading center">
+
+      <div class="section-kicker">CONTACT US</div>
+
+      <h2>
+        Let's Book Your Tank Cleaning
+      </h2>
+
+      <p>
+        Contact VSH Tank Cleaning or book your service online.
+      </p>
+
+    </div>
+
+    <div class="contact-grid">
+
+      <div class="contact-card">
+
+        <h3>Get In Touch</h3>
+
+        <div class="contact-row">
+
+          <div class="contact-icon">☎</div>
+
+          <div>
+            <small>Call Us</small>
+            <strong>
+              <a href="tel:+919599057079">
+                +91 95990 57079
+              </a>
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="contact-row">
+
+          <div class="contact-icon">💬</div>
+
+          <div>
+            <small>WhatsApp</small>
+            <strong>
+              <a
+                href="https://wa.me/919599057079"
+                target="_blank"
+              >
+                Chat on WhatsApp
+              </a>
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="contact-row">
+
+          <div class="contact-icon">📍</div>
+
+          <div>
+            <small>Service Area</small>
+            <strong>
+              Delhi NCR
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="contact-card">
+
+        <h3>Ready To Book?</h3>
+
+        <p style="color:#71839a;line-height:1.8;">
+          Select your tank type, capacity, quantity,
+          preferred date and payment method from our
+          online booking page.
+        </p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:25px;">
+
+          <a href="pricing.html" class="btn btn-primary">
+            Book Now →
+          </a>
+
+          <a
+            href="https://wa.me/919599057079"
+            target="_blank"
+            class="btn btn-whatsapp"
+          >
+            WhatsApp
+          </a>
+
+          <a href="tel:+919599057079" class="btn btn-call">
+            ☎ Call
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <a href="index.html" class="logo">
+
+          <img
+            src="vsh-logo.png"
+            alt="VSH Tank Cleaning"
+          />
+
+          <div class="logo-text">
+            VSH Tank Cleaning
+            <span>HYGIENIC • SAFE • PROFESSIONAL</span>
+          </div>
+
+        </a>
+
+        <p class="footer-about">
+          Professional overhead and underground water
+          tank cleaning services across Delhi NCR.
+        </p>
+
+      </div>
+
+      <div>
+
+        <h4>Quick Links</h4>
+
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="service-areas.html">Service Areas</a>
+
+      </div>
+
+      <div>
+
+        <h4>Contact</h4>
+
+        <a href="tel:+919599057079">
+          ☎ +91 95990 57079
         </a>
 
         <a
-          href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
+          href="https://wa.me/919599057079"
           target="_blank"
         >
           WhatsApp
         </a>
 
-        <a href="#book">
+        <a href="pricing.html">
           Book Now
         </a>
 
@@ -1553,114 +2053,60 @@
 
     </div>
 
+    <div class="copyright">
 
-    <div class="footer-column">
+      <span>
+        © 2026 VSH Tank Cleaning. All rights reserved.
+      </span>
 
-      <h4>
-        VSH
-      </h4>
-
-      <a href="#about">
-        About
-      </a>
-
-      <a href="#services">
-        Services
-      </a>
-
-      <a href="#process">
-        Process
-      </a>
-
-      <a href="pricing.html">
-        Pricing
-      </a>
+      <span>
+        Delhi NCR Water Tank Cleaning
+      </span>
 
     </div>
-
-
-    <div class="footer-column">
-
-      <h4>
-        Booking
-      </h4>
-
-      <a href="#book">
-        Book Now
-      </a>
-
-      <a href="pricing.html">
-        Check Price
-      </a>
-
-      <a href="#faq">
-        FAQs
-      </a>
-
-    </div>
-
-
-    <div class="footer-column">
-
-      <h4>
-        Contact
-      </h4>
-
-      <a href="tel:+919599057079">
-        +91 95990 57079
-      </a>
-
-      <a
-        href="https://wa.me/919599057079"
-        target="_blank"
-      >
-        WhatsApp
-      </a>
-
-      <a href="#book">
-        Book a cleaning
-      </a>
-
-    </div>
-
-  </div>
-
-
-  <div class="container copyright">
-
-    © 2026 VSH Tank Cleaning.
-    All rights reserved.
 
   </div>
 
 </footer>
 
-
-<!-- MOBILE BOTTOM BAR -->
-
-<div class="mobile-bottom">
-
-  <a href="tel:+919599057079">
-    ☎
-    <span>Call</span>
-  </a>
-
-  <a
-    href="https://wa.me/919599057079?text=Hi%2C%20I%20want%20to%20book%20tank%20cleaning."
-    target="_blank"
-  >
-    <span class="wa-dot">●</span>
-    <span>WhatsApp</span>
-  </a>
-
-  <a href="#book">
-    <strong>Book Now →</strong>
-  </a>
-
-</div>
-
+<!-- FLOATING WHATSAPP -->
+<a
+  href="https://wa.me/919599057079"
+  target="_blank"
+  class="floating-whatsapp"
+  aria-label="WhatsApp VSH Tank Cleaning"
+>
+  💬
+</a>
 
 <script src="site.js"></script>
+
+<script>
+  const mobileBtn = document.getElementById("mobileMenuBtn");
+
+  if (mobileBtn) {
+    mobileBtn.addEventListener("click", function () {
+      const nav = document.querySelector(".nav-links");
+
+      if (!nav) return;
+
+      if (nav.style.display === "flex") {
+        nav.style.display = "";
+      } else {
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "70px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.background = "#fff";
+        nav.style.padding = "20px";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "flex-start";
+        nav.style.boxShadow = "0 15px 35px rgba(0,0,0,.08)";
+      }
+    });
+  }
+</script>
 
 </body>
 </html>
